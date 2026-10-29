@@ -74,6 +74,60 @@
     addExtras(mixed);
     begin({ mode: 'daily', title: 'Мои ' + S.settings.minutes + ' минут', queue: mixed });
   }
+  // Ещё новые слова сверх дневной нормы — когда хочется позаниматься дольше
+  function freshIds() {
+    return wordsArr().filter(w => !w.archived && w.ru && !(w.srs.recog && w.srs.recog.reps))
+      .sort((a, b) => (a.demo ? 1 : 0) - (b.demo ? 1 : 0) || a.createdAt - b.createdAt).map(w => w.id);
+  }
+  // Учить конкретный набор: сначала новые слова набора (до 7), иначе — тренировка всего набора
+  function startSet(setId) {
+    const ws = wordsArr().filter(w => !w.archived && w.ru && w.setIds.includes(setId));
+    const fresh = ws.filter(w => !(w.srs.recog && w.srs.recog.reps)).sort((a, b) => a.createdAt - b.createdAt).slice(0, 7).map(w => w.id);
+    const name = setName(setId);
+    if (!fresh.length) { startPrep({ wordIds: ws.map(w => w.id), types: (allowedTypes() || ['enRu', 'ruEn', 'flash']).concat(['match']), limit: 20, title: 'Набор «' + name + '»', mode: 'set' }); return; }
+    const queue = [];
+    fresh.forEach(id => { const w = S.words.get(id); queue.push({ type: 'intro', wordId: id }); queue.push({ type: pickType(w, 'recog', allowedTypes()), wordId: id, dir: 'recog' }); });
+    // повторения этого набора, если пора
+    const now = Date.now();
+    ws.forEach(w => ['recog', 'recall'].forEach(dir => { const c = w.srs[dir]; if (c && C.isDue(c, now) && !fresh.includes(w.id) && queue.length < 30) queue.push({ type: pickType(w, dir, allowedTypes()), wordId: w.id, dir }); }));
+    C.shuffle(fresh).forEach(id => { const w = S.words.get(id); const t = ['enRu', 'listenChoice', 'flash'].find(x => (allowedTypes() || [x]).includes(x) && applicable(x, w)) || 'flash'; queue.push({ type: t, wordId: id, dir: 'recog', retry: true }); });
+    addExtras(queue);
+    begin({ mode: 'daily', title: 'Набор «' + name + '»', queue });
+  }
+  function todayIds() {
+    const sod = C.startOfDay(Date.now());
+    return wordsArr().filter(w => !w.archived && w.ru && w.firstSeen >= sod && w.srs.recog && w.srs.recog.reps).map(w => w.id);
+  }
+  function startMore(n) {
+    const ids = freshIds().slice(0, n || 5);
+    if (!ids.length) { toast('Новых слов нет — добавьте из готовых наборов'); go('sets'); return; }
+    const queue = [];
+    ids.forEach(id => { const w = S.words.get(id); queue.push({ type: 'intro', wordId: id }); queue.push({ type: pickType(w, 'recog', allowedTypes()), wordId: id, dir: 'recog' }); });
+    // закрепление в конце: каждое новое слово ещё раз в другом упражнении (без влияния на расписание)
+    C.shuffle(ids).forEach(id => { const w = S.words.get(id); const t = ['enRu', 'listenChoice', 'flash'].find(x => (allowedTypes() || [x]).includes(x) && applicable(x, w)) || 'flash'; queue.push({ type: t, wordId: id, dir: 'recog', retry: true }); });
+    addExtras(queue);
+    begin({ mode: 'daily', title: 'Ещё ' + ids.length + ' ' + C.plural(ids.length, 'новое слово', 'новых слова', 'новых слов'), queue });
+  }
+  function startTodayReview() {
+    const ids = todayIds();
+    if (!ids.length) { toast('Сегодня новых слов ещё не было'); return; }
+    startPrep({ wordIds: ids, types: (allowedTypes() || ['enRu', 'ruEn', 'flash']).concat(ids.length >= 3 ? ['match'] : []), mode: 'today', title: 'Закрепить сегодняшние слова' });
+  }
+  // Кнопки «что дальше» — на экране «Сегодня» и после занятия
+  function moreActions(opts) {
+    opts = opts || {};
+    const fresh = freshIds().length, today = todayIds().length;
+    const { plan } = todayStats();
+    const box = h('div', { class: 'stack', style: { gap: '8px' } });
+    if (opts.portion && plan.portion.length) box.append(h('button', { class: 'btn soft block', onclick: () => startDaily() }, 'Ещё порция повторений (' + plan.portion.length + ')'));
+    if (fresh) box.append(h('button', { class: 'btn ' + (opts.primary ? 'primary big' : 'soft') + ' block', id: 'more-new', onclick: () => startMore(5) }, '+ Ещё ' + Math.min(5, fresh) + ' ' + C.plural(Math.min(5, fresh), 'новое слово', 'новых слова', 'новых слов')));
+    else box.append(h('a', { class: 'btn soft block', href: '#sets' }, '+ Добавить слова из готовых наборов'));
+    if (today) box.append(h('button', { class: 'btn block', id: 'more-today', onclick: () => startTodayReview() }, 'Закрепить сегодняшние слова (' + today + ')'));
+    box.append(h('div', { class: 'row', style: { flexWrap: 'wrap', gap: '6px', justifyContent: 'center' } },
+      h('a', { class: 'chip', href: '#dialogs' }, '💬 Диалоги'), h('a', { class: 'chip', href: '#books' }, '📖 Книги'),
+      h('a', { class: 'chip', href: '#grammar' }, '📝 Грамматика'), h('a', { class: 'chip', href: '#test' }, '✅ Тест')));
+    return box;
+  }
   function interleave(fresh, reviews) {
     if (!fresh.length) return reviews;
     const out = []; const pairs = [];
@@ -512,8 +566,9 @@
         h('div', null, h('b', null, mins), h('span', null, 'мин'))),
       wrong.length ? h('div', { class: 'stack' }, h('h3', null, 'Стоит обратить внимание'), h('div', { class: 'wlist' }, wrong.slice(0, 8).map(w => App.wordItem(w, Date.now())))) : h('p', { class: 'muted' }, 'Ошибок не было. Отлично!'),
       wrong.length ? h('button', { class: 'btn block', onclick: () => startPrep({ wordIds: wrong.map(w => w.id), types: ['ruEn', 'enRu', 'flash'], mode: 'mistakes', title: 'Работа над ошибками' }) }, 'Повторить ошибки сейчас') : null,
-      s.mode === 'daily' && plan.portion.length ? h('button', { class: 'btn soft block', onclick: () => startDaily() }, 'Ещё порция (' + plan.portion.length + ')') : null,
       h('button', { class: 'btn primary big block', onclick: () => go('today') }, 'Готово')));
+    void plan;
+    main.append(h('div', { class: 'card stack' }, h('h3', null, 'Хотите ещё?'), moreActions({ portion: true })));
   }
 
   // ---------- Экран «Тренировки» ----------
@@ -564,5 +619,5 @@
     drawPrep();
   };
 
-  window.Train = { kinds, startDaily, startPrep, active, abort, TYPES, savedSession, resume, mistakesWordIds };
+  window.Train = { kinds, startSet, startMore, startTodayReview, moreActions, startDaily, startPrep, active, abort, TYPES, savedSession, resume, mistakesWordIds };
 })();

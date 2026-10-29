@@ -333,3 +333,4 @@ a.btn { text-decoration: none; }
 .chat .rp { margin: 0; }
 /* Плашки слов в «Собрать фразу» — не путать с плитками меню */
 .tiles .tile, .answer-line .tile { min-height: 46px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--line); font-size: 18px; font-weight: 600; display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 0; text-align: center; }
+a.chip { text-decoration: none; color: var(--ink); }

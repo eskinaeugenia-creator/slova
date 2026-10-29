@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.9.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.9.2', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -289,7 +289,7 @@
         h('div', { class: 'stat' }, h('b', null, plan.fresh.length), h('span', null, 'новых')),
         h('div', { class: 'stat' }, h('b', null, '≈' + (total ? estMin : 0)), h('span', null, 'мин'))),
       total ? h('button', { class: 'btn primary big block', onclick: () => Train.startDaily() }, 'Начать «Мои ' + goal + ' минут»')
-        : h('p', null, plan.newAvailable ? 'Повторений на сегодня нет. Новые слова на сегодня уже были — можно потренировать набор в «Тренировках».' : 'Всё повторено. Добавьте новые слова или потренируйте набор.'),
+        : h('div', { class: 'stack', style: { gap: '10px' } }, h('p', { style: { margin: 0 } }, '🎉 План на сегодня выполнен. Хотите ещё — выбирайте:'), Train.moreActions({ primary: true })),
       plan.dueLeft > 0 ? h('p', { class: 'small', style: { opacity: .8 } }, 'Ещё ' + plan.dueLeft + ' ' + C.plural(plan.dueLeft, 'повторение подождёт', 'повторения подождут', 'повторений подождут') + '. Это не долг: после занятия можно взять ещё порцию или продолжить завтра.') : null,
       h('div', { class: 'stack', style: { gap: '6px' } },
         h('div', { class: 'row small', style: { justifyContent: 'space-between' } }, h('span', null, 'Сегодня занимались'), h('span', { class: 'num' }, minutesToday + ' из ' + goal + ' мин')),
@@ -419,6 +419,12 @@
     function drawList() {
       list.innerHTML = '';
       const items = filtered();
+      if (S.ui.dictSet !== 'all' && S.ui.dictSet !== 'none' && window.Train) {
+        const inSet = wordsArr().filter(w => !w.archived && w.ru && w.setIds.includes(S.ui.dictSet));
+        const nNew = inSet.filter(w => !(w.srs.recog && w.srs.recog.reps)).length;
+        if (inSet.length) list.append(h('button', { class: 'btn primary block', id: 'learn-set', onclick: () => Train.startSet(S.ui.dictSet) },
+          '▶ Учить набор «' + setName(S.ui.dictSet) + '»' + (nNew ? ' · новых ' + nNew : '')));
+      }
       if (!items.length) {
         list.append(h('div', { class: 'card empty' }, h('p', { class: 'muted' }, wordsArr().length ? 'Ничего не найдено. Измените фильтр или поиск.' : 'Здесь появятся ваши слова.'),
           h('a', { class: 'btn primary', href: '#add' }, 'Добавить слово')));
