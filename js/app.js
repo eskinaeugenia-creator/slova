@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.3.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.4.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -254,7 +254,7 @@
           h('a', { class: 'btn primary big block', href: '#sets' }, 'Начать с готового набора'),
           h('a', { class: 'btn big block', href: '#add' }, 'Добавить своё слово'),
           h('a', { class: 'btn block', href: '#add', onclick: () => { S.ui.addMode = 'list'; } }, 'Вставить список слов'),
-          h('button', { class: 'btn ghost block', onclick: async () => { await Prefs.loadDemo(); routes.today(); } }, 'Посмотреть на демо-словах'))));
+          h('a', { class: 'btn ghost block', href: '#help' }, 'Как пользоваться'))));
       return;
     }
     const saved = window.Train ? await Train.savedSession() : null;
@@ -285,6 +285,8 @@
     const cnt = (n, label, filter) => h('button', { class: 'counter', onclick: () => { S.ui.dictFilter = filter; S.ui.dictSet = 'all'; go('dict'); } }, h('b', { class: 'num' }, n), h('span', null, label));
     main.append(h('div', { class: 'counters' }, cnt(act.length, 'в словаре', 'all'), cnt(nLearn, 'изучаю', 'learning'), cnt(nSolid, 'закреплено', 'solid')));
 
+    if (!S.settings.helpSeen) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('b', null, 'Первый раз здесь?'), h('span', null, 'Короткая инструкция — 1 минута.'),
+      h('div', { class: 'row' }, h('a', { class: 'btn sm primary', href: '#help', onclick: () => { S.settings.helpSeen = true; saveSettings(); } }, 'Как пользоваться'), h('button', { class: 'btn sm ghost', onclick: () => { S.settings.helpSeen = true; saveSettings(); routes.today(); } }, 'Скрыть')))));
     // Быстрое добавление
     const q = h('input', { class: 'input', id: 'quick-add', placeholder: 'Встретили слово? Впишите сюда', autocapitalize: 'off', autocomplete: 'off', spellcheck: 'false' });
     main.append(h('form', { class: 'card', onsubmit: e => { e.preventDefault(); if (!q.value.trim()) return q.focus(); S.ui.addPrefill = q.value.trim(); S.ui.addMode = 'one'; go('add'); } },

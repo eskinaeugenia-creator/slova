@@ -438,10 +438,14 @@
   };
   function irregular(en) {
     const k = norm(en).replace(/^to /, '');
-    const f = IRREG[k];
+    let f = IRREG[k], base = k, tail = '';
+    // фразовый глагол: wake up → woke up → woken up
+    if (!f) { const parts = k.split(' '); if (parts.length === 2 && IRREG[parts[0]] && /^(up|down|in|out|on|off|away|back|over|after)$/.test(parts[1])) { base = parts[0]; tail = ' ' + parts[1]; f = IRREG[base]; } }
     if (!f) return null;
-    return { v1: k, v2: f[0], v3: f[1], ru: f[2], text: k + ' – ' + f[0] + ' – ' + f[1] };
+    const add = (v) => v.split(' / ').map(x => x + tail).join(' / ');
+    return { v1: base + tail, v2: add(f[0]), v3: add(f[1]), ru: f[2], text: base + tail + ' – ' + add(f[0]) + ' – ' + add(f[1]) };
   }
+  function irregularAll() { return Object.keys(IRREG).map(k => ({ v1: k, v2: IRREG[k][0], v3: IRREG[k][1], ru: IRREG[k][2] })); }
   const POS_RU = { noun: 'сущ.', verb: 'глагол', adjective: 'прил.', adverb: 'наречие', pronoun: 'местоим.', preposition: 'предлог', conjunction: 'союз', interjection: 'междометие', determiner: 'определитель', phrase: 'выражение' };
 
   // ---------- Мелочи ----------
@@ -465,7 +469,7 @@
 
   const Core = { DAY, script, clean, norm, variants, lev, diffChars, checkAnswer, DELIMS, parseList, detectDelimiter, parseCSV,
     parseStructured, mapFields, keyEn, keyRu, classify, classifyBatch, review, retrievability, isDue, intervalDays, shouldSchedule, sameDay,
-    startOfDay, endOfDay, emptyCard, wordStatus, wordDue, buildPlan, tokenize, findInSentence, sentencesOf, irregular,
+    startOfDay, endOfDay, emptyCard, wordStatus, wordDue, buildPlan, tokenize, findInSentence, sentencesOf, irregular, irregularAll,
     POS_RU, uid, shuffle, plural, inDays, CYR, LAT };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core; else root.Core = Core;
 })(typeof window !== 'undefined' ? window : globalThis);

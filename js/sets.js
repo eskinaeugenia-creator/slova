@@ -111,6 +111,42 @@ ready | готов(а) | Are you ready? | Ты готова? | ✅ | ready start
 slow down | помедленнее | Slow down, please. | Помедленнее, пожалуйста. | 🐢 | slow sign | фразовый глагол
 well done | молодец, отлично | Well done! Good job! | Молодец! Отличная работа! | 👏 | applause | выражение
 water bottle | бутылка для воды | Take a water bottle. | Возьми бутылку воды. | 🧴 | sports water bottle | сущ.` },
+    irregular: { name: 'Неправильные глаголы', icon: '🔁', rows: `
+be | быть | I was tired yesterday. | Вчера я была уставшая. | 🙂 | person smiling | глагол
+have | иметь | I had breakfast at eight. | Я позавтракала в восемь. | 🍽️ | breakfast table | глагол
+do | делать | I did my homework. | Я сделала домашнее задание. | ✅ | homework notebook | глагол
+go | идти, ехать | We went to the beach. | Мы ходили на пляж. | 🚶 | walking to beach | глагол
+get | получать | I got a message. | Я получила сообщение. | 📩 | phone message | глагол
+make | делать, создавать | She made coffee. | Она сделала кофе. | ☕ | making coffee | глагол
+say | сказать | He said hello. | Он сказал «привет». | 💬 | people talking | глагол
+see | видеть | I saw a turtle. | Я видела черепаху. | 👀 | sea turtle | глагол
+come | приходить | They came at six. | Они пришли в шесть. | 👋 | friends arriving | глагол
+take | брать | I took a taxi. | Я взяла такси. | 🚕 | taxi | глагол
+give | давать | He gave me the keys. | Он дал мне ключи. | 🔑 | giving keys | глагол
+know | знать | I knew the answer. | Я знала ответ. | 💡 | light bulb idea | глагол
+think | думать | I thought about you. | Я думала о тебе. | 🤔 | thinking person | глагол
+eat | есть | We ate fish. | Мы ели рыбу. | 🐟 | grilled fish | глагол
+drink | пить | I drank water. | Я пила воду. | 💧 | drinking water | глагол
+buy | покупать | I bought a new board. | Я купила новую доску. | 🛒 | surfboard shop | глагол
+pay | платить | I paid by card. | Я заплатила картой. | 💳 | card payment | глагол
+find | находить | I found my phone. | Я нашла свой телефон. | 📱 | phone on table | глагол
+leave | уходить, оставлять | We left at nine. | Мы ушли в девять. | 🚪 | leaving door | глагол
+meet | встречать | I met a friend. | Я встретила подругу. | 🤝 | friends meeting | глагол
+sleep | спать | I slept well. | Я хорошо спала. | 😴 | sleeping | глагол
+swim | плавать | We swam in the sea. | Мы плавали в море. | 🏊 | swimming sea | глагол
+ride | кататься | I rode a scooter. | Я каталась на скутере. | 🛵 | scooter ride | глагол
+fly | летать | We flew to Bali. | Мы прилетели на Бали. | ✈️ | airplane | глагол
+write | писать | I wrote a message. | Я написала сообщение. | ✍️ | writing | глагол
+read | читать | I read a book. | Я прочитала книгу. | 📖 | reading book | глагол
+speak | говорить | We spoke English. | Мы говорили по-английски. | 🗣️ | conversation | глагол
+tell | рассказывать | She told me a story. | Она рассказала мне историю. | 💬 | telling story | глагол
+feel | чувствовать | I felt happy. | Я чувствовала себя счастливой. | 😊 | happy woman | глагол
+sit | сидеть | We sat on the beach. | Мы сидели на пляже. | 🏖️ | sitting on beach | глагол
+begin | начинать | The lesson began at ten. | Урок начался в десять. | ⏰ | clock | глагол
+forget | забывать | I forgot my towel. | Я забыла полотенце. | 🤦 | forgot | глагол
+understand | понимать | I understood everything. | Я всё поняла. | 💡 | understanding | глагол
+wake up | просыпаться | I woke up early. | Я проснулась рано. | ⏰ | alarm clock morning | фразовый глагол
+fall | падать | I fell off the board. | Я упала с доски. | 🌊 | surfer wipeout | глагол` },
     shop: { name: 'Магазин и деньги', icon: '🛍️', rows: `
 shop | магазин | The shop is open. | Магазин открыт. | 🛍️ | small shop | сущ.
 buy | покупать | I want to buy this. | Я хочу купить это. | 🛒 | shopping cart | глагол

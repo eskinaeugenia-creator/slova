@@ -88,10 +88,10 @@
       return await new Promise((res, rej) => {
         const img = new Image();
         img.onload = () => {
-          const k = Math.min(1, 480 / Math.max(img.width, img.height));
+          const k = Math.min(1, 360 / Math.max(img.width, img.height));
           const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
           c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-          try { res(c.toDataURL('image/jpeg', 0.82)); } catch (e) { rej(e); }
+          try { res(c.toDataURL('image/jpeg', 0.75)); } catch (e) { rej(e); }
         };
         img.onerror = () => rej(new Error('картинка повреждена'));
         img.src = url;

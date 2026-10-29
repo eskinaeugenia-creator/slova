@@ -275,6 +275,97 @@
     } });
   }
 
+  // ---------- Неправильные глаголы: 3 формы ----------
+  const TOP = ['be', 'have', 'do', 'go', 'get', 'make', 'say', 'see', 'come', 'take', 'give', 'know', 'think', 'eat', 'drink', 'buy', 'pay', 'find', 'leave', 'meet',
+    'sleep', 'swim', 'ride', 'fly', 'write', 'read', 'speak', 'tell', 'feel', 'sit', 'begin', 'forget', 'understand', 'wake', 'fall', 'run', 'send', 'spend', 'bring', 'teach'];
+  function irrList(scope) {
+    const all = C.irregularAll();
+    if (scope === 'mine') {
+      const mine = new Set(wordsArr().filter(w => !w.archived).map(w => C.irregular(w.en)).filter(Boolean).map(x => x.v1.split(' ')[0]));
+      return all.filter(v => mine.has(v.v1));
+    }
+    if (scope === 'top') return TOP.map(k => all.find(v => v.v1 === k)).filter(Boolean);
+    return all;
+  }
+  routes.irregular = function () {
+    const main = screen({ title: 'Неправильные глаголы', back: 'train' });
+    let scope = S.ui.irrScope || 'top';
+    const mineN = irrList('mine').length;
+    if (scope === 'mine' && !mineN) scope = 'top';
+    main.append(h('div', { class: 'seg' }, [['top', 'Главные 40'], ['mine', 'Из словаря (' + mineN + ')'], ['all', 'Все ' + C.irregularAll().length]].map(([v, l]) =>
+      h('button', { 'aria-pressed': String(scope === v), disabled: v === 'mine' && !mineN, onclick: () => { S.ui.irrScope = v; routes.irregular(); } }, l))));
+    main.append(h('div', { class: 'card stack' },
+      h('p', { class: 'small' }, h('b', null, 'Три формы: '), 'сейчас (I ', h('i', null, 'go'), ') → в прошлом (вчера I ', h('i', null, 'went'), ') → после have (I have ', h('i', null, 'gone'), '). У обычных глаголов 2-я и 3-я форма — просто +ed (work → worked). Неправильные нужно запомнить.'),
+      h('div', { class: 'split' },
+        h('button', { class: 'btn primary', onclick: () => irrQuiz(scope) }, 'Тренировка'),
+        h('button', { class: 'btn soft', onclick: () => Listen.start({ title: 'Неправильные глаголы', words: irrList(scope).map(v => ({ id: 'irr' + v.v1, en: v.v1 + ', ' + v.v2 + ', ' + v.v3, ru: v.ru })) }) }, icon('speaker'), 'Слушать')),
+      h('button', { class: 'btn block', onclick: () => go('set-irregular') }, 'Добавить в словарь набор с примерами')));
+    const tbl = h('div', { class: 'irr-table' }, h('div', { class: 'irr-row head' }, h('span', null, 'сейчас'), h('span', null, 'прошлое'), h('span', null, 'после have'), h('span', null, '')));
+    irrList(scope).forEach(v => tbl.append(h('button', { class: 'irr-row', onclick: () => sayP(v.v1 + ', ' + v.v2 + ', ' + v.v3, { slow: true }) },
+      h('span', { lang: 'en' }, h('b', null, v.v1), h('small', null, v.ru)), h('span', { lang: 'en' }, v.v2), h('span', { lang: 'en' }, v.v3), h('span', { 'aria-hidden': 'true' }, '🔊'))));
+    main.append(h('div', { class: 'card', style: { padding: '6px' } }, tbl));
+  };
+  function irrQuiz(scope) {
+    const list = irrList(scope);
+    const all = C.irregularAll();
+    const ed = (v) => v.replace(/e$/, '') + 'ed';
+    quiz({ title: 'Неправильные глаголы', back: 'irregular', count: 10, mode: 'irregular', make: () => {
+      const v = list[Math.floor(Math.random() * list.length)];
+      const which = Math.random() < 0.55 ? 2 : 3;
+      const ans = which === 2 ? v.v2 : v.v3;
+      const other = all.filter(x => x.v1 !== v.v1);
+      const s = new Set([ans]);
+      [ed(v.v1), which === 2 ? v.v3 : v.v2, v.v1, other[Math.floor(Math.random() * other.length)][which === 2 ? 'v2' : 'v3']].forEach(x => { if (s.size < 4 && x !== ans) s.add(x); });
+      while (s.size < 4) s.add(other[Math.floor(Math.random() * other.length)].v2);
+      return { task: which === 2 ? 'Как будет в прошлом (2-я форма)?' : 'Третья форма (после have)?', optLang: 'en',
+        prompt: (p) => p.append(h('div', { class: 'big', lang: 'en' }, v.v1), h('div', { class: 'muted' }, v.ru),
+          h('div', { class: 'small', lang: 'en' }, which === 2 ? 'Yesterday I ___ …' : 'I have ___ …')),
+        options: C.shuffle([...s]), answer: ans, answerText: v.v1 + ' – ' + v.v2 + ' – ' + v.v3, sayAfter: v.v1 + ', ' + v.v2 + ', ' + v.v3 };
+    } });
+  }
+
+  // ---------- Как пользоваться ----------
+  routes.help = function () {
+    const main = screen({ title: 'Как пользоваться', back: 'today' });
+    const sec = (ic, t, ...body) => h('div', { class: 'card stack help' }, h('h2', null, h('span', { 'aria-hidden': 'true' }, ic + ' '), t), ...body);
+    const li = (...x) => h('li', null, ...x);
+    main.append(
+      sec('1️⃣', 'Начните с готового набора',
+        h('p', null, 'Добавить → Наборы → выберите тему (пляж, аренда жилья, кафе…) → «Добавить в словарь». Перевод, пример, озвучка и картинка уже есть.'),
+        h('a', { class: 'btn primary block', href: '#sets' }, 'Открыть наборы')),
+      sec('2️⃣', 'Добавляйте свои слова',
+        h('ul', null,
+          li(h('b', null, 'Одно слово: '), 'кнопка «+» → впишите слово (можно по-русски) → «Подсказать перевод» → «Сохранить».'),
+          li(h('b', null, 'Список: '), '«+» → Список → вставьте строки вида «beach — пляж». Можно без перевода — получатся черновики.'),
+          li(h('b', null, 'Из текста: '), 'вставьте переписку или объявление и нажмите на незнакомые слова.'),
+          li(h('b', null, 'С фото: '), 'на iPhone зажмите текст на фото → «Скопировать» → «Из текста».'),
+          li(h('b', null, 'Лучшее качество: '), '«Из Claude» — скопируйте запрос в чат Claude и вставьте ответ обратно.'))),
+      sec('3️⃣', 'Занимайтесь 15 минут в день',
+        h('p', null, 'Сегодня → «Начать». Приложение само собирает занятие: сначала то, что пора повторить, потом несколько новых слов.'),
+        h('ul', null,
+          li('Не знаете — жмите «Не знаю», это нормально: слово вернётся скоро.'),
+          li('В карточках оценивайте честно: «Не вспомнила», «С трудом», «Вспомнила», «Легко». От этого зависит, когда слово появится снова.'),
+          li('Пропустили дни — ничего не сгорает. Сегодня покажется посильная порция, остальное подождёт.'))),
+      sec('🎧', 'Слушать на ходу',
+        h('p', null, 'Тренировки → «Слушать»: слово, пауза, перевод, пример. Экран должен оставаться включённым.')),
+      sec('📚', 'Если слов много',
+        h('ul', null,
+          li('Добавляйте сколько угодно — хоть 3000. В Telegram в облако помещается около 10 000 слов.'),
+          li('Новых слов в день по умолчанию 7 — так не будет перегруза. Поменять: Настройки → «Новых слов в день».'),
+          li('Раскладывайте слова по наборам (например, «К уроку») и тренируйте нужный в «Подготовке к уроку».'),
+          li('Ненужные — в архив: из занятий исчезнут, но не удалятся.'))),
+      sec('🔁', 'Неправильные глаголы',
+        h('p', null, 'Тренировки → «Неправильные глаголы»: таблица трёх форм с озвучкой, тренировка и готовый набор с примерами.'),
+        h('a', { class: 'btn block', href: '#irregular' }, 'Открыть')),
+      sec('📱', 'Telegram, телефон и компьютер',
+        h('ul', null,
+          li('В боте словарь хранится в облаке вашего Telegram — одинаковый на телефоне и компьютере.'),
+          li('Нужно ответить в чате? Смахните приложение вниз — оно свернётся в полоску. Нажмите на неё и продолжайте с того же места.'),
+          li('У подруг будет свой отдельный словарь — просто отправьте им ссылку на бота.'))),
+      sec('💾', 'Сохранность',
+        h('p', null, 'В Telegram всё сохраняется само. Если пользуетесь сайтом без Telegram — иногда делайте резервную копию: Настройки → «Сохранить резервную копию».')));
+  };
+
   // ---------- Экран «Тренировки» плитками ----------
   const legacyPrep = routes.train; // прежний экран — теперь это «Подготовка к уроку»
   routes.prep = legacyPrep;
@@ -296,9 +387,10 @@
       tile('🧩', 'Пары', 'быстрая разминка', () => Train.startPrep({ wordIds: words.map(w => w.id), types: ['match'], limit: 15, mode: 'match', title: 'Пары' }), words.length < 3),
       tile('🔢', 'Числа', '0–100 на слух', () => go('numbers')),
       tile('🔤', 'Алфавит', 'буквы и диктовка', () => go('abc')),
+      tile('🔁', 'Неправильные глаголы', 'go – went – gone', () => go('irregular')),
       tile('📚', 'Готовые наборы', 'путешествия, жильё, пляж…', () => go('sets')),
       h('div', { class: 'tile soon', 'aria-disabled': 'true' }, h('span', { class: 'tile-ic' }, '📝'), h('span', { class: 'tile-t' }, h('b', null, 'Грамматика'), h('small', null, 'скоро — пока не работает'))));
-    main.append(grid);
+    main.append(grid, h('a', { class: 'btn ghost block', href: '#help' }, 'Как пользоваться'));
     if (!words.length) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('span', null, 'Начните с готового набора или добавьте свои слова — тогда откроются тренировки по словам. «Числа» и «Алфавит» работают сразу.'),
       h('div', { class: 'row' }, h('a', { class: 'btn sm primary', href: '#sets' }, 'Готовые наборы')))));
   };

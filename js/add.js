@@ -57,7 +57,7 @@
 
   // Сжать картинку до ~480px JPEG (для своих фото и найденных)
   function imageToDataURL(src, max) {
-    max = max || 480;
+    max = max || 400;
     return new Promise((resolve, reject) => {
       const img = new Image(); img.crossOrigin = 'anonymous';
       img.onload = () => {
