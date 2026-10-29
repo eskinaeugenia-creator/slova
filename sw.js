@@ -1,5 +1,5 @@
 /* Офлайн-режим: оболочка приложения хранится в кэше. Данные пользователя живут в IndexedDB и кэшем не затрагиваются. */
-const VERSION = 'slova-v1.3.0';
+const VERSION = 'slova-v1.4.0';
 const SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './js/core.js', './js/db.js', './js/app.js', './js/add.js', './js/pics.js', './js/tg.js', './js/train.js', './js/prefs.js', './js/sets.js', './js/extra.js',
   './lib/xlsx.mini.min.js', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
