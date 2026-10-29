@@ -137,13 +137,14 @@
       if (!w || w.image || w.imgTried) continue;
       try {
         const ok = await pickFor(w, 0);
+        if (!S.words.has(id)) continue; // слово удалили, пока искали картинку
         w.imgTried = true; if (ok) found++;
         await saveWord(w, { quiet: true });
         refreshIfShown(w);
       } catch (e) {
         if (e.limit) { stoppedUntil = Date.now() + 30 * 60000; queue.unshift(id); toast('Бесплатный источник картинок попросил паузу — продолжу позже'); break; }
         if (!navigator.onLine) { queue.unshift(id); break; }
-        w.imgTried = true; await saveWord(w, { quiet: true });
+        if (S.words.has(id)) { w.imgTried = true; await saveWord(w, { quiet: true }); }
       }
       done++;
       if (showProgress && done % 5 === 0) toast('Подбираю картинки: ' + done + ' из ' + total);
@@ -173,7 +174,7 @@
     const another = h('button', { class: 'btn sm soft', onclick: async () => {
       if (!S.online) return toast('Нужен интернет');
       another.disabled = true; busy.hidden = false;
-      try { const ok = await pickFor(w, w.imgIdx || 1); if (!ok) toast('Других подходящих картинок не нашлось'); w.imgTried = true; await saveWord(w); rerender(); }
+      try { const ok = await pickFor(w, w.imgIdx || 1); if (!S.words.has(w.id)) return; if (!ok) toast('Других подходящих картинок не нашлось'); w.imgTried = true; await saveWord(w); rerender(); }
       catch (e) { toast(e.limit ? 'Источник картинок попросил паузу, попробуйте позже' : 'Не получилось: ' + e.message); }
       finally { another.disabled = false; busy.hidden = true; }
     } }, w.image ? 'Другая картинка' : 'Подобрать картинку');

@@ -111,14 +111,35 @@
   // ---------- Ход занятия ----------
   function begin(sess) {
     cur = Object.assign({ idx: 0, results: [], wrongIds: new Set(), requeued: new Set(), started: Date.now(), firstTry: 0, answered: 0 }, sess);
+    cur.id = cur.id || C.uid();
     S.ui.sessionBack = location.hash || '#today';
     if (location.hash !== '#session') location.hash = 'session'; else render();
   }
-  routes.session = function () { if (!cur) { go('today'); return; } render(); };
+  // Сохранённое занятие: если телефон выгрузил приложение, можно продолжить с того же места
+  function persist() {
+    if (!cur) return;
+    App.kvSet('session', { id: cur.id, mode: cur.mode, title: cur.title, queue: cur.queue, idx: cur.idx, started: cur.started, answered: cur.answered, firstTry: cur.firstTry,
+      wrongIds: [...cur.wrongIds], requeued: [...cur.requeued], savedAt: Date.now() });
+  }
+  async function savedSession() {
+    const s = await App.kvGet('session');
+    if (!s || !s.queue || s.idx >= s.queue.length || Date.now() - s.savedAt > 12 * 3600000) return null;
+    return s;
+  }
+  function resume(s) {
+    cur = Object.assign({}, s, { wrongIds: new Set(s.wrongIds), requeued: new Set(s.requeued), results: [] });
+    S.ui.sessionBack = '#today';
+    if (location.hash !== '#session') location.hash = 'session'; else render();
+  }
+  routes.session = async function () {
+    if (!cur) { const s = await savedSession(); if (s) { resume(s); return; } go('today'); return; }
+    render();
+  };
   function active() { return !!cur; }
   async function abort(silent) {
     if (!cur) return;
     const s = cur; cur = null;
+    App.kvSet('session', null);
     await saveSession(s);
     if (!silent) go(S.ui.sessionBack ? S.ui.sessionBack.slice(1) : 'today');
   }
@@ -132,6 +153,7 @@
     const root = $('#app'); root.innerHTML = '';
     if (!cur) return;
     if (cur.idx >= cur.queue.length) return finish();
+    persist();
     const step = cur.queue[cur.idx];
     const pct = Math.round(cur.idx / cur.queue.length * 100);
     const wrap = h('div', { class: 'session' });
@@ -461,6 +483,7 @@
   // ---------- Итог ----------
   async function finish() {
     const s = cur; cur = null;
+    App.kvSet('session', null);
     await saveSession(s);
     const root = $('#app'); root.innerHTML = '';
     const main = h('main', { class: 'main no-nav', style: { paddingTop: '24px' } });
@@ -547,5 +570,5 @@
         h('li', null, 'Короткие сценарные диалоги: аренда, кафе, спорт. Это будут заранее написанные сценарии, а не свободный разговор с ИИ.'))));
   };
 
-  window.Train = { startDaily, startPrep, active, abort, TYPES };
+  window.Train = { startDaily, startPrep, active, abort, TYPES, savedSession, resume };
 })();

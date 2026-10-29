@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.1.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.2.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -125,12 +125,13 @@
   // ---------- Сохранение ----------
   async function saveWord(w, opts) {
     w.updatedAt = Date.now();
+    if (!opts || !opts.quiet) w.editedAt = w.updatedAt; // время правки текста (для синхронизации)
     S.words.set(w.id, w);
     await DB.put('words', w);
     if (!opts || !opts.quiet) bumpChanges();
   }
   async function saveWords(list) {
-    const now = Date.now(); list.forEach(w => { w.updatedAt = now; S.words.set(w.id, w); });
+    const now = Date.now(); list.forEach(w => { w.updatedAt = now; w.editedAt = now; S.words.set(w.id, w); });
     await DB.putMany('words', list); bumpChanges(list.length);
   }
   async function saveSet(s) { S.sets.set(s.id, s); await DB.put('sets', s); }
@@ -193,7 +194,8 @@
   ];
   const routes = {};
   function route() {
-    const hash = (location.hash || '#today').slice(1);
+    let hash = (location.hash || '#today').slice(1);
+    if (/^tgWebApp/.test(hash)) hash = 'today';
     const [name, ...rest] = hash.split('-');
     const arg = rest.join('-');
     const fn = routes[name] || routes.today;
@@ -254,6 +256,10 @@
           h('button', { class: 'btn ghost block', onclick: async () => { await Prefs.loadDemo(); routes.today(); } }, 'Посмотреть на демо-словах'))));
       return;
     }
+    const saved = window.Train ? await Train.savedSession() : null;
+    if (saved) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('b', null, 'Незаконченное занятие: «' + saved.title + '»'),
+      h('span', null, 'Осталось заданий: ' + (saved.queue.length - saved.idx) + '. Все прежние ответы уже сохранены.'),
+      h('div', { class: 'row' }, h('button', { class: 'btn sm primary', onclick: () => Train.resume(saved) }, 'Продолжить'), h('button', { class: 'btn sm ghost', onclick: async () => { await kvSet('session', null); routes.today(); } }, 'Не нужно')))));
     const { plan } = todayStats();
     const minutesToday = await minutesStudiedToday();
     const goal = S.settings.minutes;
@@ -553,6 +559,7 @@
     // попросить браузер не удалять данные (на iPhone с домашнего экрана это и так соблюдается)
     try { if (navigator.storage && navigator.storage.persist) { const p = await navigator.storage.persisted(); if (!p) navigator.storage.persist(); } } catch (e) { /* нет поддержки */ }
     window.addEventListener('hashchange', route);
+    if (window.TG && TG.inTG) TG.start();
     route();
     if (window.Pics) Pics.resume();
     if ('serviceWorker' in navigator && window.isSecureContext && !window.__ARTIFACT__) {

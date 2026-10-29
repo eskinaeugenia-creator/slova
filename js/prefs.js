@@ -250,6 +250,15 @@
       h('button', { class: 'btn primary', onclick: () => deliver('slova-reminder.ics', ics(), 'text/calendar') }, 'Добавить напоминание в календарь'),
       h('p', { class: 'tiny muted' }, 'На iPhone откроется окно «Добавить в календарь». Серий и штрафов нет: пропущенный день ничего не обнуляет.')));
 
+    // Telegram
+    if (window.TG && TG.inTG) {
+      const stEl = h('p', { class: 'small' }, 'Состояние: ' + TG.status + (TG.lastSync ? ' · ' + new Date(TG.lastSync).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : ''));
+      main.append(h('div', { class: 'card stack' }, h('h2', null, 'Синхронизация через Telegram'),
+        TG.cloudOK ? h('p', { class: 'small muted' }, 'Словарь и прогресс хранятся в облаке Telegram вашего аккаунта и одинаковы на телефоне и компьютере. У каждого человека, открывшего бота, — свой отдельный словарь. Картинки не синхронизируются: каждое устройство подбирает их само. Лимит облака — около 1000 слов.')
+          : h('p', { class: 'small', style: { color: 'var(--warn)' } }, 'Эта версия Telegram не поддерживает облачное хранилище — обновите Telegram.'),
+        stEl, TG.cloudOK ? h('button', { class: 'btn', onclick: async () => { await TG.sync({ manual: true }); routes.prefs(); } }, 'Синхронизировать сейчас') : null));
+    }
+
     // Резервная копия
     const fileIn = h('input', { type: 'file', accept: '.json,application/json', hidden: true, onchange: async () => {
       const f = fileIn.files[0]; fileIn.value = ''; if (!f) return;
@@ -313,7 +322,7 @@
       h('button', { class: 'btn danger', onclick: async () => {
         if (C.norm(confirmInp.value) !== 'удалить') return toast('Впишите слово «удалить», чтобы подтвердить');
         for (const s of ['words', 'sets', 'logs', 'sessions']) await DB.clear(s);
-        S.words.clear(); S.sets.clear(); toast('Все данные удалены'); go('today');
+        S.words.clear(); S.sets.clear(); await App.kvSet('session', null); toast('Все данные удалены'); go('today');
       } }, 'Удалить всё')));
 
     main.append(h('p', { class: 'tiny muted', style: { textAlign: 'center' } }, 'Мои слова · версия ' + APP_VERSION + ' · формат данных ' + DATA_FORMAT + ' · алгоритм повторений FSRS-4.5'));
