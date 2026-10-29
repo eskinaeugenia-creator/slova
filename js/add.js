@@ -22,7 +22,7 @@
     async translate(text, from, to) {
       const j = await fetchJSON('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + from + '|' + to);
       const main = j && j.responseData && j.responseData.translatedText || '';
-      if (/MYMEMORY WARNING|QUOTA/i.test(main) || j.responseStatus === 429) throw new Error('дневной лимит бесплатного перевода исчерпан — попробуйте завтра или через Claude');
+      if (/MYMEMORY WARNING|QUOTA/i.test(main) || j.responseStatus === 429) throw new Error('дневной лимит бесплатного перевода исчерпан — попробуйте завтра');
       const alts = [];
       (j.matches || []).forEach(m => {
         const tr = C.clean(m.translation); if (!tr || tr.length > 60) return;
@@ -223,8 +223,7 @@
       status.innerHTML = '';
       const got = Object.keys(data.auto).length;
       status.append(h('p', { class: 'small muted' }, got ? 'Заполнила пустые поля. Проверьте: машинный перевод бывает неточным, а пример из словаря — сложнее уровня A1.' : 'Ничего не нашлось.'));
-      if (errs.length) status.append(h('div', { class: 'banner warn' }, h('div', { class: 'grow' }, h('span', null, 'Не всё получилось: ' + errs.join('; ') + '.'), h('span', { class: 'small' }, 'Можно сохранить как есть или дополнить через Claude (раздел «Добавить» → «Из Claude»).'))));
-      if (!dict || !dict.example) status.append(h('p', { class: 'tiny muted' }, 'Простой пример уровня A1 лучше всего даёт Claude: вкладка «Из Claude».'));
+      if (errs.length) status.append(h('div', { class: 'banner warn' }, h('div', { class: 'grow' }, h('span', null, 'Не всё получилось: ' + errs.join('; ') + '.'), h('span', { class: 'small' }, 'Можно сохранить как есть и дополнить позже.'))));
       if (Object.keys(data.auto).some(k => k !== 'ru')) { const d = form.querySelector('details'); if (d) d.open = true; }
       persist(); refresh();
     }
@@ -282,7 +281,7 @@
   }
 
   // ---------- Экран «Добавить» ----------
-  const MODES = [['sets', 'Наборы'], ['one', 'Слово'], ['list', 'Список'], ['text', 'Из текста'], ['claude', 'Из Claude'], ['file', 'Файл'], ['photo', 'Фото и голос']];
+  const MODES = [['sets', 'Наборы'], ['one', 'Слово'], ['list', 'Список'], ['text', 'Из текста'], ['file', 'Файл'], ['photo', 'Фото и голос']];
   routes.add = async function () {
     const mode = S.ui.addMode || 'one';
     if (mode === 'sets') { S.ui.addMode = 'one'; go('sets'); return; }
@@ -600,15 +599,14 @@
       tools.innerHTML = '';
       if (missing.length) tools.append(h('p', { class: 'small muted' }, 'Без перевода: ' + missing.length + '. Они сохранятся черновиками — или дополните сейчас:'),
         h('div', { class: 'row' },
-          h('button', { class: 'btn sm soft', onclick: () => translateMissing(missing) }, 'Перевести онлайн (MyMemory)'),
-          h('button', { class: 'btn sm soft', onclick: () => { S.ui.claudeWords = missing.map(r => r.en).join('\n'); copyText(claudePrompt(S.ui.claudeWords), 'Запрос для Claude скопирован. Потом вставьте ответ во вкладку «Из Claude».'); } }, 'Запрос для Claude')));
+          h('button', { class: 'btn sm soft', onclick: () => translateMissing(missing) }, 'Перевести онлайн (MyMemory)')));
       list.innerHTML = '';
       rows.forEach((r, i) => list.append(rowEl(r, i)));
       const willAdd = rows.filter(r => r.include && r.action === 'add').length, willMerge = rows.filter(r => r.include && r.action === 'merge').length;
       saveBar.innerHTML = '';
       cancelBox.innerHTML = '';
       saveBar.append(h('button', { class: 'btn primary big block', disabled: !(willAdd + willMerge), onclick: save }, 'Сохранить: новых ' + willAdd + (willMerge ? ', дополнить ' + willMerge : '')));
-      cancelBox.append(h('button', { class: 'btn ghost block', onclick: async () => { await kvSet('importDraft', null); S.ui.addMode = meta.from === 'claude' ? 'claude' : meta.from || 'list'; routes.add(); } }, 'Отменить импорт'));
+      cancelBox.append(h('button', { class: 'btn ghost block', onclick: async () => { await kvSet('importDraft', null); S.ui.addMode = meta.from === 'claude' ? 'file' : meta.from || 'list'; routes.add(); } }, 'Отменить импорт'));
     }
     function rowEl(r, i) {
       const inc = h('input', { type: 'checkbox', checked: r.include && r.action !== 'skip', 'aria-label': 'Включить строку ' + r.line, onchange: () => { r.include = inc.checked; if (inc.checked && r.action === 'skip' && r.status !== 'dupList' && r.status !== 'error') r.action = r.status === 'dup' ? 'merge' : 'add'; draw(); } });
@@ -626,7 +624,7 @@
       }
       return h('div', { class: 'prow' + (!r.include || r.action === 'skip' ? ' off' : '') },
         h('div', { class: 'pline' }, inc, h('span', { class: 'tiny muted num' }, 'стр. ' + r.line), h('span', { class: 'pill ' + st[1] }, st[0]),
-          r.auto && r.auto.claude ? h('span', { class: 'pill' }, 'из Claude') : null),
+          null),
         h('div', { class: 'pinputs' }, en, ru),
         r.error ? h('div', { class: 'tiny', style: { color: 'var(--bad)' } }, r.error + '. Исправьте или строка будет пропущена.') : null,
         target ? h('div', { class: 'tiny muted' }, 'В словаре: ' + target.en + ' — ' + (target.ru || 'черновик')) : null,

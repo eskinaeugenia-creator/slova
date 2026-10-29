@@ -40,15 +40,15 @@ with sync_playwright() as p:
     pg.screenshot(path='/home/claude/tests/shots/15-auto-image.png', full_page=True)
     pg.click('text=Убрать'); pg.wait_for_timeout(300)
     ok('«Убрать» удаляет картинку и больше не подбирает', pg.evaluate(f"(() => {{ const w=App.S.words.get('{w['id']}'); return !w.image && w.imgTried; }})()"))
-    # Импорт из Claude с запросом картинки
-    pg.goto(BASE+'#add'); pg.click('.seg button:has-text("Из Claude")')
+    # Импорт JSON-файла с запросом картинки
+    pg.goto(BASE+'#add'); pg.click('.seg button:has-text("Файл")')
     ans=json.dumps([{'en':'rent','ru':'снимать','image':'apartment keys'},{'en':'towel','ru':'полотенце'},{'en':'deposit','ru':'залог','image':'money handshake'},{'en':'quiet','ru':'тихий'}])
-    pg.fill('#claude-answer','```json\n'+ans+'\n```'); pg.click('text=Проверить и импортировать'); pg.wait_for_selector('.prow')
+    pg.set_input_files('#file-in', files=[{'name':'words.json','mimeType':'application/json','buffer':ans.encode()}]); pg.wait_for_selector('.prow')
     pg.click('button:has-text("Сохранить: новых")'); pg.wait_for_selector('.report')
     pg.wait_for_function("[...App.S.words.values()].filter(w => w.image).length >= 4", timeout=12000)
     ok('после импорта картинки подобрались в фоне для всех слов', True)
     used=[q for q in queries if 'apartment' in q]
-    ok('для абстрактного «rent» искалось по запросу из Claude «apartment keys»', len(used)>0)
+    ok('для абстрактного «rent» искалось по запросу «apartment keys»', len(used)>0)
     # Своё фото не перезаписывается
     rid=pg.evaluate("[...App.S.words.values()].find(w=>w.en==='rent').id")
     pg.evaluate(f"(async () => {{ const w=App.S.words.get('{rid}'); w.image='data:image/png;base64,MINE'; w.auto={{}}; await App.saveWord(w); Pics.enqueue(['{rid}']); }})()"); pg.wait_for_timeout(800)

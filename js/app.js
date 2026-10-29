@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.5.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.5.1', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -249,7 +249,7 @@
       main.append(h('div', { class: 'card empty' },
         h('div', { class: 'glyph' }, 'Aa'),
         h('h2', null, 'Словарь пока пуст'),
-        h('p', { class: 'muted' }, 'Выберите готовую тему (путешествия, аренда жилья, пляж, кафе…) или добавьте свои слова: по одному, списком или из текста. Перевод и пример можно подсказать онлайн или получить из чата Claude.'),
+        h('p', { class: 'muted' }, 'Выберите готовую тему (путешествия, аренда жилья, пляж, кафе…) или добавьте свои слова: по одному, списком или из текста. Перевод и пример можно подсказать онлайн.'),
         h('div', { class: 'stack', style: { width: '100%', maxWidth: '360px' } },
           h('a', { class: 'btn primary big block', href: '#sets' }, 'Начать с готового набора'),
           h('a', { class: 'btn big block', href: '#add' }, 'Добавить своё слово'),
@@ -304,8 +304,7 @@
     if (drafts.length) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' },
       h('b', null, drafts.length + ' ' + C.plural(drafts.length, 'черновик', 'черновика', 'черновиков') + ' без перевода'),
       h('span', null, 'В тренировки они попадут после перевода.'),
-      h('div', { class: 'row' }, h('button', { class: 'btn sm soft', onclick: () => { S.ui.addMode = 'claude'; S.ui.claudeDrafts = true; go('add'); } }, 'Дополнить через Claude'),
-        h('button', { class: 'btn sm ghost', onclick: () => { S.ui.dictFilter = 'draft'; go('dict'); } }, 'Показать')))));
+      h('div', { class: 'row' }, h('button', { class: 'btn sm ghost', onclick: () => { S.ui.dictFilter = 'draft'; go('dict'); } }, 'Показать')))));
     const backupDue = Prefs.backupDue();
     if (backupDue) main.append(h('div', { class: 'banner warn' }, h('div', { class: 'grow' },
       h('b', null, 'Пора сохранить резервную копию'),
