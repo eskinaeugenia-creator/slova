@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600&display=swap">
 <link rel="stylesheet" href="styles.css">
 <script>
+  /* Сразу применить выбранный цвет, чтобы не мигал бирюзовый */
+  (function () { var m = { mint: ["#4ADE80","#052E16","#0F2E1C"], lemon: ["#FACC15","#2A2000","#2E2808"], orange: ["#FB923C","#2B1300","#33200F"], pink: ["#F472B6","#2D0A1C","#33162A"], violet: ["#A78BFA","#160B33","#231C3D"], blue: ["#60A5FA","#061A33","#14233A"] };
+    try { var a = m[localStorage.getItem("slova-accent")]; if (a) { var s = document.documentElement.style; s.setProperty("--accent", a[0]); s.setProperty("--accent-ink", a[1]); s.setProperty("--accent-soft", a[2]); } } catch (e) {} })();
   /* Telegram Mini App: скрипт Telegram подключается только внутри Telegram */
   (function () { var h = location.hash || "", tg = /tgWebApp/.test(h) || !!window.TelegramWebviewProxy || !!window.external && "notify" in window.external;
     try { tg = tg || !!sessionStorage.getItem("__telegram__initParams"); } catch (e) {}
@@ -39,5 +42,6 @@
 <script src="js/sets.js"></script>
 <script src="js/extra.js"></script>
 <script src="js/grammar.js"></script>
+<script src="js/test.js"></script>
 </body>
 </html>

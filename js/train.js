@@ -51,13 +51,25 @@
     return (allowed || Object.keys(TYPES)).find(x => TYPES[x].dir && ok(x)) || (dir === 'recog' ? 'flash' : 'ruEn');
   }
 
+  // Какие типы вопросов включены в занятиях (Настройки → «Типы вопросов в занятии»)
+  const KIND_DEF = { cards: true, choice: true, write: true, listen: true };
+  function kinds() { return Object.assign({}, KIND_DEF, S.settings.kinds || {}); }
+  function allowedTypes() {
+    const k = kinds(); const out = [];
+    if (k.cards) out.push('flash');
+    if (k.choice) out.push('enRu');
+    if (k.write) out.push('ruEn', 'gap');
+    if (k.listen) { if (k.choice || !k.write) out.push('listenChoice'); if (k.write || !k.choice) out.push('listenWrite'); }
+    return out.length ? out : null;
+  }
+
   // ---------- Сборка занятий ----------
   function startDaily() {
     const { plan } = todayStats();
     const queue = [];
-    plan.fresh.forEach(id => { const w = S.words.get(id); queue.push({ type: 'intro', wordId: id }); queue.push({ type: pickType(w, 'recog'), wordId: id, dir: 'recog' }); });
+    plan.fresh.forEach(id => { const w = S.words.get(id); queue.push({ type: 'intro', wordId: id }); queue.push({ type: pickType(w, 'recog', allowedTypes()), wordId: id, dir: 'recog' }); });
     // новые слова не идут подряд: перемешиваем повторения между ними
-    const reviews = plan.portion.map(it => ({ type: pickType(S.words.get(it.wordId), it.dir), wordId: it.wordId, dir: it.dir }));
+    const reviews = plan.portion.map(it => ({ type: pickType(S.words.get(it.wordId), it.dir, allowedTypes()), wordId: it.wordId, dir: it.dir }));
     const mixed = interleave(queue, reviews);
     addExtras(mixed);
     begin({ mode: 'daily', title: 'Мои ' + S.settings.minutes + ' минут', queue: mixed });
@@ -75,9 +87,10 @@
   // Немного разнообразия без влияния на расписание: пары и сборка предложения
   function addExtras(queue) {
     const ids = [...new Set(queue.filter(q => q.dir === 'recog').map(q => q.wordId))];
-    if (ids.length >= 4) queue.push({ type: 'match', wordIds: C.shuffle(ids).slice(0, 5) });
+    const k = kinds();
+    if (ids.length >= 4 && k.choice) queue.push({ type: 'match', wordIds: C.shuffle(ids).slice(0, 5) });
     const b = C.shuffle([...new Set(queue.map(q => q.wordId).filter(Boolean))]).map(id => S.words.get(id)).find(w => w && w.srs.recog && w.srs.recog.reps && canBuild(w));
-    if (b && queue.length >= 6) queue.splice(Math.floor(queue.length * 0.6), 0, { type: 'build', wordId: b.id });
+    if (b && k.write && queue.length >= 6) queue.splice(Math.floor(queue.length * 0.6), 0, { type: 'build', wordId: b.id });
   }
   function startPrep(o) {
     // o: { wordIds, types, limit }
@@ -203,7 +216,7 @@
     // ошибка → слово вернётся в этом занятии ещё раз (в другом упражнении, без влияния на расписание)
     if (grade === 1 && cur && !cur.requeued.has(w.id) && step.dir) {
       cur.requeued.add(w.id);
-      const t = step.dir === 'recall' ? pickType(w, 'recall') : (applicable('enRu', w) ? 'enRu' : 'flash');
+      const t = step.dir === 'recall' ? pickType(w, 'recall', cur.mode === 'daily' ? allowedTypes() : null) : (applicable('enRu', w) ? 'enRu' : 'flash');
       const pos = Math.min(cur.queue.length, cur.idx + 4);
       cur.queue.splice(pos, 0, { type: t, wordId: w.id, dir: step.dir, retry: true });
     }
@@ -551,5 +564,5 @@
     drawPrep();
   };
 
-  window.Train = { startDaily, startPrep, active, abort, TYPES, savedSession, resume, mistakesWordIds };
+  window.Train = { kinds, startDaily, startPrep, active, abort, TYPES, savedSession, resume, mistakesWordIds };
 })();

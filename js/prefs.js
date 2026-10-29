@@ -214,11 +214,32 @@
     const sel = (id, value, options, onchange) => { const s = h('select', { class: 'input', id, onchange: () => onchange(s.value) }, options.map(([v, l]) => h('option', { value: v }, l))); s.value = String(value); return s; };
     const sw = (label, checked, onchange, sub) => h('label', { class: 'switch' }, h('span', { class: 'stack', style: { gap: '0' } }, h('span', null, label), sub ? h('span', { class: 'tiny muted' }, sub) : null), h('input', { type: 'checkbox', checked, onchange: e => onchange(e.target.checked) }));
 
+    function kindBox() {
+      const box = h('div', { class: 'stack', style: { gap: '2px' } });
+      [['cards', 'Карточки', 'вспомнить и перевернуть'], ['choice', 'С выбором ответа', 'выбрать перевод, найти пары'], ['write', 'Письменные', 'написать слово, вставить в предложение, собрать фразу'], ['listen', 'На слух', 'услышать и выбрать или написать']].forEach(([id, label, sub]) => {
+        box.append(sw(label, Train.kinds()[id], v => {
+          const k = Train.kinds(); k[id] = v;
+          if (!Object.values(k).some(Boolean)) { toast('Оставьте хотя бы один тип'); routes.prefs(); return; }
+          st.kinds = k; save();
+        }, sub));
+      });
+      return box;
+    }
     const name = h('input', { class: 'input', id: 'p-name', value: st.name, onchange: () => { st.name = C.clean(name.value); save('Сохранено'); } });
+    const swatches = h('div', { class: 'swatches', role: 'radiogroup', 'aria-label': 'Основной цвет' });
+    const drawSw = () => { swatches.innerHTML = ''; App.ACCENTS.forEach(([id, label, color]) => {
+      const on = (st.accent || 'teal') === id;
+      swatches.append(h('button', { class: 'swatch' + (on ? ' on' : ''), role: 'radio', 'aria-checked': String(on), 'aria-label': label, title: label, style: { background: color },
+        onclick: () => { st.accent = id; App.applyAccent(id); save(); drawSw(); } }, on ? '✓' : ''));
+    }); };
+    drawSw();
+    main.append(h('div', { class: 'card stack' }, h('h2', null, 'Основной цвет'), h('p', { class: 'small muted' }, 'Кнопки, переключатели и полоски прогресса. Фон остаётся чёрным.'), swatches));
+
     main.append(h('div', { class: 'card stack' }, h('h2', null, 'Занятия'),
       h('label', { class: 'field', for: 'p-name' }, 'Как к вам обращаться', name),
       h('label', { class: 'field', for: 'p-min' }, 'Время в день', sel('p-min', st.minutes, [[10, '10 минут'], [15, '15 минут'], [20, '20 минут'], [30, '30 минут']], v => { st.minutes = +v; save(); })),
       h('label', { class: 'field', for: 'p-new' }, 'Новых слов в день (если повторений много — меньше)', sel('p-new', st.newPerDay, [[3, '3'], [5, '5'], [7, '7'], [10, '10'], [15, '15']], v => { st.newPerDay = +v; save(); })),
+      h('div', { class: 'field' }, h('span', null, 'Типы вопросов в занятии'), kindBox()),
       sw('Таймер в играх', st.timer, v => { st.timer = v; save(); }, 'Только «выбрать перевод» и «пары». Время вышло — просто показываем ответ, без штрафа.'),
       h('label', { class: 'field', for: 'p-tsec' }, 'Секунд на ответ', sel('p-tsec', st.timerSec, [[8, '8'], [12, '12'], [20, '20']], v => { st.timerSec = +v; save(); }))));
 

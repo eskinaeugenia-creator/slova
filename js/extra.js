@@ -392,6 +392,7 @@
     const tile = (ic, title, sub, onclick, disabled) => h('button', { class: 'tile', disabled: !!disabled, onclick }, h('span', { class: 'tile-ic' }, ic), h('span', { class: 'tile-t' }, h('b', null, title), h('small', null, sub)));
     const grid = h('div', { class: 'tiles-grid' },
       tile('🎯', 'Подготовка к уроку', 'набор, слова, упражнения', () => go('prep'), !words.length),
+      tile('✅', 'Тест', 'проверить изученные слова', () => go('test'), !words.length),
       tile('🩹', 'Ошибки', mist.length ? mist.length + ' ' + C.plural(mist.length, 'слово', 'слова', 'слов') : 'ошибок нет', () => Train.startPrep({ wordIds: mist, types: ['ruEn', 'gap', 'enRu', 'listenWrite'], limit: 20, mode: 'mistakes', title: 'Работа над ошибками' }), !mist.length),
       tile('🎧', 'Слушать', 'слово → пауза → перевод', () => go('listen'), !words.length),
       tile('🧩', 'Пары', 'быстрая разминка', () => Train.startPrep({ wordIds: words.map(w => w.id), types: ['match'], limit: 15, mode: 'match', title: 'Пары' }), words.length < 3),

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.6.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.7.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -14,6 +14,23 @@
     timer: false, timerSec: 12, reminderTime: '20:00', tz: 'device', retention: 0.9, online: true,
     lastBackup: 0, changesSinceBackup: 0, backupEveryDays: 7,
   };
+
+  // ---------- Основной цвет ----------
+  const ACCENTS = [
+    ['teal', 'Бирюзовый', '#3FC1CB', '#00191C', '#0F3237'],
+    ['mint', 'Мятный', '#4ADE80', '#052E16', '#0F2E1C'],
+    ['lemon', 'Лимонный', '#FACC15', '#2A2000', '#2E2808'],
+    ['orange', 'Оранжевый', '#FB923C', '#2B1300', '#33200F'],
+    ['pink', 'Розовый', '#F472B6', '#2D0A1C', '#33162A'],
+    ['violet', 'Фиолетовый', '#A78BFA', '#160B33', '#231C3D'],
+    ['blue', 'Голубой', '#60A5FA', '#061A33', '#14233A'],
+  ];
+  function applyAccent(id) {
+    const a = ACCENTS.find(x => x[0] === id) || ACCENTS[0];
+    const r = document.documentElement.style;
+    r.setProperty('--accent', a[2]); r.setProperty('--accent-ink', a[3]); r.setProperty('--accent-soft', a[4]);
+    try { localStorage.setItem('slova-accent', a[0]); } catch (e) { /* не страшно */ }
+  }
 
   // ---------- DOM-помощники ----------
   function h(tag, attrs, ...kids) {
@@ -592,6 +609,7 @@
       sets.forEach(s => S.sets.set(s.id, s));
       S.settings = Object.assign({}, DEFAULTS, settings || {});
     } catch (e) { S.settings = Object.assign({}, DEFAULTS); S.storage = { ok: false, error: e.message }; }
+    applyAccent(S.settings.accent);
     if (!S.settings.installedAt) { S.settings.installedAt = Date.now(); saveSettings(); }
     // попросить браузер не удалять данные (на iPhone с домашнего экрана это и так соблюдается)
     try { if (navigator.storage && navigator.storage.persist) { const p = await navigator.storage.persisted(); if (!p) navigator.storage.persist(); } } catch (e) { /* нет поддержки */ }
@@ -604,7 +622,7 @@
     }
   }
 
-  window.App = { S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
+  window.App = { ACCENTS, applyAccent, S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
     kvSet, kvGet, newWord, mergeInto, wordsArr, activeWords, setName, ensureSet, logAnswer, wordItem, thumb, creditText, fmtDate,
     APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday };
   document.addEventListener('DOMContentLoaded', boot);
