@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.7.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.8.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
