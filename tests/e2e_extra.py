@@ -36,7 +36,7 @@ with sync_playwright() as p:
     pg.screenshot(path='/home/claude/tests/shots/18-today-counters.png')
     # Тренировки плитками
     pg.goto(BASE+'#train'); pg.wait_for_selector('.tiles-grid')
-    ok('тренировки плитками (11 плиток, все активны)', pg.locator('.tiles-grid > *').count()==11 and pg.locator('.tile.soon').count()==0)
+    ok('тренировки плитками (12 плиток, все активны)', pg.locator('.tiles-grid > *').count()==12 and pg.locator('.tile.soon').count()==0)
     pg.screenshot(path='/home/claude/tests/shots/19-train-tiles.png', full_page=True)
     pg.click('.tile:has-text("Подготовка к уроку")'); pg.wait_for_selector('text=Типы упражнений')
     ok('«Подготовка к уроку» открывается отдельным экраном', True)

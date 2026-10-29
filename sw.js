@@ -1,6 +1,6 @@
 /* Офлайн-режим: оболочка приложения хранится в кэше. Данные пользователя живут в IndexedDB и кэшем не затрагиваются. */
-const VERSION = 'slova-v1.8.0';
-const SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './js/core.js', './js/db.js', './js/app.js', './js/add.js', './js/pics.js', './js/tg.js', './js/train.js', './js/prefs.js', './js/sets.js', './js/extra.js', './js/grammar.js', './js/test.js', './js/books-data.js', './js/books.js',
+const VERSION = 'slova-v1.9.0';
+const SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './js/core.js', './js/db.js', './js/app.js', './js/add.js', './js/pics.js', './js/tg.js', './js/train.js', './js/prefs.js', './js/sets.js', './js/extra.js', './js/grammar.js', './js/test.js', './js/books-data.js', './js/books.js', './js/dialogs.js',
   './lib/xlsx.mini.min.js', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

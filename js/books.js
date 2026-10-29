@@ -254,9 +254,9 @@
         draw();
       } }, 'Перевести онлайн'));
       actions.append(h('button', { class: 'btn primary block', id: 'w-add', disabled: !r.ru, onclick: async () => {
-        const setId = await ensureSet('Из книг');
+        const setId = await ensureSet(book.set || 'Из книг');
         const ru = String(r.ru).split(/[;(]/)[0].trim();
-        const nw = newWord({ en: r.lemma, ru, example: sentence, source: 'Книга «' + book.title + '»', setIds: [setId] });
+        const nw = newWord({ en: r.lemma, ru, example: sentence, source: book.source || 'Книга «' + book.title + '»', setIds: [setId] });
         await saveWord(nw);
         if (window.Pics) Pics.enqueue([nw.id]);
         document.querySelectorAll('.rw').forEach(x => { if (C.keyEn(lookup(x.dataset.w).lemma) === C.keyEn(r.lemma)) x.classList.add('known'); });
@@ -266,5 +266,5 @@
     draw();
   }
 
-  window.Books = { lookup, stems };
+  window.Books = { lookup, stems, wordSheet, onlineTranslate, sayP, stopSpeech };
 })();

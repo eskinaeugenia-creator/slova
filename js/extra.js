@@ -392,6 +392,7 @@
     const tile = (ic, title, sub, onclick, disabled) => h('button', { class: 'tile', disabled: !!disabled, onclick }, h('span', { class: 'tile-ic' }, ic), h('span', { class: 'tile-t' }, h('b', null, title), h('small', null, sub)));
     const grid = h('div', { class: 'tiles-grid' },
       tile('🎯', 'Подготовка к уроку', 'набор, слова, упражнения', () => go('prep'), !words.length),
+      tile('💬', 'Диалоги', 'ситуации по уровням и темам', () => go('dialogs')),
       tile('📖', 'Книжная полка', 'сказки и книги по уровням', () => go('books')),
       tile('✅', 'Тест', 'проверить изученные слова', () => go('test'), !words.length),
       tile('🩹', 'Ошибки', mist.length ? mist.length + ' ' + C.plural(mist.length, 'слово', 'слова', 'слов') : 'ошибок нет', () => Train.startPrep({ wordIds: mist, types: ['ruEn', 'gap', 'enRu', 'listenWrite'], limit: 20, mode: 'mistakes', title: 'Работа над ошибками' }), !mist.length),

@@ -320,3 +320,16 @@ a.btn { text-decoration: none; }
 .rp-tr { color: var(--muted); font-size: 15.5px; line-height: 1.5; margin-top: 6px; }
 .rp-tools { display: flex; gap: 4px; margin-top: 2px; opacity: .85; }
 .rp-tools .btn { min-height: 32px; padding: 4px 10px; }
+
+/* Диалоги */
+.chat { display: grid; gap: 12px; }
+.bubble { max-width: 88%; border-radius: 18px; padding: 10px 14px; background: var(--surface-2); margin: 0; }
+.bubble.a { justify-self: start; border-bottom-left-radius: 6px; }
+.bubble.b { justify-self: end; background: var(--accent-soft); border-bottom-right-radius: 6px; }
+.bubble .who { font-size: 12.5px; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+.bubble.b .who { color: var(--accent); }
+.bubble .rp-text { font-size: 18px; line-height: 1.5; }
+.bubble.reading { outline: 2px solid var(--accent); }
+.chat .rp { margin: 0; }
+/* Плашки слов в «Собрать фразу» — не путать с плитками меню */
+.tiles .tile, .answer-line .tile { min-height: 46px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--line); font-size: 18px; font-weight: 600; display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 0; text-align: center; }
