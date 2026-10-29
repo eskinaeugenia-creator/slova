@@ -1,8 +1,8 @@
 // Проверка содержания уроков без браузера
 const fs = require('fs');
 global.window = { App: { S: { ui: {}, settings: {} }, h(){}, icon(){}, toast(){}, go(){}, routes: {}, screen(){}, wordsArr: () => [], kvSet: async () => {}, kvGet: async () => ({}) } };
-window.Core = require('/home/claude/app/js/core.js');
-eval(fs.readFileSync('/home/claude/app/js/grammar.js', 'utf8'));
+window.Core = require('/home/claude/slova/js/core.js');
+eval(fs.readFileSync('/home/claude/slova/js/grammar.js', 'utf8'));
 const G = window.Grammar; let n = 0, bad = [];
 G.LESSONS.forEach(l => l.items.forEach(it => {
   n++;

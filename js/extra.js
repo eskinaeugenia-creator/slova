@@ -363,7 +363,7 @@
         h('p', null, 'Тренировки → «Неправильные глаголы»: таблица трёх форм с озвучкой, тренировка и готовый набор с примерами.'),
         h('a', { class: 'btn block', href: '#irregular' }, 'Открыть')),
       sec('📝', 'Грамматика',
-        h('p', null, 'Тренировки → «Грамматика». 18 тем по порядку — от am/is/are до Past Simple, going to и сравнения (cheaper). Короткое правило по-русски → задания на понимание → свои ответы. Через несколько дней приложение предложит повторить тему за 2 минуты.'),
+        h('p', null, 'Тренировки → «Грамматика». 30 тем по порядку: уровень A1 — от am/is/are до Past Simple и сравнения; уровень A2 — will, should, must, Present Perfect, Past Continuous, «если…» и другие. Короткое правило по-русски → задания на понимание → свои ответы. Через несколько дней приложение предложит повторить тему за 2 минуты.'),
         h('a', { class: 'btn block', href: '#grammar' }, 'Открыть')),
       sec('📱', 'Telegram, телефон и компьютер',
         h('ul', null,
@@ -388,7 +388,7 @@
     let mist = [];
     try { mist = await Train.mistakesWordIds(7); } catch (e) { /* пусто */ }
     let gramInfo = 'A1: am/is/are, Present Simple…';
-    if (window.Grammar) { await Grammar.loadProgress(); const n = Grammar.LESSONS.filter(l => ['done', 'due'].includes(Grammar.stateOf(l.id, Date.now()))).length; const d = Grammar.dueLessons().length; gramInfo = d ? 'пора повторить: ' + d : n ? 'пройдено ' + n + ' из ' + Grammar.LESSONS.length : Grammar.LESSONS.length + ' тем уровня A1'; }
+    if (window.Grammar) { await Grammar.loadProgress(); const n = Grammar.LESSONS.filter(l => ['done', 'due'].includes(Grammar.stateOf(l.id, Date.now()))).length; const d = Grammar.dueLessons().length; gramInfo = d ? 'пора повторить: ' + d : n ? 'пройдено ' + n + ' из ' + Grammar.LESSONS.length : Grammar.LESSONS.length + ' тем A1–A2'; }
     const tile = (ic, title, sub, onclick, disabled) => h('button', { class: 'tile', disabled: !!disabled, onclick }, h('span', { class: 'tile-ic' }, ic), h('span', { class: 'tile-t' }, h('b', null, title), h('small', null, sub)));
     const grid = h('div', { class: 'tiles-grid' },
       tile('🎯', 'Подготовка к уроку', 'набор, слова, упражнения', () => go('prep'), !words.length),

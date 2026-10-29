@@ -67,7 +67,7 @@
 | Внеплановая тренировка не искажает прогресс | **Есть**: в день учитывается первый ответ, ранний верный ответ только записывается |
 | Таймер в играх (выключен по умолчанию), без штрафов и серий | **Есть** |
 | Напоминание, время, часовой пояс | **Есть** (календарь). Push — зависит от платформы, позже |
-| Грамматика A1 → A2 | **Есть, 18 тем, 242 задания**: am/is/are; isn't / вопросы; a/an и -s; my/your/'s; Present Simple (I work, she works); do/does; повелительное (Turn left, Don't); there is/are; in/on/at; can; Present Continuous; was/were; Past Simple (-ed и неправильные); did/didn't; some/any, how much/many; going to; сравнение (cheaper, more expensive) |
+| Грамматика A1 → A2 | **Есть, 30 тем, 395 заданий**. A2: always/usually/never; me/him/them; like -ing / want to; will/won't; should; must / have to; the cheapest / the most; could; Past Continuous; Present Perfect; already/yet/just; If it rains, I'll… A1: am/is/are; isn't / вопросы; a/an и -s; my/your/'s; Present Simple (I work, she works); do/does; повелительное (Turn left, Don't); there is/are; in/on/at; can; Present Continuous; was/were; Past Simple (-ed и неправильные); did/didn't; some/any, how much/many; going to; сравнение (cheaper, more expensive) |
 | Резервная копия, восстановление, CSV, версия формата, напоминание о копии | **Есть** |
 | Автосинхронизация вне Telegram | Позже (Supabase). В браузере/PWA — ручной перенос копией |
 | Чёрный интерфейс, крупные кнопки, управление одной рукой | **Есть** |

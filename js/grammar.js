@@ -454,8 +454,279 @@
       { t: 'build', ru: 'Вилла лучше отеля.', a: 'The villa is better than the hotel.', extra: 'then' },
     ] });
 
-  // Порядок изучения (A1 → начало A2)
-  const ORDER = ['be', 'be2', 'a', 'pron', 'ps1', 'ps2', 'do', 'imp', 'there', 'prep', 'can', 'cont', 'was', 'past', 'did', 'some', 'going', 'comp'];
+
+  // ===================== Уровень A2 =====================
+  add({ id: 'freq', lvl: 'A2', title: 'always, usually, never', sub: 'Как часто: всегда, обычно, иногда, никогда', icon: '📆',
+    theory: [
+      { h: 'Слова «как часто»', table: [['always', 'всегда', '100%'], ['usually', 'обычно', '80%'], ['often', 'часто', '60%'], ['sometimes', 'иногда', '40%'], ['never', 'никогда', '0%']] },
+      { h: 'Куда ставить', p: 'Перед обычным глаголом: I usually drink coffee. Но после am / is / are: She is always late. В английском одно отрицание: never уже значит «не», поэтому «I never don’t…» — ошибка.',
+        ex: [['I usually get up at seven.', 'Я обычно встаю в семь.'], ['She is always happy.', 'Она всегда весёлая.'], ['We never eat meat.', 'Мы никогда не едим мясо.'], ['How often do you surf?', 'Как часто ты сёрфишь?']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'I never drink coffee.', ask: 'Она пьёт кофе?', o: ['нет, никогда', 'иногда'], a: 0, why: 'never — никогда.' },
+      { t: 'meaning', s: 'He usually walks to work.', ask: 'Как часто он ходит пешком?', o: ['обычно, почти всегда', 'редко'], a: 0, why: 'usually — обычно.' },
+      { t: 'meaning', s: 'How often do you swim?', ask: 'Что спрашивают?', o: ['как часто', 'сколько времени'], a: 0, why: 'How often — как часто.' },
+      { t: 'choose', s: 'I ___ get up early.', ru: 'Я всегда рано встаю.', o: ['always', 'never', 'sometimes'], a: 'always', why: 'always — всегда.' },
+      { t: 'choose', s: 'She is ___ late.', ru: 'Она никогда не опаздывает.', o: ['never', 'always', 'often'], a: 'never', why: 'never — никогда; после is.' },
+      { t: 'choose', s: 'We ___ go to the beach on Sunday.', ru: 'Мы иногда ходим на пляж в воскресенье.', o: ['sometimes', 'always', 'never'], a: 'sometimes', why: 'sometimes — иногда.' },
+      { t: 'choose', s: '___', ru: 'Я обычно пью чай.', o: ['I usually drink tea.', 'I drink usually tea.', 'Usually I drink tea usually.'], a: 'I usually drink tea.', why: 'usually ставим перед глаголом drink.' },
+      { t: 'choose', s: 'He ___ eats meat.', ru: 'Он никогда не ест мясо.', o: ['never', "doesn't never", 'not never'], a: 'never', why: 'never уже значит «не» — второе отрицание не нужно.' },
+      { t: 'choose', s: 'The sea is ___ warm here.', ru: 'Здесь море всегда тёплое.', o: ['always', 'usually not', 'never'], a: 'always', why: 'always — всегда; после is.' },
+      { t: 'type', s: 'I ___ cook at home. (часто)', ru: 'Я часто готовлю дома.', a: ['often'], why: 'часто — often.' },
+      { t: 'type', s: 'How ___ do you train?', ru: 'Как часто ты тренируешься?', a: ['often'], why: 'Как часто — How often.' },
+      { t: 'build', ru: 'Я обычно встаю в семь.', a: 'I usually get up at seven.', extra: 'am' },
+      { t: 'build', ru: 'Она всегда весёлая.', a: 'She is always happy.', extra: 'never' },
+      { t: 'build', ru: 'Мы никогда не едим мясо.', a: 'We never eat meat.', extra: "don't" },
+    ] });
+
+  add({ id: 'obj', lvl: 'A2', title: 'me, him, her, us, them', sub: 'Меня, его, её, нас, их', icon: '🫵',
+    theory: [
+      { h: 'Кто делает и кого', p: 'I, he, she… — кто делает (подлежащее). Me, him, her… — кого, кому, с кем (после глагола и после with, for, to).',
+        table: [['I', 'me', 'меня, мне'], ['you', 'you', 'тебя, вас'], ['he', 'him', 'его, ему'], ['she', 'her', 'её, ей'], ['it', 'it', 'его, её (предмет)'], ['we', 'us', 'нас, нам'], ['they', 'them', 'их, им']] },
+      { h: 'Примеры', ex: [['Call me, please.', 'Позвони мне, пожалуйста.'], ['I like him.', 'Он мне нравится.'], ['Can you help us?', 'Можете нам помочь?'], ['I go with them.', 'Я иду с ними.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'She called him.', ask: 'Кому позвонили?', o: ['ему', 'ей'], a: 0, why: 'him — его, ему.' },
+      { t: 'meaning', s: 'They help us.', ask: 'Кому помогают?', o: ['нам', 'им'], a: 0, why: 'us — нам.' },
+      { t: 'choose', s: 'Call ___, please.', ru: 'Позвони мне, пожалуйста.', o: ['me', 'I', 'my'], a: 'me', why: 'После глагола — me.' },
+      { t: 'choose', s: 'Can you help ___?', ru: 'Вы можете нам помочь?', o: ['us', 'we', 'our'], a: 'us', why: 'Кому? — us.' },
+      { t: 'choose', s: 'I like ___.', ru: 'Она мне нравится.', o: ['her', 'she', 'hers'], a: 'her', why: 'Её — her. Дословно: «Я люблю её».' },
+      { t: 'choose', s: 'I go to the beach with ___.', ru: 'Я хожу на пляж с ними.', o: ['them', 'they', 'their'], a: 'them', why: 'После with — them.' },
+      { t: 'choose', s: '___ is my friend.', ru: 'Он мой друг.', o: ['He', 'Him', 'His'], a: 'He', why: 'Кто? — he (в начале, подлежащее).' },
+      { t: 'choose', s: 'This is for ___.', ru: 'Это для тебя.', o: ['you', 'your', 'yours'], a: 'you', why: 'После for — you.' },
+      { t: 'type', s: 'Tell ___ the price. (ему)', ru: 'Скажи ему цену.', a: ['him'], why: 'ему — him.' },
+      { t: 'type', s: 'Wait for ___! (нас)', ru: 'Подождите нас!', a: ['us'], why: 'нас — us.' },
+      { t: 'build', ru: 'Позвони мне, пожалуйста.', a: 'Call me, please.', extra: 'I' },
+      { t: 'build', ru: 'Можете нам помочь?', a: 'Can you help us?', extra: 'we' },
+      { t: 'build', ru: 'Я иду с ними.', a: 'I go with them.', extra: 'they' },
+    ] });
+
+  add({ id: 'like', lvl: 'A2', title: "I like swimming, I want to swim", sub: 'like + -ing, want to, would like', icon: '❤️',
+    theory: [
+      { h: 'like / love / hate + -ing', p: 'Что нравится делать: I like swimming. I love surfing. I hate waiting.',
+        ex: [['I like swimming.', 'Я люблю плавать.'], ["She doesn't like cooking.", 'Она не любит готовить.']] },
+      { h: 'want to / would like to', p: 'Чего хочу: I want to rent a bike. Вежливее: I would like to (I’d like to). После to — начальная форма.',
+        ex: [['I want to learn English.', 'Я хочу выучить английский.'], ["I'd like to book a table.", 'Я бы хотела забронировать столик.'], ['Would you like some coffee?', 'Хотите кофе?']] },
+    ],
+    items: [
+      { t: 'meaning', s: "I'd like a coffee, please.", ask: 'Как это звучит?', o: ['вежливая просьба', 'грубое требование'], a: 0, why: "I'd like = I would like — вежливо «я бы хотела»." },
+      { t: 'meaning', s: 'She hates waiting.', ask: 'Ей нравится ждать?', o: ['нет', 'да'], a: 0, why: 'hate — ненавидеть.' },
+      { t: 'choose', s: 'I like ___.', ru: 'Я люблю плавать.', o: ['swimming', 'swim', 'swims'], a: 'swimming', why: 'like + -ing.' },
+      { t: 'choose', s: 'I want ___ a bike.', ru: 'Я хочу взять в аренду байк.', o: ['to rent', 'renting', 'rent'], a: 'to rent', why: 'want + to + глагол.' },
+      { t: 'choose', s: "I'd like ___ a table.", ru: 'Я бы хотела забронировать столик.', o: ['to book', 'booking', 'book'], a: 'to book', why: 'would like + to + глагол.' },
+      { t: 'choose', s: 'They love ___.', ru: 'Они обожают сёрфить.', o: ['surfing', 'surf', 'to surfing'], a: 'surfing', why: 'love + -ing.' },
+      { t: 'choose', s: '___ you like some tea?', ru: 'Хотите чаю?', o: ['Would', 'Do', 'Are'], a: 'Would', why: 'Вежливое предложение: Would you like…?' },
+      { t: 'choose', s: "He doesn't want ___.", ru: 'Он не хочет работать.', o: ['to work', 'working', 'works'], a: 'to work', why: 'want to + глагол.' },
+      { t: 'type', s: 'I love ___. (dance)', ru: 'Я обожаю танцевать.', a: ['dancing'], why: 'love + -ing: dance → dancing.' },
+      { t: 'type', s: 'We want ___ visit Ubud.', ru: 'Мы хотим съездить в Убуд.', a: ['to'], why: 'want to.' },
+      { t: 'build', ru: 'Я хочу выучить английский.', a: 'I want to learn English.', extra: 'learning' },
+      { t: 'build', ru: 'Я люблю плавать.', a: 'I like swimming.', extra: 'swim' },
+      { t: 'build', ru: 'Хотите кофе?', a: 'Would you like some coffee?', extra: 'Do' },
+    ],
+    gen: (verbs) => verbs.slice(0, 2).map(v => ({ t: 'choose', s: 'I like ___.', ru: v.en + ' — ' + v.ru, o: C.shuffle([ing(v.en), v.en, s3(v.en)]), a: ing(v.en), why: 'like + -ing.', mine: true })) });
+
+  add({ id: 'will', lvl: 'A2', title: "will / won't", sub: 'Решаю сейчас, обещаю, думаю, что будет', icon: '🔮',
+    theory: [
+      { h: 'Когда will', p: 'Решение прямо сейчас (I’ll take this one — Возьму вот этот), обещание (I’ll call you — Я позвоню), прогноз (It will rain — Будет дождь). Заранее продуманный план — going to.',
+        table: [['I / you / she / we / they', "will = 'll", "I'll help you."], ['не', "will not = won't", "I won't be late."]] },
+      { h: 'Примеры', ex: [["I'll call you tomorrow.", 'Я позвоню тебе завтра.'], ["I think it will rain.", 'Думаю, будет дождь.'], ["I won't be late.", 'Я не опоздаю.'], ['Will you help me?', 'Поможешь мне?']] },
+    ],
+    items: [
+      { t: 'meaning', s: "I won't be late.", ask: 'Она опоздает?', o: ['нет, обещает не опоздать', 'да'], a: 0, why: "won't = will not." },
+      { t: 'meaning', s: "— It's hot. — I'll open the window.", ask: 'Когда она решила открыть окно?', o: ['прямо сейчас', 'давно запланировала'], a: 0, why: 'Решение в момент речи → will.' },
+      { t: 'choose', s: "I ___ call you tomorrow.", ru: 'Я позвоню тебе завтра.', o: ['will', 'am', 'do'], a: 'will', why: 'Обещание → will.' },
+      { t: 'choose', s: 'I think it ___ rain.', ru: 'Думаю, будет дождь.', o: ['will', 'is', 'does'], a: 'will', why: 'Прогноз → will.' },
+      { t: 'choose', s: "She will ___ you.", ru: 'Она тебе поможет.', o: ['help', 'helps', 'to help'], a: 'help', why: 'После will — начальная форма без -s и без to.' },
+      { t: 'choose', s: "Don't worry, I ___ tell anyone.", ru: 'Не волнуйся, я никому не скажу.', o: ["won't", "don't", "willn't"], a: "won't", why: "will not = won't." },
+      { t: 'choose', s: '___ you help me?', ru: 'Поможешь мне?', o: ['Will', 'Do', 'Are'], a: 'Will', why: 'Вопрос: Will you…?' },
+      { t: 'choose', s: "— Tea or coffee? — I ___ have tea.", o: ["'ll", "'m", "'d not"], a: "'ll", why: "Решение сейчас → I'll." },
+      { t: 'type', s: "I ___ be late. (не)", ru: 'Я не опоздаю.', a: ["won't", 'will not'], why: "won't." },
+      { t: 'type', s: 'It ___ be sunny tomorrow.', ru: 'Завтра будет солнечно.', a: ['will'], why: 'Прогноз → will.' },
+      { t: 'build', ru: 'Я позвоню тебе завтра.', a: "I'll call you tomorrow.", extra: 'calling' },
+      { t: 'build', ru: 'Я не опоздаю.', a: "I won't be late.", extra: "don't" },
+      { t: 'build', ru: 'Поможешь мне?', a: 'Will you help me?', extra: 'Do' },
+    ],
+    gen: (verbs) => verbs.slice(0, 2).map(v => ({ t: 'choose', s: 'She will ___.', ru: v.en + ' — ' + v.ru, o: C.shuffle([v.en, s3(v.en), 'to ' + v.en]), a: v.en, why: 'После will — начальная форма.', mine: true })) });
+
+  add({ id: 'should', lvl: 'A2', title: "should / shouldn't", sub: 'Советы: стоит, не стоит', icon: '💡',
+    theory: [
+      { h: 'Совет', p: 'should + глагол = «стоит, следует». shouldn’t = «не стоит». Форма одна для всех: I should, she should (без -s).',
+        ex: [['You should try it.', 'Тебе стоит это попробовать.'], ["You shouldn't swim here.", 'Здесь не стоит плавать.'], ['What should I do?', 'Что мне делать?'], ['Should I book a taxi?', 'Мне заказать такси?']] },
+    ],
+    items: [
+      { t: 'meaning', s: "You shouldn't drink tap water.", ask: 'Что советуют?', o: ['не пить воду из-под крана', 'пить воду из-под крана'], a: 0, why: "shouldn't — не стоит." },
+      { t: 'meaning', s: 'You should see the rice fields.', ask: 'Это…', o: ['совет', 'запрет'], a: 0, why: 'should — совет.' },
+      { t: 'choose', s: 'You ___ try this café.', ru: 'Тебе стоит попробовать это кафе.', o: ['should', 'shoulds', 'should to'], a: 'should', why: 'should без -s и без to.' },
+      { t: 'choose', s: 'She should ___ a doctor.', ru: 'Ей стоит сходить к врачу.', o: ['see', 'sees', 'to see'], a: 'see', why: 'После should — начальная форма.' },
+      { t: 'choose', s: 'You ___ swim here. The waves are big.', ru: 'Здесь не стоит плавать. Волны большие.', o: ["shouldn't", "don't should", 'not should'], a: "shouldn't", why: "should not = shouldn't." },
+      { t: 'choose', s: 'What ___ I do?', ru: 'Что мне делать?', o: ['should', 'do', 'am'], a: 'should', why: 'Просим совета: What should I…?' },
+      { t: 'choose', s: '___ I book a taxi?', ru: 'Мне заказать такси?', o: ['Should', 'Do', 'Am'], a: 'Should', why: 'Вопрос-совет: Should I…?' },
+      { t: 'type', s: 'You ___ wear sunscreen.', ru: 'Тебе стоит пользоваться солнцезащитным кремом.', a: ['should'], why: 'Совет → should.' },
+      { t: 'type', s: 'We ___ be late. (не стоит)', ru: 'Нам не стоит опаздывать.', a: ["shouldn't", 'should not'], why: "shouldn't." },
+      { t: 'build', ru: 'Тебе стоит это попробовать.', a: 'You should try it.', extra: 'to' },
+      { t: 'build', ru: 'Что мне делать?', a: 'What should I do?', extra: 'doing' },
+      { t: 'build', ru: 'Здесь не стоит плавать.', a: "You shouldn't swim here.", extra: "don't" },
+    ] });
+
+  add({ id: 'must', lvl: 'A2', title: "must / have to / don't have to", sub: 'Надо, обязательно, не обязательно', icon: '📌',
+    theory: [
+      { h: 'Нужно', table: [['must', 'надо (я сама так считаю, правила)', 'I must study more.'], ['have to / has to', 'надо (так сложилось)', 'I have to work on Monday.'], ["don't have to", 'НЕ обязательно', "You don't have to pay."], ["mustn't", 'НЕЛЬЗЯ', "You mustn't smoke here."]] },
+      { h: 'Ловушка', p: "don't have to и mustn't — совсем разное! «Не обязательно» и «нельзя». С he / she — has to, doesn't have to.",
+        ex: [['I have to get up early.', 'Мне надо рано вставать.'], ['She has to work today.', 'Ей сегодня надо работать.'], ["You don't have to pay.", 'Платить не обязательно.'], ["You mustn't park here.", 'Здесь нельзя парковаться.']] },
+    ],
+    items: [
+      { t: 'meaning', s: "You don't have to pay.", ask: 'Платить…', o: ['не обязательно', 'нельзя'], a: 0, why: "don't have to — не обязательно." },
+      { t: 'meaning', s: "You mustn't smoke here.", ask: 'Курить здесь…', o: ['нельзя', 'не обязательно'], a: 0, why: "mustn't — нельзя." },
+      { t: 'choose', s: 'I ___ get up early tomorrow.', ru: 'Мне завтра надо рано вставать.', o: ['have to', 'has to', 'have'], a: 'have to', why: 'I → have to.' },
+      { t: 'choose', s: 'She ___ work on Saturday.', ru: 'Ей надо работать в субботу.', o: ['has to', 'have to', 'must to'], a: 'has to', why: 'She → has to.' },
+      { t: 'choose', s: 'You ___ bring a towel. We have towels.', ru: 'Полотенце брать не обязательно. У нас есть.', o: ["don't have to", "mustn't", "haven't"], a: "don't have to", why: 'Не обязательно → don’t have to.' },
+      { t: 'choose', s: 'You ___ swim here. It is dangerous.', ru: 'Здесь нельзя плавать. Опасно.', o: ["mustn't", "don't have to", "haven't to"], a: "mustn't", why: "Нельзя → mustn't." },
+      { t: 'choose', s: 'I must ___ more.', ru: 'Мне надо больше заниматься.', o: ['study', 'to study', 'studies'], a: 'study', why: 'После must — без to.' },
+      { t: 'choose', s: '___ you have to work today?', ru: 'Тебе сегодня надо работать?', o: ['Do', 'Have', 'Must'], a: 'Do', why: 'Вопрос с have to — через Do.' },
+      { t: 'type', s: 'He ___ to pay the deposit.', ru: 'Ему надо заплатить залог.', a: ['has'], why: 'He → has to.' },
+      { t: 'type', s: "We ___ have to hurry.", ru: 'Нам не обязательно торопиться.', a: ["don't", 'do not'], why: "don't have to." },
+      { t: 'build', ru: 'Мне надо рано вставать.', a: 'I have to get up early.', extra: 'has' },
+      { t: 'build', ru: 'Платить не обязательно.', a: "You don't have to pay.", extra: "mustn't" },
+      { t: 'build', ru: 'Здесь нельзя парковаться.', a: "You mustn't park here.", extra: "don't" },
+    ] });
+
+  add({ id: 'most', lvl: 'A2', title: 'the cheapest, the most beautiful', sub: 'Самый: самый дешёвый, самый лучший', icon: '🏆',
+    theory: [
+      { h: 'Как сказать «самый»', table: [['короткие: the + -est', 'cheap → the cheapest', 'big → the biggest, easy → the easiest'], ['длинные: the most', 'the most beautiful', 'the most expensive'], ['запомнить', 'good → the best', 'bad → the worst']] },
+      { h: 'Примеры', p: 'Перед «самым» почти всегда the.',
+        ex: [['This is the cheapest room.', 'Это самый дешёвый номер.'], ['It is the best beach in Bali.', 'Это лучший пляж на Бали.'], ['August is the hottest month.', 'Август — самый жаркий месяц.'], ['She is the most beautiful girl.', 'Она самая красивая девушка.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'This is the cheapest villa.', ask: 'Эта вилла…', o: ['самая дешёвая', 'дешевле одной другой'], a: 0, why: 'the cheapest — самая дешёвая.' },
+      { t: 'meaning', s: 'It was the worst day.', ask: 'День был…', o: ['самый плохой', 'самый хороший'], a: 0, why: 'the worst — самый плохой.' },
+      { t: 'choose', s: 'This is ___ room.', ru: 'Это самый большой номер.', o: ['the biggest', 'the most big', 'bigger'], a: 'the biggest', why: 'big → the biggest (удваиваем g).' },
+      { t: 'choose', s: 'It is ___ restaurant here.', ru: 'Это самый дорогой ресторан здесь.', o: ['the most expensive', 'the expensivest', 'more expensive'], a: 'the most expensive', why: 'Длинное слово → the most.' },
+      { t: 'choose', s: 'It is ___ beach in Bali.', ru: 'Это лучший пляж на Бали.', o: ['the best', 'the goodest', 'the most good'], a: 'the best', why: 'good → the best.' },
+      { t: 'choose', s: 'This is ___ way.', ru: 'Это самый простой способ.', o: ['the easiest', 'the easyest', 'the most easy'], a: 'the easiest', why: 'easy → the easiest (y → iest).' },
+      { t: 'choose', s: 'Which one is ___?', ru: 'Какой из них самый дешёвый?', o: ['the cheapest', 'cheapest the', 'the cheaper'], a: 'the cheapest', why: 'Самый → the + -est.' },
+      { t: 'type', s: 'August is the ___ month. (hot)', ru: 'Август — самый жаркий месяц.', a: ['hottest'], why: 'hot → hottest (удваиваем t).' },
+      { t: 'type', s: 'It was the ___ day of my life. (good)', ru: 'Это был лучший день в моей жизни.', a: ['best'], why: 'good → best.' },
+      { t: 'build', ru: 'Это самый дешёвый номер.', a: 'This is the cheapest room.', extra: 'most' },
+      { t: 'build', ru: 'Это лучший пляж.', a: 'It is the best beach.', extra: 'better' },
+      { t: 'build', ru: 'Она самая красивая.', a: 'She is the most beautiful.', extra: 'beautifulest' },
+    ] });
+
+  add({ id: 'could', lvl: 'A2', title: 'could / Could you…?', sub: 'Мог(ла) в прошлом и вежливые просьбы', icon: '🙏',
+    theory: [
+      { h: 'Прошлое от can', p: "I could swim when I was five — Я умела плавать в пять лет. Не мог: couldn't.",
+        ex: [['I could swim when I was five.', 'Я умела плавать в пять лет.'], ["I couldn't sleep.", 'Я не могла уснуть.']] },
+      { h: 'Вежливая просьба', p: 'Could you…? вежливее, чем Can you…? Хорошо подходит для отеля, кафе, такси.',
+        ex: [['Could you help me, please?', 'Не могли бы вы мне помочь?'], ['Could you repeat, please?', 'Повторите, пожалуйста.'], ['Could I have the bill?', 'Можно счёт?']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'Could you speak slowly, please?', ask: 'Это…', o: ['вежливая просьба', 'рассказ о прошлом'], a: 0, why: 'Could you…? — вежливая просьба.' },
+      { t: 'meaning', s: "I couldn't find the hotel.", ask: 'Нашла отель?', o: ['нет', 'да'], a: 0, why: "couldn't — не смогла." },
+      { t: 'choose', s: '___ you help me, please?', ru: 'Не могли бы вы мне помочь?', o: ['Could', 'Do', 'Are'], a: 'Could', why: 'Вежливая просьба → Could you…?' },
+      { t: 'choose', s: 'I ___ sleep last night.', ru: 'Я не могла уснуть прошлой ночью.', o: ["couldn't", "can't", "didn't could"], a: "couldn't", why: "Прошлое → couldn't." },
+      { t: 'choose', s: 'Could you ___, please?', ru: 'Повторите, пожалуйста.', o: ['repeat', 'repeats', 'to repeat'], a: 'repeat', why: 'После could — начальная форма.' },
+      { t: 'choose', s: 'When I was five, I ___ swim.', ru: 'В пять лет я умела плавать.', o: ['could', 'can', 'can to'], a: 'could', why: 'Умела в прошлом → could.' },
+      { t: 'choose', s: '___ I have the bill, please?', ru: 'Можно счёт, пожалуйста?', o: ['Could', 'Do', 'Will'], a: 'Could', why: 'Could I have…? — вежливо попросить.' },
+      { t: 'type', s: '___ you open the door, please?', ru: 'Не могли бы вы открыть дверь?', a: ['Could', 'Can'], why: 'Could you…? (Can тоже понятно, но проще).' },
+      { t: 'type', s: 'We ___ find a taxi. (не смогли)', ru: 'Мы не смогли найти такси.', a: ["couldn't", 'could not'], why: "couldn't." },
+      { t: 'build', ru: 'Не могли бы вы мне помочь?', a: 'Could you help me, please?', extra: 'Do' },
+      { t: 'build', ru: 'Можно счёт?', a: 'Could I have the bill?', extra: 'am' },
+      { t: 'build', ru: 'Я не могла уснуть.', a: "I couldn't sleep.", extra: "can't" },
+    ] });
+
+  add({ id: 'pcont', lvl: 'A2', title: 'Past Continuous: I was working', sub: 'Что происходило в какой-то момент в прошлом', icon: '🎞️',
+    theory: [
+      { h: 'Процесс в прошлом', p: 'was / were + глагол-ing. По-русски это несовершенный вид: «я работала», «мы гуляли» — в тот момент.',
+        table: [['I / he / she / it', 'was working', ''], ['you / we / they', 'were working', '']] },
+      { h: 'Длинное + короткое', p: 'Часто вместе с Past Simple: длинное действие (was …ing) прервало короткое (when + past). I was swimming when it started to rain.',
+        ex: [['I was working at 8 o’clock.', 'В 8 часов я работала.'], ['We were walking on the beach.', 'Мы гуляли по пляжу.'], ['She was sleeping when I called.', 'Она спала, когда я позвонила.'], ['What were you doing?', 'Что ты делала?']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'I was cooking when he came.', ask: 'Что было долгим действием?', o: ['готовила', 'пришёл'], a: 0, why: 'was cooking — процесс; came — короткое событие.' },
+      { t: 'meaning', s: 'They were surfing.', ask: 'Когда?', o: ['в прошлом', 'сейчас'], a: 0, why: 'were + -ing — процесс в прошлом.' },
+      { t: 'choose', s: 'I ___ working at 8 o’clock.', ru: 'В 8 часов я работала.', o: ['was', 'were', 'am'], a: 'was', why: 'I → was.' },
+      { t: 'choose', s: 'We ___ walking on the beach.', ru: 'Мы гуляли по пляжу.', o: ['were', 'was', 'are'], a: 'were', why: 'We → were.' },
+      { t: 'choose', s: 'She was ___ when I called.', ru: 'Она спала, когда я позвонила.', o: ['sleeping', 'sleep', 'slept'], a: 'sleeping', why: 'was + -ing.' },
+      { t: 'choose', s: 'What ___ you doing?', ru: 'Что ты делала?', o: ['were', 'was', 'did'], a: 'were', why: 'You → were; вопрос: What were you doing?' },
+      { t: 'choose', s: 'I was swimming when it ___ to rain.', ru: 'Я плавала, когда начался дождь.', o: ['started', 'was starting', 'starts'], a: 'started', why: 'Короткое событие после when → Past Simple.' },
+      { t: 'choose', s: "He ___ listening.", ru: 'Он не слушал.', o: ["wasn't", "weren't", "didn't"], a: "wasn't", why: "He → wasn't." },
+      { t: 'type', s: 'They were ___ dinner. (have)', ru: 'Они ужинали.', a: ['having'], why: 'have → having (e убираем).' },
+      { t: 'type', s: 'It ___ raining in the morning.', ru: 'Утром шёл дождь.', a: ['was'], why: 'It → was.' },
+      { t: 'build', ru: 'Мы гуляли по пляжу.', a: 'We were walking on the beach.', extra: 'was' },
+      { t: 'build', ru: 'Что ты делала?', a: 'What were you doing?', extra: 'did' },
+      { t: 'build', ru: 'В 8 часов я работала.', a: 'I was working at eight.', extra: 'were' },
+    ],
+    gen: (verbs) => verbs.slice(0, 2).map(v => ({ t: 'type', s: 'At 5 o’clock I was ___. (' + v.en + ')', ru: v.ru, a: [ing(v.en)], why: 'was + ' + ing(v.en) + '.', mine: true })) });
+
+  add({ id: 'perf', lvl: 'A2', title: 'Present Perfect: I have been', sub: 'Опыт: был(а) когда-нибудь? Уже сделала', icon: '✅',
+    theory: [
+      { h: 'Когда нужен', p: 'Когда важен результат или опыт, а не «когда именно». Have you ever been to Bali? — Ты когда-нибудь была на Бали? Если называем время (yesterday, in 2020) — Past Simple.',
+        table: [['I / you / we / they', 'have + 3-я форма', "I've seen"], ['he / she / it', 'has + 3-я форма', "She's seen"], ['не', "haven't / hasn't", "I haven't tried"]] },
+      { h: '3-я форма', p: 'Правильные — как прошедшее: work → worked. Неправильные — третья колонка: go → gone, see → seen, be → been, eat → eaten. Подсказка — в разделе «Неправильные глаголы».',
+        ex: [['I have been to Bali.', 'Я была на Бали.'], ['Have you ever tried durian?', 'Ты когда-нибудь пробовала дуриан?'], ["I've never seen snow.", 'Я никогда не видела снег.'], ['She has lost her phone.', 'Она потеряла телефон (и его нет).']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'Have you ever been to Japan?', ask: 'Что спрашивают?', o: ['был ли такой опыт', 'когда именно поедешь'], a: 0, why: 'Have you ever…? — опыт в жизни.' },
+      { t: 'meaning', s: 'She has lost her keys.', ask: 'Ключи сейчас у неё?', o: ['нет, их нет', 'да'], a: 0, why: 'Present Perfect — важен результат сейчас.' },
+      { t: 'choose', s: 'I ___ been to Bali.', ru: 'Я была на Бали.', o: ['have', 'has', 'am'], a: 'have', why: 'I → have.' },
+      { t: 'choose', s: 'She ___ seen this film.', ru: 'Она видела этот фильм.', o: ['has', 'have', 'is'], a: 'has', why: 'She → has.' },
+      { t: 'choose', s: 'Have you ever ___ durian?', ru: 'Ты когда-нибудь пробовала дуриан?', o: ['tried', 'try', 'trying'], a: 'tried', why: 'have + 3-я форма: try → tried.' },
+      { t: 'choose', s: "I've never ___ snow.", ru: 'Я никогда не видела снег.', o: ['seen', 'saw', 'see'], a: 'seen', why: 'see → saw → seen; после have — seen.' },
+      { t: 'choose', s: 'We went to Ubud ___.', ru: 'Мы ездили в Убуд вчера.', o: ['yesterday', 'ever', 'never'], a: 'yesterday', why: 'Есть точное время → Past Simple (went), а не have been.' },
+      { t: 'choose', s: "He ___ finished.", ru: 'Он не закончил.', o: ["hasn't", "haven't", "didn't has"], a: "hasn't", why: "He → hasn't." },
+      { t: 'type', s: 'Have you ever ___ to Thailand? (be)', ru: 'Ты когда-нибудь была в Таиланде?', a: ['been'], why: 'be → was → been.' },
+      { t: 'type', s: "I ___ eaten. (не ела)", ru: 'Я не ела.', a: ["haven't", 'have not'], why: "I → haven't." },
+      { t: 'build', ru: 'Я была на Бали.', a: 'I have been to Bali.', extra: 'was' },
+      { t: 'build', ru: 'Ты когда-нибудь сёрфила?', a: 'Have you ever surfed?', extra: 'Did' },
+      { t: 'build', ru: 'Я никогда не видела снег.', a: "I've never seen snow.", extra: 'saw' },
+    ] });
+
+  add({ id: 'perf2', lvl: 'A2', title: 'already, yet, just', sub: 'Уже, ещё не, только что', icon: '⏱️',
+    theory: [
+      { h: 'Три слова с have / has', table: [['already', 'уже', "I've already paid."], ['yet', 'ещё (не) / уже? — в конце', "I haven't paid yet. Have you paid yet?"], ['just', 'только что', "She's just arrived."]] },
+      { h: 'Где стоят', p: 'already и just — между have и глаголом. yet — в конце, только в вопросах и с not.',
+        ex: [["I've already booked the room.", 'Я уже забронировала номер.'], ["We haven't eaten yet.", 'Мы ещё не ели.'], ['Have you finished yet?', 'Ты уже закончила?'], ["He's just left.", 'Он только что ушёл.']] },
+    ],
+    items: [
+      { t: 'meaning', s: "I haven't paid yet.", ask: 'Заплатила?', o: ['ещё нет', 'уже да'], a: 0, why: "haven't … yet — ещё не." },
+      { t: 'meaning', s: "She's just arrived.", ask: 'Когда приехала?', o: ['только что', 'давно'], a: 0, why: 'just — только что.' },
+      { t: 'choose', s: "I've ___ booked the room.", ru: 'Я уже забронировала номер.', o: ['already', 'yet', 'ever'], a: 'already', why: 'Уже (в утверждении) → already.' },
+      { t: 'choose', s: "We haven't eaten ___.", ru: 'Мы ещё не ели.', o: ['yet', 'already', 'just'], a: 'yet', why: 'С not, в конце → yet.' },
+      { t: 'choose', s: 'Have you finished ___?', ru: 'Ты уже закончила?', o: ['yet', 'already', 'just'], a: 'yet', why: 'В вопросе, в конце → yet.' },
+      { t: 'choose', s: "He's ___ left.", ru: 'Он только что ушёл.', o: ['just', 'yet', 'ever'], a: 'just', why: 'Только что → just.' },
+      { t: 'choose', s: '___', ru: 'Я уже заплатила.', o: ["I've already paid.", "I've paid already yet.", 'I already have paid yet.'], a: "I've already paid.", why: 'already — между have и глаголом.' },
+      { t: 'type', s: "The taxi has ___ arrived. (только что)", ru: 'Такси только что приехало.', a: ['just'], why: 'just.' },
+      { t: 'type', s: "I haven't decided ___.", ru: 'Я ещё не решила.', a: ['yet'], why: 'yet в конце.' },
+      { t: 'build', ru: 'Я уже заплатила.', a: "I've already paid.", extra: 'yet' },
+      { t: 'build', ru: 'Мы ещё не ели.', a: "We haven't eaten yet.", extra: 'already' },
+      { t: 'build', ru: 'Он только что ушёл.', a: "He's just left.", extra: 'yet' },
+    ] });
+
+  add({ id: 'if1', lvl: 'A2', title: "If it rains, I'll stay", sub: 'Если… то: реальные условия', icon: '🌦️',
+    theory: [
+      { h: 'Схема', p: 'If + настоящее время, will + глагол. Главная ловушка: после if НЕ ставим will, хотя по-русски «если пойдёт дождь» — про будущее.',
+        table: [['If + Present', "If it rains,", "If you're tired,"], ["will / won't + глагол", "I'll stay at home.", "we'll take a taxi."]] },
+      { h: 'Примеры', p: 'Части можно поменять местами: I’ll stay at home if it rains (тогда без запятой).',
+        ex: [["If it rains, I'll stay at home.", 'Если пойдёт дождь, я останусь дома.'], ["If you're tired, we'll take a taxi.", 'Если ты устала, возьмём такси.'], ["I'll call you if I'm late.", 'Я позвоню, если опоздаю.']] },
+    ],
+    items: [
+      { t: 'meaning', s: "If the waves are big, we won't surf.", ask: 'Когда не будут сёрфить?', o: ['если будут большие волны', 'в любом случае'], a: 0, why: 'If — если.' },
+      { t: 'meaning', s: "I'll buy it if it's cheap.", ask: 'Купит?', o: ['если будет дёшево', 'точно купит'], a: 0, why: 'Условие — if it’s cheap.' },
+      { t: 'choose', s: 'If it ___, I’ll stay at home.', ru: 'Если пойдёт дождь, я останусь дома.', o: ['rains', 'will rain', 'rain'], a: 'rains', why: 'После if — настоящее время (rains), не will.' },
+      { t: 'choose', s: "If you're tired, we ___ a taxi.", ru: 'Если ты устала, возьмём такси.', o: ["'ll take", 'take', 'took'], a: "'ll take", why: 'Вторая часть — will.' },
+      { t: 'choose', s: "I'll call you if I ___ late.", ru: 'Я позвоню, если опоздаю.', o: ["'m", "'ll be", 'was'], a: "'m", why: "После if — I'm (настоящее)." },
+      { t: 'choose', s: 'If she ___ time, she will come.', ru: 'Если у неё будет время, она придёт.', o: ['has', 'will have', 'have'], a: 'has', why: 'После if — has (she → has).' },
+      { t: 'choose', s: 'If we miss the bus, we ___ late.', ru: 'Если опоздаем на автобус, опоздаем.', o: ['will be', 'are', 'be'], a: 'will be', why: 'Результат → will be.' },
+      { t: 'choose', s: "If you don't hurry, you ___ the plane.", ru: 'Если не поторопишься, опоздаешь на самолёт.', o: ["'ll miss", 'miss', 'missed'], a: "'ll miss", why: 'Результат → will.' },
+      { t: 'type', s: 'If it ___ sunny, we will go to the beach. (be)', ru: 'Если будет солнечно, пойдём на пляж.', a: ['is'], why: 'После if — is, не will be.' },
+      { t: 'type', s: 'If you call me, I ___ help you.', ru: 'Если позвонишь, я помогу.', a: ['will', "'ll"], why: 'Результат → will.' },
+      { t: 'build', ru: 'Если пойдёт дождь, я останусь дома.', a: "If it rains, I'll stay at home.", extra: 'will' },
+      { t: 'build', ru: 'Я позвоню, если опоздаю.', a: "I'll call you if I'm late.", extra: 'will' },
+      { t: 'build', ru: 'Если ты устала, возьмём такси.', a: "If you're tired, we'll take a taxi.", extra: 'will' },
+    ] });
+
+  // Порядок изучения (A1 → A2)
+  const ORDER = ['be', 'be2', 'a', 'pron', 'ps1', 'ps2', 'do', 'imp', 'there', 'prep', 'can', 'cont', 'was', 'past', 'did', 'some', 'going', 'comp',
+    'freq', 'obj', 'like', 'will', 'should', 'must', 'most', 'could', 'pcont', 'perf', 'perf2', 'if1'];
   L.sort((x, y) => ORDER.indexOf(x.id) - ORDER.indexOf(y.id));
   const SOON = [];
 
@@ -519,6 +790,8 @@
         h('li', null, 'При ошибке — объяснение «почему», а ошибку повторим в конце урока.'),
         h('li', null, 'Через несколько дней приложение предложит короткое повторение темы — так правило закрепляется.')))));
     L.forEach((l, i) => {
+      const lv = l.lvl || 'A1';
+      if (i === 0 || lv !== (L[i - 1].lvl || 'A1')) main.append(h('div', { class: 'section-title' }, lv === 'A1' ? 'Уровень A1 — основа' : 'Уровень A2 — следующий шаг'));
       const st = stateOf(l.id, now); const p = progress[l.id] || {};
       const pill = st === 'done' ? h('span', { class: 'pill solid' }, '✓ ' + p.best + '%') : st === 'due' ? h('span', { class: 'pill due' }, 'повторить') : st === 'started' ? h('span', { class: 'pill learning' }, 'начато') : h('span', { class: 'pill new' }, 'новая');
       main.append(h('button', { class: 'tile wide', onclick: () => go('gram-' + l.id) },
