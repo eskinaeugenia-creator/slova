@@ -282,9 +282,10 @@
   }
 
   // ---------- Экран «Добавить» ----------
-  const MODES = [['one', 'Слово'], ['list', 'Список'], ['text', 'Из текста'], ['claude', 'Из Claude'], ['file', 'Файл'], ['photo', 'Фото и голос']];
+  const MODES = [['sets', 'Наборы'], ['one', 'Слово'], ['list', 'Список'], ['text', 'Из текста'], ['claude', 'Из Claude'], ['file', 'Файл'], ['photo', 'Фото и голос']];
   routes.add = async function () {
     const mode = S.ui.addMode || 'one';
+    if (mode === 'sets') { S.ui.addMode = 'one'; go('sets'); return; }
     const main = screen({ title: 'Добавить', tab: 'add' });
     const seg = h('div', { class: 'seg', role: 'tablist' }, MODES.map(([id, label]) => h('button', { role: 'tab', 'aria-pressed': String(mode === id), onclick: () => { S.ui.addMode = id; routes.add(); } }, label)));
     main.append(seg);

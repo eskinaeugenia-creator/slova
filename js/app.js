@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.2.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.3.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -249,9 +249,10 @@
       main.append(h('div', { class: 'card empty' },
         h('div', { class: 'glyph' }, 'Aa'),
         h('h2', null, 'Словарь пока пуст'),
-        h('p', { class: 'muted' }, 'Добавьте первые слова: по одному, списком или из текста. Перевод и пример можно подсказать онлайн или получить из чата Claude.'),
+        h('p', { class: 'muted' }, 'Выберите готовую тему (путешествия, аренда жилья, пляж, кафе…) или добавьте свои слова: по одному, списком или из текста. Перевод и пример можно подсказать онлайн или получить из чата Claude.'),
         h('div', { class: 'stack', style: { width: '100%', maxWidth: '360px' } },
-          h('a', { class: 'btn primary big block', href: '#add' }, 'Добавить первое слово'),
+          h('a', { class: 'btn primary big block', href: '#sets' }, 'Начать с готового набора'),
+          h('a', { class: 'btn big block', href: '#add' }, 'Добавить своё слово'),
           h('a', { class: 'btn block', href: '#add', onclick: () => { S.ui.addMode = 'list'; } }, 'Вставить список слов'),
           h('button', { class: 'btn ghost block', onclick: async () => { await Prefs.loadDemo(); routes.today(); } }, 'Посмотреть на демо-словах'))));
       return;
@@ -277,6 +278,12 @@
         h('div', { class: 'row small', style: { justifyContent: 'space-between' } }, h('span', null, 'Сегодня занимались'), h('span', { class: 'num' }, minutesToday + ' из ' + goal + ' мин')),
         h('div', { class: 'meter' }, h('i', { style: { width: Math.min(100, minutesToday / goal * 100) + '%' } }))));
     main.append(hero);
+    // Счётчики: словарь / изучаю / закреплено
+    const act = words.filter(w => !w.archived);
+    const nLearn = act.filter(w => ['new', 'learning', 'hard'].includes(C.wordStatus(w, now))).length;
+    const nSolid = act.filter(w => C.wordStatus(w, now) === 'solid').length;
+    const cnt = (n, label, filter) => h('button', { class: 'counter', onclick: () => { S.ui.dictFilter = filter; S.ui.dictSet = 'all'; go('dict'); } }, h('b', { class: 'num' }, n), h('span', null, label));
+    main.append(h('div', { class: 'counters' }, cnt(act.length, 'в словаре', 'all'), cnt(nLearn, 'изучаю', 'learning'), cnt(nSolid, 'закреплено', 'solid')));
 
     // Быстрое добавление
     const q = h('input', { class: 'input', id: 'quick-add', placeholder: 'Встретили слово? Впишите сюда', autocapitalize: 'off', autocomplete: 'off', spellcheck: 'false' });

@@ -505,17 +505,12 @@
 
   // ---------- Экран «Тренировки» ----------
   routes.train = async function () {
-    const main = screen({ title: 'Тренировки', tab: 'train' });
+    const main = screen({ title: 'Подготовка к уроку', tab: 'train', back: 'train' });
     const words = trainable();
     if (!words.length) {
-      main.append(h('div', { class: 'card empty' }, h('h2', null, 'Пока нечего тренировать'), h('p', { class: 'muted' }, 'Тренировки появятся, когда в словаре будут слова с переводом. Черновики без перевода сюда не попадают.'), h('a', { class: 'btn primary', href: '#add' }, 'Добавить слова')));
+      main.append(h('div', { class: 'card empty' }, h('h2', null, 'Пока нечего тренировать'), h('p', { class: 'muted' }, 'Нужны слова с переводом. Черновики без перевода сюда не попадают.'), h('a', { class: 'btn primary', href: '#sets' }, 'Готовые наборы'), h('a', { class: 'btn', href: '#add' }, 'Добавить слова')));
       return;
     }
-    const { plan } = todayStats();
-    main.append(h('div', { class: 'card stack' }, h('h2', null, 'Мои ' + S.settings.minutes + ' минут'),
-      h('p', { class: 'small muted' }, 'Приложение само соберёт занятие: сначала повторения, которые пора сделать, потом немного новых слов. Сейчас: повторить ' + plan.portion.length + ', новых ' + plan.fresh.length + '.'),
-      h('button', { class: 'btn primary big block', disabled: !(plan.portion.length + plan.fresh.length), onclick: startDaily }, plan.portion.length + plan.fresh.length ? 'Начать' : 'На сегодня всё сделано')));
-
     // Подготовка к уроку
     const prep = h('div', { class: 'card stack' });
     main.append(prep);
@@ -554,21 +549,7 @@
         } }, 'Начать'));
     }
     drawPrep();
-
-    const mist = await mistakesWordIds(7);
-    main.append(h('div', { class: 'card stack' }, h('h2', null, 'Работа над ошибками'),
-      h('p', { class: 'small muted' }, mist.length ? 'Слова с ошибками за последнюю неделю и сложные слова: ' + mist.length + '.' : 'Ошибок за последнюю неделю нет.'),
-      h('button', { class: 'btn block', disabled: !mist.length, onclick: () => startPrep({ wordIds: mist, types: ['ruEn', 'gap', 'enRu', 'listenWrite'], limit: 20, mode: 'mistakes', title: 'Работа над ошибками' }) }, 'Повторить ошибки')));
-    main.append(h('div', { class: 'card stack' }, h('h2', null, 'Подобрать пары'),
-      h('p', { class: 'small muted' }, 'Быстрая разминка на 5 слов. На расписание повторений не влияет.'),
-      h('button', { class: 'btn block', disabled: words.length < 3, onclick: () => startPrep({ wordIds: words.map(w => w.id), types: ['match'], limit: 15, mode: 'match', title: 'Пары' }) }, 'Играть')));
-    main.append(h('div', { class: 'card flat stack' }, h('h3', null, 'Скоро: следующие этапы'),
-      h('p', { class: 'small muted' }, 'Эти разделы ещё не работают и появятся в следующих версиях:'),
-      h('ul', { class: 'small muted', style: { margin: 0, paddingLeft: '20px' } },
-        h('li', null, 'Грамматика на ваших словах: am/is/are, do/does, Present Simple, вопросы и отрицания, артикли, предлоги, Past Simple.'),
-        h('li', null, 'Ответ голосом (без оценки «акцента» — только распознанное слово).'),
-        h('li', null, 'Короткие сценарные диалоги: аренда, кафе, спорт. Это будут заранее написанные сценарии, а не свободный разговор с ИИ.'))));
   };
 
-  window.Train = { startDaily, startPrep, active, abort, TYPES, savedSession, resume };
+  window.Train = { startDaily, startPrep, active, abort, TYPES, savedSession, resume, mistakesWordIds };
 })();

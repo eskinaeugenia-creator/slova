@@ -103,6 +103,7 @@
     deliver('slova-' + stamp() + '.csv', csv, 'text/csv');
   }
   function backupDue() {
+    if (window.TG && TG.cloudOK) return null; // в Telegram словарь и так в облаке
     const n = wordsArr().filter(w => !w.demo).length;
     if (n < 5) return null;
     const changes = S.settings.changesSinceBackup || 0;
