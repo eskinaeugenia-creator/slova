@@ -133,13 +133,19 @@
       if (rem.length) await rememberDeleted(rem);
       if (setsDirty) { setsDirty = false; await cSet('sets', JSON.stringify([...App.S.sets.values()].map(s => ({ i: s.id, n: s.name, dm: s.demo ? 1 : 0 }))).slice(0, 4096)); }
       if (cfgDirty) { cfgDirty = false; await cSet('cfg', JSON.stringify(cfgSubset())); }
+      if (gramDirty && window.Grammar) {
+        gramDirty = false;
+        const r = await cGetItems(['gram']); let remote = {}; try { remote = JSON.parse(r.gram || '{}'); } catch (e) { remote = {}; }
+        const local = (await App.kvGet('grammar')) || {}; const m = Grammar.merge(remote, local);
+        await cSet('gram', JSON.stringify(m).slice(0, 4096));
+      }
       TG.lastSync = Date.now(); TG.status = TG.overflow ? 'синхронизировано (облако почти заполнено)' : 'синхронизировано';
     } catch (e) {
       TG.status = 'ошибка: ' + e.message;
       ids.forEach(id => dirty.add(id)); rem.forEach(id => removed.add(id)); // повторим позже
     } finally { pushing = false; if (dirty.size || removed.size) schedulePush(); }
   }
-  let setsDirty = false, cfgDirty = false;
+  let setsDirty = false, cfgDirty = false, gramDirty = false;
   const CFG = ['name', 'minutes', 'newPerDay', 'sound', 'autoplay', 'rate', 'slowRate', 'timer', 'timerSec', 'autoImages', 'online', 'retention'];
   const cfgSubset = () => { const o = {}; CFG.forEach(k => { o[k] = App.S.settings[k]; }); return o; };
   // Список удалённых слов, чтобы другое устройство не вернуло их обратно
@@ -158,6 +164,7 @@
       if (store === 'words') { dirty.add(value.id); removed.delete(value.id); schedulePush(); }
       if (store === 'sets') { setsDirty = true; schedulePush(); }
       if (store === 'kv' && key === 'settings') { cfgDirty = true; schedulePush(); }
+      if (store === 'kv' && key === 'grammar') { gramDirty = true; schedulePush(); }
     }
     return orig.put.apply(DB, arguments);
   };
@@ -189,7 +196,7 @@
       const keys = await cGetKeys();
       const legacy = keys.filter(k => k.startsWith('w_'));
       const bucketKeys = keys.filter(k => /^b_\d{3}$/.test(k));
-      const extra = keys.filter(k => ['sets', 'cfg', 'deleted'].includes(k));
+      const extra = keys.filter(k => ['sets', 'cfg', 'deleted', 'gram'].includes(k));
       const raw = {};
       const all = legacy.concat(bucketKeys);
       for (let i = 0; i < all.length; i += 40) Object.assign(raw, await cGetItems(all.slice(i, i + 40)));
@@ -204,6 +211,8 @@
       const changed = [], fetchPics = [];
       if (meta.sets) JSON.parse(meta.sets).forEach(s => { if (!App.S.sets.has(s.i)) { const set = { id: s.i, name: s.n, demo: !!s.dm, createdAt: Date.now() }; App.S.sets.set(s.i, set); orig.put.call(DB, 'sets', set); } });
       if (meta.cfg && !App.S.settings.cloudCfgApplied) { Object.assign(App.S.settings, JSON.parse(meta.cfg)); App.S.settings.cloudCfgApplied = true; await orig.put.call(DB, 'kv', App.S.settings, 'settings'); }
+      if (meta.gram && window.Grammar) { try { const local = (await App.kvGet('grammar')) || {}; const m = Grammar.merge(local, JSON.parse(meta.gram)); await orig.put.call(DB, 'kv', m, 'grammar'); } catch (e) { /* испорчено */ } }
+      gramDirty = true;
       const toDelete = [...App.S.words.keys()].filter(id => deleted.has(id));
       toDelete.forEach(id => App.S.words.delete(id));
       if (toDelete.length) await orig.delMany.call(DB, 'words', toDelete);

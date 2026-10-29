@@ -35,7 +35,9 @@
   // ---------- Готовые наборы ----------
   function inDict(en) { const k = C.keyEn(en); return wordsArr().some(w => C.keyEn(w.en) === k); }
   function setsList(container) {
+    let lastGroup = null;
     (window.ReadySets || []).forEach(rs => {
+      if (rs.group !== lastGroup) { lastGroup = rs.group; container.append(h('div', { class: 'section-title', style: { margin: '8px 2px 0' } }, (window.ReadyGroups || {})[rs.group] || '')); }
       const have = rs.words.filter(w => inDict(w.en)).length;
       container.append(h('button', { class: 'tile wide', onclick: () => go('set-' + rs.id) },
         h('span', { class: 'tile-ic' }, rs.icon),
@@ -44,7 +46,7 @@
   }
   routes.sets = function () {
     const main = screen({ title: 'Готовые наборы', back: 'add' });
-    main.append(h('p', { class: 'muted small' }, 'Слова уровня A0–A1 с переводом, простым примером и озвучкой. Картинки подберутся сами. Выберите тему, отметьте нужные слова — и они появятся в вашем словаре.'));
+    main.append(h('p', { class: 'muted small' }, (window.ReadySets || []).length + ' тем, слова уровня A0–A1 с переводом, простым примером и озвучкой. Картинки подберутся сами. Выберите тему, отметьте нужные слова — и они появятся в вашем словаре.'));
     const grid = h('div', { class: 'tiles-grid one' });
     setsList(grid); main.append(grid);
   };
@@ -80,7 +82,11 @@
         const nw = newWord(Object.assign({}, w, { setIds: [setId], source: 'Готовый набор «' + rs.name + '»' }));
         nw.createdAt = now + i; return nw;
       });
-      await saveWords(list2);
+      // слова этой темы, которые уже были в словаре, тоже попадают в набор (прогресс сохраняется)
+      const keys = new Set(rs.words.map(w => C.keyEn(w.en)));
+      const existing = wordsArr().filter(w => keys.has(C.keyEn(w.en)) && !w.setIds.includes(setId));
+      existing.forEach(w => w.setIds.push(setId));
+      await saveWords(list2.concat(existing));
       if (window.Pics) Pics.enqueue(list2.map(w => w.id));
       toast('Добавлено слов: ' + list2.length + '. Картинки подберутся в фоне');
       S.ui.dictSet = setId; S.ui.dictFilter = 'all'; go('dict');
@@ -331,7 +337,7 @@
     const li = (...x) => h('li', null, ...x);
     main.append(
       sec('1️⃣', 'Начните с готового набора',
-        h('p', null, 'Добавить → Наборы → выберите тему (пляж, аренда жилья, кафе…) → «Добавить в словарь». Перевод, пример, озвучка и картинка уже есть.'),
+        h('p', null, 'Добавить → Наборы → выберите тему: семья, работа, дом, время и погода, здоровье, город, одежда, чувства, хобби, путешествия, аренда жилья, пляж… → «Добавить в словарь». Перевод, пример, озвучка и картинка уже есть.'),
         h('a', { class: 'btn primary block', href: '#sets' }, 'Открыть наборы')),
       sec('2️⃣', 'Добавляйте свои слова',
         h('ul', null,
@@ -357,6 +363,9 @@
       sec('🔁', 'Неправильные глаголы',
         h('p', null, 'Тренировки → «Неправильные глаголы»: таблица трёх форм с озвучкой, тренировка и готовый набор с примерами.'),
         h('a', { class: 'btn block', href: '#irregular' }, 'Открыть')),
+      sec('📝', 'Грамматика',
+        h('p', null, 'Тренировки → «Грамматика». 18 тем по порядку — от am/is/are до Past Simple, going to и сравнения (cheaper). Короткое правило по-русски → задания на понимание → свои ответы. Через несколько дней приложение предложит повторить тему за 2 минуты.'),
+        h('a', { class: 'btn block', href: '#grammar' }, 'Открыть')),
       sec('📱', 'Telegram, телефон и компьютер',
         h('ul', null,
           li('В боте словарь хранится в облаке вашего Telegram — одинаковый на телефоне и компьютере.'),
@@ -379,6 +388,8 @@
       h('button', { class: 'btn primary big block', disabled: !daily, onclick: () => Train.startDaily() }, daily ? 'Начать' : (words.length ? 'На сегодня всё сделано' : 'Сначала добавьте слова'))));
     let mist = [];
     try { mist = await Train.mistakesWordIds(7); } catch (e) { /* пусто */ }
+    let gramInfo = 'A1: am/is/are, Present Simple…';
+    if (window.Grammar) { await Grammar.loadProgress(); const n = Grammar.LESSONS.filter(l => ['done', 'due'].includes(Grammar.stateOf(l.id, Date.now()))).length; const d = Grammar.dueLessons().length; gramInfo = d ? 'пора повторить: ' + d : n ? 'пройдено ' + n + ' из ' + Grammar.LESSONS.length : Grammar.LESSONS.length + ' тем уровня A1'; }
     const tile = (ic, title, sub, onclick, disabled) => h('button', { class: 'tile', disabled: !!disabled, onclick }, h('span', { class: 'tile-ic' }, ic), h('span', { class: 'tile-t' }, h('b', null, title), h('small', null, sub)));
     const grid = h('div', { class: 'tiles-grid' },
       tile('🎯', 'Подготовка к уроку', 'набор, слова, упражнения', () => go('prep'), !words.length),
@@ -389,7 +400,7 @@
       tile('🔤', 'Алфавит', 'буквы и диктовка', () => go('abc')),
       tile('🔁', 'Неправильные глаголы', 'go – went – gone', () => go('irregular')),
       tile('📚', 'Готовые наборы', 'путешествия, жильё, пляж…', () => go('sets')),
-      h('div', { class: 'tile soon', 'aria-disabled': 'true' }, h('span', { class: 'tile-ic' }, '📝'), h('span', { class: 'tile-t' }, h('b', null, 'Грамматика'), h('small', null, 'скоро — пока не работает'))));
+      tile('📝', 'Грамматика', gramInfo, () => go('grammar')));
     main.append(grid, h('a', { class: 'btn ghost block', href: '#help' }, 'Как пользоваться'));
     if (!words.length) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('span', null, 'Начните с готового набора или добавьте свои слова — тогда откроются тренировки по словам. «Числа» и «Алфавит» работают сразу.'),
       h('div', { class: 'row' }, h('a', { class: 'btn sm primary', href: '#sets' }, 'Готовые наборы')))));

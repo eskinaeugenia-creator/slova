@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.4.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.5.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -278,6 +278,13 @@
         h('div', { class: 'row small', style: { justifyContent: 'space-between' } }, h('span', null, 'Сегодня занимались'), h('span', { class: 'num' }, minutesToday + ' из ' + goal + ' мин')),
         h('div', { class: 'meter' }, h('i', { style: { width: Math.min(100, minutesToday / goal * 100) + '%' } }))));
     main.append(hero);
+    if (window.Grammar) {
+      await Grammar.loadProgress();
+      const gd = Grammar.dueLessons();
+      if (gd.length) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('b', null, 'Грамматика: пора повторить «' + gd[0].title + '»'),
+        h('span', null, '6 заданий, около 2 минут.' + (gd.length > 1 ? ' Ещё тем к повторению: ' + (gd.length - 1) + '.' : '')),
+        h('div', { class: 'row' }, h('button', { class: 'btn sm primary', onclick: () => go('gramrev-' + gd[0].id) }, 'Повторить')))));
+    }
     // Счётчики: словарь / изучаю / закреплено
     const act = words.filter(w => !w.archived);
     const nLearn = act.filter(w => ['new', 'learning', 'hard'].includes(C.wordStatus(w, now))).length;
@@ -370,7 +377,7 @@
       oninput: () => { S.ui.dictQuery = q.value; S.ui.shown = 150; drawList(); } });
     const setSel = h('select', { class: 'input', id: 'dict-set', 'aria-label': 'Набор', onchange: () => { S.ui.dictSet = setSel.value; drawList(); } },
       h('option', { value: 'all' }, 'Все наборы'), h('option', { value: 'none' }, 'Без набора'),
-      [...S.sets.values()].sort((a, b) => a.name.localeCompare(b.name, 'ru')).map(s => h('option', { value: s.id }, s.name)));
+      [...S.sets.values()].sort((a, b) => a.name.localeCompare(b.name, 'ru')).map(s => h('option', { value: s.id }, s.name + ' (' + wordsArr().filter(w => w.setIds.includes(s.id)).length + ')')));
     setSel.value = S.sets.has(S.ui.dictSet) || ['all', 'none'].includes(S.ui.dictSet) ? S.ui.dictSet : 'all';
     const chips = h('div', { class: 'chips', role: 'toolbar', 'aria-label': 'Фильтр' });
     const list = h('div', { class: 'wlist' });
@@ -459,26 +466,48 @@
   function manageSets() {
     const body = h('div', { class: 'stack' });
     const sh = sheet('Наборы', body);
+    let editing = null;
     function draw() {
       body.innerHTML = '';
       const sets = [...S.sets.values()].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
-      if (!sets.length) body.append(h('p', { class: 'muted' }, 'Наборов пока нет. Например: «К следующему уроку», «Аренда жилья», «Спорт».'));
+      body.append(h('div', { class: 'section-title', style: { margin: '0' } }, 'Мои наборы'));
+      if (!sets.length) body.append(h('p', { class: 'muted small' }, 'Пока нет. Добавьте готовую тему ниже или создайте свой набор, например «К следующему уроку».'));
       sets.forEach(s => {
         const n = wordsArr().filter(w => w.setIds.includes(s.id)).length;
-        const inp = h('input', { class: 'input', value: s.name, 'aria-label': 'Название набора' });
-        body.append(h('div', { class: 'row nowrap' }, h('div', { class: 'grow' }, inp), h('span', { class: 'small muted num' }, n),
-          h('button', { class: 'btn sm', onclick: async () => { const v = C.clean(inp.value); if (!v) return; s.name = v; await saveSet(s); toast('Переименовано'); } }, 'Сохранить'),
-          h('button', { class: 'btn sm ghost', onclick: async () => {
-            const ok = await dialog({ title: 'Удалить набор «' + s.name + '»?', text: 'Слова останутся в словаре со всем прогрессом — удалится только сам набор.', ok: 'Удалить набор', danger: true });
-            if (!ok) return;
-            const list = wordsArr().filter(w => w.setIds.includes(s.id)); list.forEach(w => { w.setIds = w.setIds.filter(x => x !== s.id); });
-            await saveWords(list); S.sets.delete(s.id); await DB.del('sets', s.id); draw(); } }, 'Удалить')));
+        if (editing === s.id) {
+          const inp = h('input', { class: 'input', value: s.name, 'aria-label': 'Название набора' });
+          body.append(h('div', { class: 'stack', style: { gap: '6px' } }, inp, h('div', { class: 'row' },
+            h('button', { class: 'btn sm primary', onclick: async () => { const v = C.clean(inp.value); if (!v) return; s.name = v; await saveSet(s); editing = null; toast('Переименовано'); draw(); } }, 'Сохранить'),
+            h('button', { class: 'btn sm', onclick: () => { editing = null; draw(); } }, 'Отмена'),
+            h('button', { class: 'btn sm ghost', style: { color: 'var(--bad)' }, onclick: async () => {
+              const ok = await dialog({ title: 'Удалить набор «' + s.name + '»?', text: 'Слова останутся в словаре со всем прогрессом — удалится только сам набор.', ok: 'Удалить набор', danger: true });
+              if (!ok) return;
+              const list = wordsArr().filter(w => w.setIds.includes(s.id)); list.forEach(w => { w.setIds = w.setIds.filter(x => x !== s.id); });
+              await saveWords(list); S.sets.delete(s.id); await DB.del('sets', s.id); if (S.ui.dictSet === s.id) S.ui.dictSet = 'all'; editing = null; draw(); } }, 'Удалить'))));
+          setTimeout(() => inp.focus(), 30);
+          return;
+        }
+        body.append(h('div', { class: 'row nowrap', style: { gap: '6px' } },
+          h('button', { class: 'btn grow', style: { justifyContent: 'space-between' }, onclick: () => { S.ui.dictSet = s.id; S.ui.dictFilter = 'all'; S.ui.dictQuery = ''; sh.close(); routes.dict(); } },
+            h('span', { style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, s.name), h('span', { class: 'muted num' }, n)),
+          h('button', { class: 'icon-btn', 'aria-label': 'Переименовать или удалить «' + s.name + '»', onclick: () => { editing = s.id; draw(); } }, icon('edit'))));
       });
-      const nn = h('input', { class: 'input', id: 'set-new', placeholder: 'Название нового набора' });
-      body.append(h('form', { class: 'row nowrap', onsubmit: async e => { e.preventDefault(); if (await ensureSet(nn.value)) draw(); } }, h('div', { class: 'grow' }, nn), h('button', { class: 'btn primary', type: 'submit' }, 'Создать')));
+      const nn = h('input', { class: 'input', id: 'set-new', placeholder: 'Новый набор' });
+      body.append(h('form', { class: 'row nowrap', onsubmit: async e => { e.preventDefault(); if (await ensureSet(nn.value)) draw(); } }, h('div', { class: 'grow' }, nn), h('button', { class: 'btn', type: 'submit' }, 'Создать')));
+      // Готовые темы
+      const ready = window.ReadySets || [];
+      if (ready.length) {
+        body.append(h('div', { class: 'section-title', style: { margin: '6px 0 0' } }, 'Готовые темы — добавить в словарь'));
+        const known = new Set(wordsArr().map(w => C.keyEn(w.en)));
+        ready.forEach(rs => {
+          const have = rs.words.filter(w => known.has(C.keyEn(w.en))).length;
+          body.append(h('button', { class: 'tile wide', style: { minHeight: '56px', padding: '10px 12px' }, onclick: () => { sh.close(); go('set-' + rs.id); } },
+            h('span', { class: 'tile-ic', style: { fontSize: '22px' } }, rs.icon),
+            h('span', { class: 'tile-t' }, h('b', null, rs.name), h('small', null, have >= rs.words.length ? 'уже в словаре' : (have ? 'добавлено ' + have + ' из ' + rs.words.length : rs.words.length + ' слов')))));
+        });
+      }
     }
     draw();
-    sh.el.addEventListener('click', () => {}, { once: true });
   }
 
   // ---------- Карточка слова ----------

@@ -163,6 +163,164 @@ closed | закрыт(о) | The shop is closed on Sunday. | В воскресе�
 pharmacy | аптека | Where is a pharmacy? | Где аптека? | 💊 | pharmacy | сущ.
 change | сдача | Keep the change. | Сдачи не надо. | 🪙 | coins | сущ.
 receipt | чек | Can I have a receipt? | Можно чек? | 🧾 | receipt | сущ.` },
+    family: { name: 'Семья', icon: '👨‍👩‍👧', group: 'general', rows: `
+family | семья | I love my family. | Я люблю свою семью. | 👨‍👩‍👧 | family together | сущ.
+mother | мама, мать | My mother is a doctor. | Моя мама — врач. | 👩 | mother and child | сущ.
+father | папа, отец | My father lives in Moscow. | Мой папа живёт в Москве. | 👨 | father and son | сущ.
+parents | родители | My parents are retired. | Мои родители на пенсии. | 👪 | parents | сущ.
+sister | сестра | I have one sister. | У меня одна сестра. | 👭 | two sisters | сущ.
+brother | брат | My brother is older than me. | Мой брат старше меня. | 👬 | brothers | сущ.
+husband | муж | Her husband is very kind. | Её муж очень добрый. | 🤵 | husband | сущ.
+wife | жена | His wife is a teacher. | Его жена — учительница. | 👰 | wife | сущ.
+son | сын | Their son is five. | Их сыну пять. | 👦 | little boy | сущ.
+daughter | дочь | She has a daughter. | У неё есть дочь. | 👧 | little girl | сущ.
+child | ребёнок (много — children) | They have two children. | У них двое детей. | 🧒 | children playing | сущ.
+grandmother | бабушка | My grandmother cooks very well. | Моя бабушка очень хорошо готовит. | 👵 | grandmother | сущ.
+grandfather | дедушка | My grandfather likes fishing. | Мой дедушка любит рыбалку. | 👴 | grandfather | сущ.
+aunt | тётя | My aunt lives in Sochi. | Моя тётя живёт в Сочи. | 👩 | aunt | сущ.
+uncle | дядя | My uncle has a big dog. | У моего дяди большая собака. | 👨 | uncle | сущ.
+cousin | двоюродный брат, сестра | My cousin is my best friend. | Моя двоюродная сестра — моя лучшая подруга. | 🧑 | cousins | сущ.
+married | женат, замужем | Are you married? | Вы замужем? | 💍 | wedding rings | прил.
+boyfriend | парень (мой) | Her boyfriend is from Italy. | Её парень из Италии. | ❤️ | couple | сущ.` },
+    work: { name: 'Работа и профессии', icon: '💼', group: 'general', rows: `
+work | работа; работать | I work every day. | Я работаю каждый день. | 💼 | office work | глагол
+job | работа, должность | I like my job. | Мне нравится моя работа. | 🧑‍💼 | job interview | сущ.
+office | офис | The office is in the city centre. | Офис в центре города. | 🏢 | office | сущ.
+boss | начальник | My boss is very busy. | Мой начальник очень занят. | 👔 | boss | сущ.
+colleague | коллега | My colleagues are friendly. | Мои коллеги дружелюбные. | 🤝 | colleagues | сущ.
+meeting | встреча, совещание | The meeting is at ten. | Совещание в десять. | 📅 | business meeting | сущ.
+salary | зарплата | The salary is good. | Зарплата хорошая. | 💵 | salary money | сущ.
+busy | занятой | I'm busy today. | Я сегодня занята. | ⏳ | busy person | прил.
+free | свободный | Are you free tomorrow? | Ты завтра свободна? | 🕊️ | free time | прил.
+client | клиент | We have a new client. | У нас новый клиент. | 🙋 | client | сущ.
+business | бизнес, дело | I have my own business. | У меня свой бизнес. | 📈 | small business | сущ.
+manager | менеджер, управляющий | She is a manager. | Она менеджер. | 🧑‍💼 | manager | сущ.
+doctor | врач | I need a doctor. | Мне нужен врач. | 🩺 | doctor | сущ.
+teacher | учитель | My teacher is from London. | Мой учитель из Лондона. | 🧑‍🏫 | teacher | сущ.
+driver | водитель | The driver is waiting. | Водитель ждёт. | 🚕 | driver | сущ.
+instructor | инструктор | I am a surf instructor. | Я инструктор по сёрфингу. | 🏄 | surf instructor | сущ.
+email | электронное письмо | I'll send you an email. | Я отправлю тебе письмо. | 📧 | email | сущ.
+day off | выходной | Tomorrow is my day off. | Завтра у меня выходной. | 🏖️ | day off | выражение` },
+    home: { name: 'Дом и быт', icon: '🏡', group: 'general', rows: `
+house | дом | We live in a small house. | Мы живём в маленьком доме. | 🏠 | house | сущ.
+room | комната | My room is big. | Моя комната большая. | 🚪 | room | сущ.
+bed | кровать | The bed is comfortable. | Кровать удобная. | 🛏️ | bed | сущ.
+table | стол | Put it on the table. | Положи на стол. | 🍽️ | table | сущ.
+chair | стул | Take a chair. | Возьми стул. | 🪑 | chair | сущ.
+window | окно | Open the window, please. | Открой окно, пожалуйста. | 🪟 | window | сущ.
+door | дверь | Close the door. | Закрой дверь. | 🚪 | door | сущ.
+fridge | холодильник | The milk is in the fridge. | Молоко в холодильнике. | 🧊 | fridge | сущ.
+washing machine | стиральная машина | Is there a washing machine? | Есть стиральная машина? | 🧺 | washing machine | сущ.
+light | свет | Turn off the light. | Выключи свет. | 💡 | light bulb | сущ.
+cook | готовить | I cook dinner every day. | Я готовлю ужин каждый день. | 👩‍🍳 | cooking | глагол
+clean | убирать; чистый | I clean the house on Sunday. | Я убираю дом в воскресенье. | 🧽 | cleaning | глагол
+wash | мыть, стирать | Wash your hands. | Помой руки. | 🧼 | washing hands | глагол
+sleep | спать | I sleep eight hours. | Я сплю восемь часов. | 😴 | sleeping | глагол
+wake up | просыпаться | I wake up at seven. | Я просыпаюсь в семь. | ⏰ | alarm clock | фразовый глагол
+neighbour | сосед | My neighbour is very noisy. | Мой сосед очень шумный. | 🏘️ | neighbours | сущ.
+garden | сад | We have a small garden. | У нас маленький сад. | 🌷 | garden | сущ.` },
+    time: { name: 'Время, дни и погода', icon: '🗓️', group: 'general', rows: `
+today | сегодня | Today is Monday. | Сегодня понедельник. | 📅 | calendar today | наречие
+tomorrow | завтра | See you tomorrow. | Увидимся завтра. | ➡️ | calendar | наречие
+yesterday | вчера | It was hot yesterday. | Вчера было жарко. | ⬅️ | calendar | наречие
+morning | утро | I run in the morning. | Я бегаю утром. | 🌅 | sunrise morning | сущ.
+evening | вечер | Good evening! | Добрый вечер! | 🌇 | evening sunset | сущ.
+week | неделя | I work five days a week. | Я работаю пять дней в неделю. | 🗓️ | weekly calendar | сущ.
+weekend | выходные | What are you doing at the weekend? | Что ты делаешь на выходных? | 🎉 | weekend | сущ.
+Monday | понедельник | The lesson is on Monday. | Урок в понедельник. | 📅 | Monday | сущ.
+Friday | пятница | I'm free on Friday. | В пятницу я свободна. | 📅 | Friday | сущ.
+month | месяц | I'm here for a month. | Я здесь на месяц. | 🗓️ | month calendar | сущ.
+year | год | Happy New Year! | С Новым годом! | 🎆 | new year | сущ.
+What time is it? | Который час? | Excuse me, what time is it? | Извините, который час? | 🕐 | clock | выражение
+weather | погода | The weather is nice today. | Сегодня хорошая погода. | 🌤️ | weather | сущ.
+sunny | солнечный | It's sunny and hot. | Солнечно и жарко. | ☀️ | sunny day | прил.
+rain | дождь | It's raining again. | Опять идёт дождь. | 🌧️ | rain | сущ.
+cold | холодный; холодно | It's cold in Moscow. | В Москве холодно. | 🥶 | snow cold | прил.
+hot | жаркий; горячий | It's very hot today. | Сегодня очень жарко. | 🥵 | hot sun | прил.
+summer | лето | I love summer. | Я люблю лето. | 🌞 | summer | сущ.
+winter | зима | Winter in Russia is long. | Зима в России долгая. | ❄️ | winter snow | сущ.` },
+    body: { name: 'Тело и здоровье', icon: '🩺', group: 'general', rows: `
+head | голова | I have a headache. | У меня болит голова. | 🤕 | head | сущ.
+hand | рука (кисть) | Give me your hand. | Дай мне руку. | ✋ | hand | сущ.
+arm | рука (вся) | My arm hurts. | У меня болит рука. | 💪 | arm | сущ.
+leg | нога | He broke his leg. | Он сломал ногу. | 🦵 | leg | сущ.
+back | спина | My back hurts after surfing. | После сёрфинга болит спина. | 🧍 | back | сущ.
+eyes | глаза | She has blue eyes. | У неё голубые глаза. | 👀 | eyes | сущ.
+stomach | живот, желудок | I have a stomach ache. | У меня болит живот. | 🤢 | stomach | сущ.
+hurt | болеть, ушибить | It hurts here. | Болит здесь. | 🤕 | injury | глагол
+sick | больной; тошнит | I feel sick. | Мне плохо. | 🤒 | sick person | прил.
+fever | температура, жар | She has a fever. | У неё температура. | 🌡️ | thermometer | сущ.
+medicine | лекарство | Do you have medicine for a cold? | У вас есть лекарство от простуды? | 💊 | medicine | сущ.
+pharmacy | аптека | Where is the nearest pharmacy? | Где ближайшая аптека? | 🏥 | pharmacy | сущ.
+tired | уставший | I'm very tired. | Я очень устала. | 😴 | tired | прил.
+healthy | здоровый | I want to be healthy. | Я хочу быть здоровой. | 🥗 | healthy food | прил.
+I need a doctor. | Мне нужен врач. | Please help, I need a doctor. | Помогите, мне нужен врач. | 🩺 | doctor | выражение
+allergy | аллергия | I have an allergy to nuts. | У меня аллергия на орехи. | 🥜 | allergy | сущ.` },
+    city: { name: 'Город и транспорт', icon: '🏙️', group: 'general', rows: `
+city | город | Moscow is a big city. | Москва — большой город. | 🏙️ | city | сущ.
+street | улица | I live on this street. | Я живу на этой улице. | 🛣️ | street | сущ.
+centre | центр | Is the hotel in the centre? | Отель в центре? | 📍 | city centre | сущ.
+bus | автобус | I take the bus to work. | Я езжу на работу на автобусе. | 🚌 | bus | сущ.
+train | поезд | The train is late. | Поезд опаздывает. | 🚆 | train | сущ.
+station | станция, вокзал | Where is the station? | Где вокзал? | 🚉 | train station | сущ.
+car | машина | I drive a car. | Я вожу машину. | 🚗 | car | сущ.
+bike | велосипед; байк | Let's rent a bike. | Давай возьмём велосипед. | 🚲 | bicycle | сущ.
+ticket | билет | One ticket, please. | Один билет, пожалуйста. | 🎫 | ticket | сущ.
+bank | банк | The bank is closed. | Банк закрыт. | 🏦 | bank | сущ.
+supermarket | супермаркет | Is there a supermarket near here? | Здесь рядом есть супермаркет? | 🛒 | supermarket | сущ.
+park | парк | We walk in the park. | Мы гуляем в парке. | 🌳 | park | сущ.
+near | рядом, близко | The beach is near. | Пляж рядом. | 📍 | near | наречие
+far | далеко | Is it far from here? | Это далеко отсюда? | 🔭 | far | наречие
+traffic | пробки, движение | The traffic is terrible. | Ужасные пробки. | 🚦 | traffic jam | сущ.
+walk | идти пешком, гулять | Let's walk. | Давай пройдёмся пешком. | 🚶 | walking | глагол` },
+    clothes: { name: 'Одежда и цвета', icon: '👕', group: 'general', rows: `
+clothes | одежда | I need new clothes. | Мне нужна новая одежда. | 👚 | clothes | сущ.
+T-shirt | футболка | This T-shirt is too small. | Эта футболка слишком маленькая. | 👕 | t-shirt | сущ.
+dress | платье | I like your dress. | Мне нравится твоё платье. | 👗 | dress | сущ.
+shoes | обувь, туфли | Take off your shoes. | Сними обувь. | 👟 | shoes | сущ.
+jacket | куртка | Take a jacket, it's cold. | Возьми куртку, холодно. | 🧥 | jacket | сущ.
+trousers | брюки | These trousers are too long. | Эти брюки слишком длинные. | 👖 | trousers | сущ.
+hat | шляпа, шапка | Wear a hat in the sun. | Носи шляпу на солнце. | 👒 | hat | сущ.
+wear | носить (одежду) | I usually wear jeans. | Я обычно ношу джинсы. | 👗 | wearing clothes | глагол
+size | размер | What size are you? | Какой у вас размер? | 📏 | size | сущ.
+black | чёрный | I love black. | Я люблю чёрный. | ⚫ | black | прил.
+white | белый | A white dress. | Белое платье. | ⚪ | white | прил.
+red | красный | A red car. | Красная машина. | 🔴 | red | прил.
+blue | синий, голубой | The sea is blue. | Море синее. | 🔵 | blue | прил.
+green | зелёный | Green tea, please. | Зелёный чай, пожалуйста. | 🟢 | green | прил.
+yellow | жёлтый | A yellow taxi. | Жёлтое такси. | 🟡 | yellow | прил.` },
+    feelings: { name: 'Чувства и характер', icon: '😊', group: 'general', rows: `
+happy | счастливый, радостный | I'm so happy! | Я так счастлива! | 😊 | happy | прил.
+sad | грустный | Why are you sad? | Почему ты грустная? | 😢 | sad | прил.
+angry | злой, сердитый | Don't be angry. | Не злись. | 😠 | angry | прил.
+afraid | испуганный; боюсь | I'm afraid of sharks. | Я боюсь акул. | 😨 | afraid | прил.
+bored | скучающий; мне скучно | I'm bored. | Мне скучно. | 🥱 | bored | прил.
+excited | в восторге, взволнован | I'm excited about the trip! | Я в восторге от поездки! | 🤩 | excited | прил.
+nervous | нервный, волнуюсь | I'm nervous before the lesson. | Я волнуюсь перед уроком. | 😬 | nervous | прил.
+kind | добрый | She is very kind. | Она очень добрая. | 🤗 | kind | прил.
+friendly | дружелюбный | People here are friendly. | Люди здесь дружелюбные. | 🙂 | friendly | прил.
+funny | смешной | He is so funny. | Он такой смешной. | 😂 | funny | прил.
+lazy | ленивый | I'm lazy on Sundays. | По воскресеньям я ленивая. | 🦥 | lazy | прил.
+like | нравиться | I like this place. | Мне нравится это место. | 👍 | like | глагол
+love | любить | I love the sea. | Я люблю море. | ❤️ | love | глагол
+hate | ненавидеть | I hate cold weather. | Ненавижу холодную погоду. | 👎 | hate | глагол
+I miss you. | Я скучаю по тебе. | I miss you so much. | Я так по тебе скучаю. | 💌 | missing someone | выражение` },
+    hobby: { name: 'Хобби и свободное время', icon: '🎨', group: 'general', rows: `
+free time | свободное время | What do you do in your free time? | Что ты делаешь в свободное время? | ⏳ | free time | выражение
+hobby | хобби, увлечение | My hobby is photography. | Моё хобби — фотография. | 🎨 | hobby | сущ.
+music | музыка | I listen to music every day. | Я слушаю музыку каждый день. | 🎵 | music | сущ.
+film | фильм | Let's watch a film. | Давай посмотрим фильм. | 🎬 | film cinema | сущ.
+book | книга | This book is interesting. | Эта книга интересная. | 📖 | book | сущ.
+travel | путешествовать | I love to travel. | Я люблю путешествовать. | ✈️ | travel | глагол
+dance | танцевать | Can you dance? | Ты умеешь танцевать? | 💃 | dance | глагол
+sing | петь | She sings very well. | Она очень хорошо поёт. | 🎤 | singing | глагол
+draw | рисовать | My daughter likes to draw. | Моя дочь любит рисовать. | ✏️ | drawing | глагол
+take photos | фотографировать | I take photos of the sunset. | Я фотографирую закат. | 📷 | taking photos | выражение
+play | играть | We play tennis on Saturday. | По субботам мы играем в теннис. | 🎾 | play | глагол
+game | игра | It's a fun game. | Это весёлая игра. | 🎲 | board game | сущ.
+party | вечеринка | There is a party tonight. | Сегодня вечеринка. | 🎉 | party | сущ.
+relax | отдыхать, расслабиться | I want to relax. | Я хочу отдохнуть. | 😌 | relax | глагол
+go out | выходить (развлечься) | Let's go out tonight. | Давай сегодня куда-нибудь сходим. | 🌃 | night out | фразовый глагол` },
   };
   const SETS = Object.keys(RAW).map(id => {
     const s = RAW[id];
@@ -170,7 +328,11 @@ receipt | чек | Can I have a receipt? | Можно чек? | 🧾 | receipt |
       const [en, ru, example, exampleRu, emoji, imageQuery, pos] = line.split('|').map(x => x.trim());
       return { en, ru, example, exampleRu, emoji, imageQuery, pos };
     });
-    return { id, name: s.name, icon: s.icon, words };
+    return { id, name: s.name, icon: s.icon, group: s.group || (id === 'irregular' ? 'verbs' : 'travel'), words };
   });
+  // Порядок: сначала общие темы для всех, потом путешествия, потом глаголы
+  const GORDER = { general: 0, travel: 1, verbs: 2 };
+  SETS.sort((a, b) => GORDER[a.group] - GORDER[b.group]);
   window.ReadySets = SETS;
+  window.ReadyGroups = { general: 'Общие темы', travel: 'Путешествия и жизнь у моря', verbs: 'Глаголы' };
 })();
