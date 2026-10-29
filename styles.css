@@ -114,7 +114,7 @@ textarea.input { min-height: 140px; resize: vertical; line-height: 1.45; }
 .banner b { font-weight: 650; }
 
 /* Сегодня */
-.hero { background: linear-gradient(160deg, #0F3237 0%, #0B1C1F 100%); color: var(--ink); border: 1px solid #1E4A50; border-radius: 18px; padding: 18px; display: grid; gap: 14px; }
+.hero { background: linear-gradient(160deg, var(--accent-soft) 0%, #0B0F10 100%); color: var(--ink); border: 1px solid var(--line); border-color: color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 18px; padding: 18px; display: grid; gap: 14px; }
 .hero .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .hero .stat b { display: block; font: 600 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
 .hero .stat span { font-size: 13px; opacity: .75; }
