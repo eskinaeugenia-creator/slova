@@ -287,3 +287,15 @@ a.btn { text-decoration: none; }
 .irr-row small { font-size: 11.5px; color: var(--muted); }
 .help ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
 .help p, .help li { font-size: 15px; }
+/* Грамматика */
+.gram-theory h2 { font-size: 17px; }
+.gram-theory p { font-size: 15.5px; line-height: 1.5; }
+.gram-table { display: grid; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.gram-tr { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+.gram-tr:last-child { border-bottom: 0; }
+.gram-tr span { min-width: 0; overflow-wrap: anywhere; }
+.gram-tr .em { color: var(--accent); font-weight: 700; }
+.gram-ex { display: grid; grid-template-columns: 1fr 22px; gap: 2px 8px; text-align: left; background: var(--surface-2); border: 0; border-radius: 10px; padding: 9px 12px; color: var(--ink); font: inherit; cursor: pointer; }
+.gram-ex span[lang] { font-weight: 600; font-size: 16px; }
+.gram-ex small { grid-column: 1; color: var(--muted); font-size: 13.5px; }
+.gram-sp { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
