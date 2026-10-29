@@ -11,6 +11,8 @@ with sync_playwright() as p:
     pg.evaluate("""(async () => { App.S.settings.name='Jane'; await App.saveSettings(); const ws=[...App.S.words.values()].slice(0,7); const now=Date.now(); ws.forEach(w => { w.srs.recog = Core.review(null, 3, now-60000); w.firstSeen = now-60000; }); for (const w of ws) await App.saveWord(w,{quiet:true}); })()""")
     pg.goto(BASE+'#today'); pg.wait_for_selector('.hero')
     ok('план выполнен — есть «Ещё новых слов»', pg.locator('#more-new').count()==1, pg.locator('.hero').inner_text()[:200])
+    ok('вместо нулей — итоги дня: 7 новых сегодня', '7' in pg.locator('.hero .stats').inner_text() and 'новых сегодня' in pg.locator('.hero .stats').inner_text(), pg.locator('.hero .stats').inner_text())
+    ok('счётчики: новые / изучаю 7 / закреплено', 'изучаю' in pg.locator('.counters').inner_text() and '7\nизучаю' in pg.locator('.counters').inner_text(), pg.locator('.counters').inner_text())
     ok('есть «Закрепить сегодняшние (7)»', pg.locator('#more-today:has-text("(7)")').count()==1)
     pg.screenshot(path=SH+'today-more.png')
     pg.click('#more-new'); pg.wait_for_selector('.sbar')

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.9.2', DATA_FORMAT = 1;
+  const APP_VERSION = '1.9.3', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -283,11 +283,22 @@
     const goal = S.settings.minutes;
     const total = plan.portion.length + plan.fresh.length;
     const estMin = Math.max(1, Math.round((plan.portion.length * 20 + plan.fresh.length * 45) / 60));
+    // План выполнен — показываем итоги дня вместо нулей
+    let doneStats = null;
+    if (!total) {
+      const sod = C.startOfDay(now);
+      let answers = 0; try { answers = (await DB.all('logs')).filter(l => l.ts >= sod && l.type !== 'intro').length; } catch (e) { /* нет журнала */ }
+      const learnedToday = words.filter(w => w.firstSeen >= sod && w.srs.recog && w.srs.recog.reps).length;
+      doneStats = h('div', { class: 'stats' },
+        h('div', { class: 'stat' }, h('b', null, learnedToday), h('span', null, 'новых сегодня')),
+        h('div', { class: 'stat' }, h('b', null, answers), h('span', null, 'ответов')),
+        h('div', { class: 'stat' }, h('b', null, minutesToday), h('span', null, 'мин сегодня')));
+    }
     const hero = h('section', { class: 'hero' },
-      h('div', { class: 'stats' },
+      doneStats || h('div', { class: 'stats' },
         h('div', { class: 'stat' }, h('b', null, plan.portion.length), h('span', null, 'повторить')),
         h('div', { class: 'stat' }, h('b', null, plan.fresh.length), h('span', null, 'новых')),
-        h('div', { class: 'stat' }, h('b', null, '≈' + (total ? estMin : 0)), h('span', null, 'мин'))),
+        h('div', { class: 'stat' }, h('b', null, '≈' + estMin), h('span', null, 'мин на занятие'))),
       total ? h('button', { class: 'btn primary big block', onclick: () => Train.startDaily() }, 'Начать «Мои ' + goal + ' минут»')
         : h('div', { class: 'stack', style: { gap: '10px' } }, h('p', { style: { margin: 0 } }, '🎉 План на сегодня выполнен. Хотите ещё — выбирайте:'), Train.moreActions({ primary: true })),
       plan.dueLeft > 0 ? h('p', { class: 'small', style: { opacity: .8 } }, 'Ещё ' + plan.dueLeft + ' ' + C.plural(plan.dueLeft, 'повторение подождёт', 'повторения подождут', 'повторений подождут') + '. Это не долг: после занятия можно взять ещё порцию или продолжить завтра.') : null,
@@ -304,10 +315,12 @@
     }
     // Счётчики: словарь / изучаю / закреплено
     const act = words.filter(w => !w.archived);
-    const nLearn = act.filter(w => ['new', 'learning', 'hard'].includes(C.wordStatus(w, now))).length;
+    const nNew = act.filter(w => C.wordStatus(w, now) === 'new').length;
+    const nLearn = act.filter(w => ['learning', 'hard'].includes(C.wordStatus(w, now))).length;
     const nSolid = act.filter(w => C.wordStatus(w, now) === 'solid').length;
     const cnt = (n, label, filter) => h('button', { class: 'counter', onclick: () => { S.ui.dictFilter = filter; S.ui.dictSet = 'all'; go('dict'); } }, h('b', { class: 'num' }, n), h('span', null, label));
-    main.append(h('div', { class: 'counters' }, cnt(act.length, 'в словаре', 'all'), cnt(nLearn, 'изучаю', 'learning'), cnt(nSolid, 'закреплено', 'solid')));
+    main.append(h('div', { class: 'counters' }, cnt(nNew, 'новые', 'new'), cnt(nLearn, 'изучаю', 'learning'), cnt(nSolid, 'закреплено', 'solid')));
+    if (!nSolid && nLearn) main.append(h('p', { class: 'tiny muted', style: { margin: '-4px 4px 0' } }, '«Закреплено» — слова, которые вы уверенно помните 3 недели и дольше. Первые появятся после нескольких повторений.'));
 
     if (!S.settings.helpSeen) main.append(h('div', { class: 'banner' }, h('div', { class: 'grow' }, h('b', null, 'Первый раз здесь?'), h('span', null, 'Короткая инструкция — 1 минута.'),
       h('div', { class: 'row' }, h('a', { class: 'btn sm primary', href: '#help', onclick: () => { S.settings.helpSeen = true; saveSettings(); } }, 'Как пользоваться'), h('button', { class: 'btn sm ghost', onclick: () => { S.settings.helpSeen = true; saveSettings(); routes.today(); } }, 'Скрыть')))));
@@ -338,11 +351,25 @@
       main.append(h('div', { class: 'wlist' }, recent.map(w => wordItem(w, now))));
     }
   };
+  // Учёт времени на всех учебных экранах (грамматика, книги, диалоги, тест, слушать…), пока экран открыт и вы что-то делаете
+  const STUDY = new Set(['session', 'gram', 'gramrev', 'read', 'dialog', 'drole', 'testrun', 'listen', 'numbers', 'abc', 'irregular']);
+  let lastAct = Date.now(), tracked = null;
+  ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, () => { lastAct = Date.now(); }, { passive: true, capture: true }));
+  function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  setInterval(async () => {
+    const name = (location.hash || '#today').slice(1).split('-')[0];
+    if (document.visibilityState !== 'visible' || !STUDY.has(name) || Date.now() - lastAct > 180000) return;
+    if (!tracked) tracked = (await kvGet('studyTime')) || {};
+    const k = dayKey(Date.now()); tracked[k] = (tracked[k] || 0) + 5;
+    if (tracked[k] % 30 === 0) { const keep = {}; Object.keys(tracked).slice(-60).forEach(x => { keep[x] = tracked[x]; }); tracked = keep; kvSet('studyTime', tracked); }
+  }, 5000);
   async function minutesStudiedToday() {
     try {
       const sod = C.startOfDay(Date.now());
       const sess = (await DB.all('sessions')).filter(s => s.ts >= sod);
-      return Math.round(sess.reduce((a, s) => a + (s.durationSec || 0), 0) / 60);
+      const words = sess.reduce((a, s) => a + (s.durationSec || 0), 0);
+      const t = tracked || (await kvGet('studyTime')) || {};
+      return Math.round(Math.max(words, t[dayKey(Date.now())] || 0) / 60);
     } catch (e) { return 0; }
   }
 
@@ -384,7 +411,8 @@
     if (w.archived) return false;
     if (f === 'all') return true;
     if (f === 'due') return C.wordDue(w, now);
-    return C.wordStatus(w, now) === f;
+    const st = C.wordStatus(w, now);
+    return f === 'learning' ? (st === 'learning' || st === 'hard') : st === f;
   }
   routes.dict = function () {
     const main = screen({ title: 'Мой словарь', tab: 'dict', actions: h('button', { class: 'btn ghost sm', onclick: () => { S.ui.select = !S.ui.select; S.ui.selected.clear(); draw(); } }, S.ui.select ? 'Готово' : 'Выбрать') });
