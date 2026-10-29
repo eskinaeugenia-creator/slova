@@ -18,6 +18,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600&display=swap">
 <link rel="stylesheet" href="styles.css">
+<script>
+  /* Telegram Mini App: скрипт Telegram подключается только внутри Telegram */
+  (function () { var h = location.hash || "", tg = /tgWebApp/.test(h) || !!window.TelegramWebviewProxy || !!window.external && "notify" in window.external;
+    try { tg = tg || !!sessionStorage.getItem("__telegram__initParams"); } catch (e) {}
+    if (tg) document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>'); })();
+</script>
 </head>
 <body>
 <div id="app"><main class="main"><p class="muted" style="padding-top:40px;text-align:center">Загрузка…</p></main></div>
@@ -27,6 +33,7 @@
 <script src="js/app.js"></script>
 <script src="js/add.js"></script>
 <script src="js/pics.js"></script>
+<script src="js/tg.js"></script>
 <script src="js/train.js"></script>
 <script src="js/prefs.js"></script>
 </body>
