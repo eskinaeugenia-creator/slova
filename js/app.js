@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.9.3', DATA_FORMAT = 1;
+  const APP_VERSION = '1.9.4', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -219,6 +219,24 @@
     if (window.Train && Train.active() && name !== 'session') Train.abort(true);
     window.scrollTo(0, 0);
     fn(arg);
+  }
+  // Есть ли новая версия на сервере — показываем кнопку «Обновить»
+  async function checkUpdate() {
+    try {
+      const r = await fetch('version.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return;
+      const v = (await r.json()).v;
+      if (!v || v === APP_VERSION || document.getElementById('upd')) return;
+      const bar = h('div', { id: 'upd', class: 'banner', style: { position: 'fixed', left: '12px', right: '12px', bottom: '92px', zIndex: 50, boxShadow: 'var(--shadow)' } },
+        h('div', { class: 'grow' }, h('b', null, 'Вышло обновление ' + v), h('span', { class: 'small' }, 'Ваши слова и прогресс сохранятся.'),
+          h('div', { class: 'row' }, h('button', { class: 'btn sm primary', id: 'upd-go', onclick: forceUpdate }, 'Обновить'), h('button', { class: 'btn sm ghost', onclick: () => bar.remove() }, 'Позже'))));
+      document.body.append(bar);
+    } catch (e) { /* нет сети — проверим позже */ }
+  }
+  async function forceUpdate() {
+    try { const regs = navigator.serviceWorker ? await navigator.serviceWorker.getRegistrations() : []; await Promise.all(regs.map(r => r.update().catch(() => {}))); } catch (e) { /* нет */ }
+    try { const keys = await caches.keys(); await Promise.all(keys.filter(k => k !== 'slova-fonts').map(k => caches.delete(k))); } catch (e) { /* нет */ }
+    location.replace(location.pathname + '?u=' + Date.now() + location.hash);
   }
   function go(h) { if (location.hash === '#' + h) route(); else location.hash = h; }
   // Отрисовать экран с шапкой и нижней навигацией
@@ -648,11 +666,15 @@
     // попросить браузер не удалять данные (на iPhone с домашнего экрана это и так соблюдается)
     try { if (navigator.storage && navigator.storage.persist) { const p = await navigator.storage.persisted(); if (!p) navigator.storage.persist(); } } catch (e) { /* нет поддержки */ }
     window.addEventListener('hashchange', route);
+    setTimeout(checkUpdate, 3000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(); });
     if (window.TG && TG.inTG) TG.start();
     route();
     if (window.Pics) Pics.resume();
     if ('serviceWorker' in navigator && window.isSecureContext && !window.__ARTIFACT__) {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* офлайн-режим недоступен в этой среде */ });
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+      }).catch(() => { /* офлайн-режим недоступен в этой среде */ });
     }
   }
 
