@@ -117,6 +117,12 @@
     return false;
   }
 
+  // Фото ищем сами только для предметов без эмодзи: для «направо», «быстро», «уходить» фото из интернета бывают случайными
+  function needsPhoto(w) {
+    if (w.emoji) return false;
+    const pos = String(w.pos || '').toLowerCase();
+    return !pos || /сущ|noun|предмет/.test(pos);
+  }
   // ---------- Фоновая очередь ----------
   const queue = []; let running = false, stoppedUntil = 0;
   function enabled() { return S.settings.autoImages !== false && S.settings.online !== false; }
@@ -134,7 +140,7 @@
     while (queue.length && enabled()) {
       if (!navigator.onLine) break;
       const id = queue.shift(); const w = S.words.get(id);
-      if (!w || w.image || w.imgTried) continue;
+      if (!w || w.image || w.imgTried || !needsPhoto(w)) continue;
       try {
         const ok = await pickFor(w, 0);
         if (!S.words.has(id)) continue; // слово удалили, пока искали картинку
@@ -161,9 +167,18 @@
     }
   }
   // При запуске: докачать картинки для слов без них (по чуть-чуть)
+  // Один раз: убрать автоматически подобранные фото там, где есть эмодзи (свои и выбранные вручную фото не трогаем)
+  async function migrate() {
+    if (S.settings.picsEmojiFirst) return;
+    const list = wordsArr().filter(w => w.image && w.emoji && w.auto && w.auto.image && !w.manualImage);
+    list.forEach(w => { w.image = ''; w.imageCredit = null; delete w.auto.image; w.imgTried = true; });
+    if (list.length) await App.saveWords(list);
+    S.settings.picsEmojiFirst = true; await App.saveSettings();
+  }
   function resume() {
     if (!enabled()) return;
-    const ids = wordsArr().filter(w => !w.archived && !w.image && !w.imgTried && !w.demo).sort((a, b) => b.createdAt - a.createdAt).slice(0, 40).map(w => w.id);
+    migrate();
+    const ids = wordsArr().filter(w => !w.archived && !w.image && !w.imgTried && !w.demo && needsPhoto(w)).sort((a, b) => b.createdAt - a.createdAt).slice(0, 40).map(w => w.id);
     if (ids.length) setTimeout(() => enqueue(ids), 2500);
   }
   window.addEventListener('online', () => setTimeout(run, 1500));
@@ -174,16 +189,16 @@
     const another = h('button', { class: 'btn sm soft', onclick: async () => {
       if (!S.online) return toast('Нужен интернет');
       another.disabled = true; busy.hidden = false;
-      try { const ok = await pickFor(w, w.imgIdx || 1); if (!S.words.has(w.id)) return; if (!ok) toast('Других подходящих картинок не нашлось'); w.imgTried = true; await saveWord(w); rerender(); }
+      try { const ok = await pickFor(w, w.imgIdx || 1); if (!S.words.has(w.id)) return; if (!ok) toast('Других подходящих картинок не нашлось'); else w.manualImage = true; w.imgTried = true; await saveWord(w); rerender(); }
       catch (e) { toast(e.limit ? 'Источник картинок попросил паузу, попробуйте позже' : 'Не получилось: ' + e.message); }
       finally { another.disabled = false; busy.hidden = true; }
-    } }, w.image ? 'Другая картинка' : 'Подобрать картинку');
+    } }, w.image ? 'Другое фото' : w.emoji ? 'Фото вместо эмодзи' : 'Подобрать фото');
     return h('div', { class: 'row', style: { gap: '8px' } },
       w.image && w.auto && w.auto.image ? h('span', { class: 'pill due' }, 'подобрана автоматически — проверьте') : null,
       another, busy,
-      w.image ? h('button', { class: 'btn sm ghost', onclick: async () => { w.image = ''; w.imageCredit = null; w.imgTried = true; if (w.auto) delete w.auto.image; await saveWord(w); rerender(); } }, 'Убрать') : null,
+      w.image ? h('button', { class: 'btn sm ghost', onclick: async () => { w.image = ''; w.imageCredit = null; w.imgTried = true; w.manualImage = false; if (w.auto) delete w.auto.image; await saveWord(w); rerender(); } }, w.emoji ? 'Вернуть эмодзи' : 'Убрать') : null,
       h('a', { class: 'btn sm ghost', href: '#edit-' + w.id }, 'Своё фото'));
   }
 
-  window.Pics = { emojiFor, search, pickFor, enqueue, resume, controls, queryFor };
+  window.Pics = { needsPhoto, migrate, emojiFor, search, pickFor, enqueue, resume, controls, queryFor };
 })();
