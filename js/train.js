@@ -430,8 +430,13 @@
         // в предложении базовая форма вместо нужной (rent вместо rented) — почти верно
         if (gap && r.result === 'wrong' && C.checkAnswer(val, w.en).result !== 'wrong') { r.result = 'typo'; r.formNote = true; }
         if (retrying) {
-          if (r.result === 'correct' || r.result === 'typo') { fb.innerHTML = ''; fb.append(h('div', { class: 'feedback ok' }, h('div', { class: 'title' }, 'Теперь верно'))); actions.innerHTML = ''; actions.append(nextBtn()); }
-          else { fb.innerHTML = ''; fb.append(diffBox(val, r)); input.select(); }
+          // при повторе после ошибки засчитываем только точное написание: опечатку показываем и просим исправить
+          if (r.result === 'correct' && !r.formNote) { fb.innerHTML = ''; fb.append(h('div', { class: 'feedback ok' }, h('div', { class: 'title' }, 'Теперь верно'))); input.disabled = true; actions.innerHTML = ''; actions.append(nextBtn()); }
+          else {
+            fb.innerHTML = ''; fb.append(diffBox(val, r));
+            if (r.result === 'typo') fb.prepend(h('div', { class: 'small', style: { marginBottom: '6px' } }, 'Почти! Исправьте отмеченные буквы и нажмите «Проверить» ещё раз.'));
+            input.select();
+          }
           return;
         }
         if (done) return; done = true;
