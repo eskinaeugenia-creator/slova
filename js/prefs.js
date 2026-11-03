@@ -31,10 +31,10 @@
     let logs = [], sessions = [];
     try { [logs, sessions] = await Promise.all([DB.all('logs'), DB.all('sessions')]); } catch (e) { /* пусто */ }
     // Минуты за 14 дней
-    const days = []; const sod = C.startOfDay(now);
+    const days = []; const sod = C.startOfDay(now); const per = await App.studyPerDay();
     for (let i = 13; i >= 0; i--) {
-      const d0 = sod - i * C.DAY, d1 = d0 + C.DAY;
-      days.push({ d: new Date(d0), min: Math.round(sessions.filter(s => s.ts >= d0 && s.ts < d1).reduce((a, s) => a + (s.durationSec || 0), 0) / 60) });
+      const d0 = sod - i * C.DAY;
+      days.push({ d: new Date(d0), min: Math.round((per[App.dayKey(d0 + 3600000)] || 0) / 60) });
     }
     const max = Math.max(S.settings.minutes, ...days.map(d => d.min));
     main.append(h('div', { class: 'card stack' }, h('h2', null, 'Минуты занятий за 2 недели'),

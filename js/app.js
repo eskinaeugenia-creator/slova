@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.11.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.11.1', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -370,36 +370,57 @@
       main.append(h('div', { class: 'wlist' }, recent.map(w => wordItem(w, now))));
     }
   };
-  // Учёт времени на всех учебных экранах (грамматика, книги, диалоги, тест, слушать…), пока экран открыт и вы что-то делаете
+  // Учёт времени на всех учебных экранах (слова, грамматика, книги, диалоги, тест, слушать…).
+  // Считаем только реальное использование: экран виден, мини-приложение не свёрнуто в Telegram, окно в фокусе
+  // и за последние 2 минуты было касание/нажатие (или прямо сейчас звучит озвучка). Свернули — время стоит.
   const STUDY = new Set(['session', 'gram', 'gramrev', 'read', 'dialog', 'drole', 'testrun', 'listen', 'numbers', 'abc', 'irregular']);
-  let lastAct = Date.now(), tracked = null;
-  ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, () => { lastAct = Date.now(); }, { passive: true, capture: true }));
-  function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
-  setInterval(async () => {
-    const name = (location.hash || '#today').slice(1).split('-')[0];
-    if (document.visibilityState !== 'visible' || !STUDY.has(name) || Date.now() - lastAct > 180000) return;
-    if (!tracked) tracked = (await kvGet('studyTime')) || {};
-    const k = dayKey(Date.now()); tracked[k] = (tracked[k] || 0) + 5;
-    // историю по дням не обрезаем: из неё считается общий счётчик «всего занимались» (за год это всего несколько КБ)
-    if (tracked[k] % 30 === 0) kvSet('studyTime', tracked);
-  }, 5000);
-  async function minutesStudiedToday() {
-    try {
-      const sod = C.startOfDay(Date.now());
-      const sess = (await DB.all('sessions')).filter(s => s.ts >= sod);
-      const words = sess.reduce((a, s) => a + (s.durationSec || 0), 0);
-      const t = tracked || (await kvGet('studyTime')) || {};
-      return Math.round(Math.max(words, t[dayKey(Date.now())] || 0) / 60);
-    } catch (e) { return 0; }
+  const IDLE_MS = 120000, TICK = 5;
+  let lastAct = Date.now(), tracked = null, tgActive = true, winFocus = true;
+  const touch = () => { lastAct = Date.now(); winFocus = true; };
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(ev => window.addEventListener(ev, touch, { passive: true, capture: true }));
+  window.addEventListener('blur', () => { winFocus = false; });
+  window.addEventListener('focus', () => { winFocus = true; });
+  const flushTracked = () => { if (tracked) kvSet('studyTime', tracked); };
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState !== 'visible') flushTracked(); });
+  window.addEventListener('pagehide', flushTracked);
+  function hookTelegram() {
+    const WA = window.Telegram && Telegram.WebApp;
+    if (!WA || !WA.initData || hookTelegram.done) return; hookTelegram.done = true;
+    if (WA.isActive === false) tgActive = false;
+    if (WA.onEvent) { WA.onEvent('deactivated', () => { tgActive = false; flushTracked(); }); WA.onEvent('activated', () => { tgActive = true; }); }
   }
-
+  function isStudyingNow() {
+    hookTelegram();
+    const name = (location.hash || '#today').slice(1).split('-')[0];
+    if (!STUDY.has(name) || document.visibilityState !== 'visible' || !tgActive || !winFocus) return false;
+    const speaking = 'speechSynthesis' in window && speechSynthesis.speaking && !speechSynthesis.paused;
+    return speaking || Date.now() - lastAct < IDLE_MS;
+  }
+  function dayKey(ts) { const d = new Date(ts); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  async function loadTracked() { if (!tracked) { try { tracked = (await kvGet('studyTime')) || {}; } catch (e) { tracked = {}; } } return tracked; }
+  let lastTick = Date.now();
+  setInterval(async () => {
+    const gap = Date.now() - lastTick; lastTick = Date.now();
+    // таймер в фоне может «проспать»: засчитываем только обычный шаг, не догоняем пропущенное
+    if (gap > TICK * 1000 * 2.5 || !isStudyingNow()) return;
+    await loadTracked();
+    const k = dayKey(Date.now()); tracked[k] = (tracked[k] || 0) + TICK;
+    // историю по дням не обрезаем: из неё считается общий счётчик «всего занимались» (за год это всего несколько КБ)
+    if (tracked[k] % 30 === 0) flushTracked();
+  }, TICK * 1000);
+  // Секунды по дням. Источник — учёт активного времени; старые занятия (до учёта) берём из журнала, не больше 60 мин за день
+  async function studyPerDay() {
+    const t = await loadTracked(); const per = Object.assign({}, t), legacy = {};
+    try { (await DB.all('sessions')).forEach(s => { const k = dayKey(s.ts); if (!(k in t)) legacy[k] = (legacy[k] || 0) + Math.min(s.durationSec || 0, 1800); }); } catch (e) { /* нет журнала */ }
+    Object.keys(legacy).forEach(k => { per[k] = Math.min(legacy[k], 3600); });
+    return per;
+  }
+  async function minutesStudiedToday() {
+    try { return Math.round(((await studyPerDay())[dayKey(Date.now())] || 0) / 60); } catch (e) { return 0; }
+  }
   // Всего за всё время: минуты и дни занятий (не сбрасывается; день засчитан, если занимались хотя бы минуту)
   async function studyTotals() {
-    const per = {};
-    try { (await DB.all('sessions')).forEach(s => { const k = dayKey(s.ts); per[k] = (per[k] || 0) + (s.durationSec || 0); }); } catch (e) { /* нет журнала */ }
-    let t = {}; try { t = tracked || (await kvGet('studyTime')) || {}; } catch (e) { /* пусто */ }
-    Object.keys(t).forEach(k => { per[k] = Math.max(per[k] || 0, t[k] || 0); });
-    const secs = Object.values(per);
+    const secs = Object.values(await studyPerDay());
     return { min: Math.round(secs.reduce((a, x) => a + x, 0) / 60), days: secs.filter(x => x >= 60).length };
   }
   const MIN_GOALS = [30, 60, 180, 300, 600, 1200, 1800, 3000, 6000, 12000, 30000];
@@ -707,6 +728,6 @@
 
   window.App = { ACCENTS, applyAccent, S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
     kvSet, kvGet, newWord, mergeInto, wordsArr, activeWords, setName, ensureSet, logAnswer, wordItem, thumb, creditText, fmtDate,
-    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals };
+    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals, studyPerDay, dayKey, isStudyingNow, loadTracked };
   document.addEventListener('DOMContentLoaded', boot);
 })();
