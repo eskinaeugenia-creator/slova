@@ -34,15 +34,41 @@
 
   // ---------- Готовые наборы ----------
   function inDict(en) { const k = C.keyEn(en); return wordsArr().some(w => C.keyEn(w.en) === k); }
-  function setsList(container) {
+  // Состояние готового набора: сколько слов уже в словаре и как они учатся
+  function setProgress(rs) {
+    const byKey = new Map(wordsArr().map(w => [C.keyEn(w.en), w])); const now = Date.now();
+    const p = { total: rs.words.length, have: 0, learning: 0, solid: 0, fresh: 0 };
+    rs.words.forEach(x => { const w = byKey.get(C.keyEn(x.en)); if (!w) return; p.have++;
+      const st = C.wordStatus(w, now); if (st === 'solid') p.solid++; else if (st === 'learning' || st === 'hard') p.learning++; else p.fresh++; });
+    p.state = !p.have ? 'none' : p.have < p.total ? 'part' : 'full';
+    return p;
+  }
+  function setTile(rs, opts) {
+    const p = setProgress(rs); opts = opts || {};
+    const sub = p.state === 'none' ? p.total + ' ' + C.plural(p.total, 'слово', 'слова', 'слов')
+      : p.state === 'part' ? 'добавлено ' + p.have + ' из ' + p.total
+      : (p.solid + p.learning ? 'изучаю ' + p.learning + ' · закреплено ' + p.solid + (p.fresh ? ' · новых ' + p.fresh : '') : 'все ' + p.total + ' слов — пора учить');
+    const badge = p.state === 'full' ? h('span', { class: 'set-badge full' }, p.solid === p.total ? '★ Выучено' : '✓ В словаре')
+      : p.state === 'part' ? h('span', { class: 'set-badge part' }, p.have + '/' + p.total) : h('span', { class: 'set-badge none' }, '+ Добавить');
+    return h('button', { class: 'tile wide set-tile ' + p.state, 'data-state': p.state, style: opts.style || null, onclick: () => { if (opts.onclick) opts.onclick(); go('set-' + rs.id); } },
+      h('span', { class: 'tile-ic', style: opts.small ? { fontSize: '22px' } : null }, rs.icon),
+      h('span', { class: 'tile-t grow' }, h('b', null, rs.name), h('small', null, sub),
+        p.have ? h('span', { class: 'set-meter' }, h('i', { class: 'solid', style: { width: (p.solid / p.total * 100) + '%' } }), h('i', { class: 'learn', style: { width: (p.learning / p.total * 100) + '%' } }), h('i', { class: 'have', style: { width: (p.fresh / p.total * 100) + '%' } })) : null),
+      badge);
+  }
+  // Список: сначала ещё не добавленные и начатые (по группам), а полностью добавленные — внизу отдельным блоком
+  function setsList(container, opts) {
+    const all = window.ReadySets || [], groups = window.ReadyGroups || {};
+    const full = all.filter(rs => setProgress(rs).state === 'full'), rest = all.filter(rs => !full.includes(rs));
     let lastGroup = null;
-    (window.ReadySets || []).forEach(rs => {
-      if (rs.group !== lastGroup) { lastGroup = rs.group; container.append(h('div', { class: 'section-title', style: { margin: '8px 2px 0' } }, (window.ReadyGroups || {})[rs.group] || '')); }
-      const have = rs.words.filter(w => inDict(w.en)).length;
-      container.append(h('button', { class: 'tile wide', onclick: () => go('set-' + rs.id) },
-        h('span', { class: 'tile-ic' }, rs.icon),
-        h('span', { class: 'tile-t' }, h('b', null, rs.name), h('small', null, rs.words.length + ' ' + C.plural(rs.words.length, 'слово', 'слова', 'слов') + (have ? ' · уже в словаре: ' + have : '')))));
+    rest.forEach(rs => {
+      if (rs.group !== lastGroup) { lastGroup = rs.group; container.append(h('div', { class: 'section-title', style: { margin: '8px 2px 0' } }, groups[rs.group] || '')); }
+      container.append(setTile(rs, opts));
     });
+    if (full.length) {
+      container.append(h('div', { class: 'section-title', id: 'sets-done-title', style: { margin: '14px 2px 0' } }, '✓ Уже в словаре · ' + full.length));
+      full.forEach(rs => container.append(setTile(rs, opts)));
+    }
   }
   routes.sets = function () {
     const main = screen({ title: 'Готовые наборы', back: 'add' });
@@ -409,5 +435,5 @@
       h('div', { class: 'row' }, h('a', { class: 'btn sm primary', href: '#sets' }, 'Готовые наборы')))));
   };
 
-  window.Extra = { numWord, Listen, sayP, stopSpeech };
+  window.Extra = { numWord, Listen, sayP, stopSpeech, setsList, setProgress };
 })();

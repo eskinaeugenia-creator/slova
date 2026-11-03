@@ -1,0 +1,23 @@
+# Готовые наборы: яркая отметка «В словаре», добавленные — внизу, прогресс изучения
+exec(open('tests/e2e_extra.py', encoding='utf-8').read().split('with sync_playwright()')[0])
+SH='/tmp/claude-0/-home-claude/de85335f-0f5d-5bd4-b2db-7618e4b0e2be/scratchpad/'
+with sync_playwright() as p:
+    b=p.chromium.launch(); ctx=b.new_context(viewport={'width':390,'height':800}, is_mobile=True, has_touch=True, device_scale_factor=2)
+    ctx.add_init_script(FAKE_TTS)
+    ctx.route('https://commons.wikimedia.org/**', lambda r: r.fulfill(status=500, body='')); ctx.route('https://api.openverse.org/**', lambda r: r.fulfill(status=500, body=''))
+    pg=ctx.new_page(); errs=[]; pg.on('pageerror', lambda e: errs.append(str(e)))
+    pg.goto(BASE); pg.wait_for_selector('h1')
+    pg.goto(BASE+'#sets'); pg.wait_for_selector('.set-tile')
+    ok('сначала все наборы без отметки', pg.locator('.set-tile.full').count()==0 and pg.locator('.set-badge.none').count()>10)
+    pg.goto(BASE+'#set-family'); pg.wait_for_selector('text=Добавить в словарь'); pg.click('text=Добавить в словарь'); pg.wait_for_timeout(500)
+    pg.evaluate("""(async () => { const ws=[...App.S.words.values()].slice(0,5); const now=Date.now(); ws.forEach(w => { w.srs.recog = Core.review(null, 3, now-60000); }); for (const w of ws) await App.saveWord(w,{quiet:true}); })()""")
+    pg.goto(BASE+'#sets'); pg.wait_for_selector('.set-tile')
+    fam=pg.locator('.set-tile.full')
+    ok('«Семья» отмечена «✓ В словаре»', fam.count()==1 and '✓ В словаре' in fam.inner_text() and 'Семья' in fam.inner_text(), fam.inner_text() if fam.count() else '')
+    ok('видно «изучаю 5»', 'изучаю 5' in fam.inner_text(), fam.inner_text())
+    order=pg.evaluate("[...document.querySelectorAll('.set-tile')].map(t=>t.dataset.state)")
+    ok('добавленные наборы — в самом низу', order[-1]=='full' and order.count('full')==1, order[-3:])
+    ok('есть заголовок «Уже в словаре»', pg.locator('#sets-done-title').count()==1)
+    pg.locator('#sets-done-title').scroll_into_view_if_needed(); pg.screenshot(path=SH+'sets-state.png')
+    ok('нет ошибок на странице', not errs, errs)
+    print(f'Итог: {sum(res)} из {len(res)}')

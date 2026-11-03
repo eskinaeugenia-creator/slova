@@ -350,3 +350,19 @@ a.chip { text-decoration: none; color: var(--ink); }
 .totals-row > div { background: var(--accent-soft); border-radius: 14px; padding: 10px 12px; }
 .totals-row b { display: block; font: 600 22px/1.15 var(--f-display); color: var(--accent); }
 .totals-row span { font-size: 13px; opacity: .75; }
+
+/* Готовые наборы: состояние */
+.set-tile .tile-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.set-badge { flex: none; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 99px; white-space: nowrap; }
+.set-badge.none { color: var(--accent); background: var(--accent-soft); }
+.set-badge.part { color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); }
+.set-badge.full { color: var(--accent-ink); background: var(--accent); }
+.set-tile.full { border: 1.5px solid var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.set-tile.full .tile-t small { color: var(--accent); opacity: 1; }
+.set-tile.part { border-color: color-mix(in srgb, var(--accent) 30%, var(--line)); }
+.set-meter { display: flex; height: 5px; border-radius: 99px; overflow: hidden; background: var(--surface-2); margin-top: 4px; width: 100%; }
+.set-meter i { display: block; height: 100%; }
+.set-meter i.solid { background: var(--good); }
+.set-meter i.learn { background: var(--accent); }
+.set-meter i.have { background: color-mix(in srgb, var(--accent) 35%, var(--surface-2)); }
+#sets-done-title { color: var(--accent); }

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.11.1', DATA_FORMAT = 1;
+  const APP_VERSION = '1.12.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -614,13 +614,7 @@
       const ready = window.ReadySets || [];
       if (ready.length) {
         body.append(h('div', { class: 'section-title', style: { margin: '6px 0 0' } }, 'Готовые темы — добавить в словарь'));
-        const known = new Set(wordsArr().map(w => C.keyEn(w.en)));
-        ready.forEach(rs => {
-          const have = rs.words.filter(w => known.has(C.keyEn(w.en))).length;
-          body.append(h('button', { class: 'tile wide', style: { minHeight: '56px', padding: '10px 12px' }, onclick: () => { sh.close(); go('set-' + rs.id); } },
-            h('span', { class: 'tile-ic', style: { fontSize: '22px' } }, rs.icon),
-            h('span', { class: 'tile-t' }, h('b', null, rs.name), h('small', null, have >= rs.words.length ? 'уже в словаре' : (have ? 'добавлено ' + have + ' из ' + rs.words.length : rs.words.length + ' слов')))));
-        });
+        Extra.setsList(body, { small: true, style: { minHeight: '56px', padding: '10px 12px' }, onclick: () => sh.close() });
       }
     }
     draw();
