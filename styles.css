@@ -343,3 +343,10 @@ a.chip { text-decoration: none; color: var(--ink); }
 .rule-item summary { cursor: pointer; list-style: none; }
 .rule-item summary::-webkit-details-marker { display: none; }
 .rule-item .gram-theory { padding: 0; background: none; border: 0; }
+
+/* Общий счётчик времени */
+.totals { display: flex; flex-direction: column; gap: 10px; }
+.totals-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.totals-row > div { background: var(--accent-soft); border-radius: 14px; padding: 10px 12px; }
+.totals-row b { display: block; font: 600 22px/1.15 var(--f-display); color: var(--accent); }
+.totals-row span { font-size: 13px; opacity: .75; }

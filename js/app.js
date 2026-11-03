@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.10.1', DATA_FORMAT = 1;
+  const APP_VERSION = '1.11.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -324,6 +324,7 @@
         h('div', { class: 'row small', style: { justifyContent: 'space-between' } }, h('span', null, 'Сегодня занимались'), h('span', { class: 'num' }, minutesToday + ' из ' + goal + ' мин')),
         h('div', { class: 'meter' }, h('i', { style: { width: Math.min(100, minutesToday / goal * 100) + '%' } }))));
     main.append(hero);
+    main.append(totalsCard(await studyTotals()));
     if (window.Grammar) {
       await Grammar.loadProgress();
       const gd = Grammar.dueLessons();
@@ -379,7 +380,8 @@
     if (document.visibilityState !== 'visible' || !STUDY.has(name) || Date.now() - lastAct > 180000) return;
     if (!tracked) tracked = (await kvGet('studyTime')) || {};
     const k = dayKey(Date.now()); tracked[k] = (tracked[k] || 0) + 5;
-    if (tracked[k] % 30 === 0) { const keep = {}; Object.keys(tracked).slice(-60).forEach(x => { keep[x] = tracked[x]; }); tracked = keep; kvSet('studyTime', tracked); }
+    // историю по дням не обрезаем: из неё считается общий счётчик «всего занимались» (за год это всего несколько КБ)
+    if (tracked[k] % 30 === 0) kvSet('studyTime', tracked);
   }, 5000);
   async function minutesStudiedToday() {
     try {
@@ -389,6 +391,31 @@
       const t = tracked || (await kvGet('studyTime')) || {};
       return Math.round(Math.max(words, t[dayKey(Date.now())] || 0) / 60);
     } catch (e) { return 0; }
+  }
+
+  // Всего за всё время: минуты и дни занятий (не сбрасывается; день засчитан, если занимались хотя бы минуту)
+  async function studyTotals() {
+    const per = {};
+    try { (await DB.all('sessions')).forEach(s => { const k = dayKey(s.ts); per[k] = (per[k] || 0) + (s.durationSec || 0); }); } catch (e) { /* нет журнала */ }
+    let t = {}; try { t = tracked || (await kvGet('studyTime')) || {}; } catch (e) { /* пусто */ }
+    Object.keys(t).forEach(k => { per[k] = Math.max(per[k] || 0, t[k] || 0); });
+    const secs = Object.values(per);
+    return { min: Math.round(secs.reduce((a, x) => a + x, 0) / 60), days: secs.filter(x => x >= 60).length };
+  }
+  const MIN_GOALS = [30, 60, 180, 300, 600, 1200, 1800, 3000, 6000, 12000, 30000];
+  const DAY_GOALS = [3, 7, 14, 30, 50, 100, 200, 365, 500, 1000];
+  function fmtMin(m) { if (m < 60) return m + ' мин'; const hh = Math.floor(m / 60), mm = m % 60; return hh + ' ч' + (mm ? ' ' + mm + ' мин' : ''); }
+  function totalsCard(t) {
+    const nm = MIN_GOALS.find(g => g > t.min), nd = DAY_GOALS.find(g => g > t.days);
+    const next = [];
+    if (nm) next.push('до ' + fmtMin(nm) + ' — ещё ' + fmtMin(nm - t.min));
+    if (nd) next.push('до ' + nd + ' дней — ещё ' + (nd - t.days));
+    return h('div', { class: 'card totals', id: 'totals' },
+      h('div', { class: 'row', style: { justifyContent: 'space-between', alignItems: 'baseline' } }, h('h3', { style: { margin: 0 } }, '🏆 Всего занимались'), h('span', { class: 'tiny muted' }, 'не сбрасывается')),
+      h('div', { class: 'totals-row' },
+        h('div', null, h('b', { class: 'num', id: 'total-min' }, fmtMin(t.min)), h('span', null, 'на занятия')),
+        h('div', null, h('b', { class: 'num', id: 'total-days' }, t.days), h('span', null, C.plural(t.days, 'день', 'дня', 'дней') + ' с занятиями'))),
+      next.length ? h('p', { class: 'small muted', style: { margin: 0 } }, 'Следующая цель: ' + next.join(' · ') + '.') : null);
   }
 
   // ---------- Элемент списка слов ----------
@@ -680,6 +707,6 @@
 
   window.App = { ACCENTS, applyAccent, S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
     kvSet, kvGet, newWord, mergeInto, wordsArr, activeWords, setName, ensureSet, logAnswer, wordItem, thumb, creditText, fmtDate,
-    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday };
+    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals };
   document.addEventListener('DOMContentLoaded', boot);
 })();
