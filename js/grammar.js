@@ -9,7 +9,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const { S, h, icon, toast, go, routes, screen, wordsArr, kvSet, kvGet } = window.App;
+  const { S, h, icon, toast, sheet, go, routes, screen, wordsArr, kvSet, kvGet } = window.App;
   const sayP = (t, o) => window.Extra ? Extra.sayP(t, o) : Promise.resolve();
 
   // ---------- Уроки ----------
@@ -788,7 +788,8 @@
         h('li', null, 'Сначала задания на понимание: по форме слова догадаться о смысле.'),
         h('li', null, 'Потом выбираете форму, пишете сами и собираете фразы — часто с вашими словами.'),
         h('li', null, 'При ошибке — объяснение «почему», а ошибку повторим в конце урока.'),
-        h('li', null, 'Через несколько дней приложение предложит короткое повторение темы — так правило закрепляется.')))));
+        h('li', null, 'Через несколько дней приложение предложит короткое повторение темы — так правило закрепляется.'))),
+      h('a', { class: 'btn soft block', href: '#rules', id: 'rules-link' }, '📚 Справочник правил — вся теория')));
     L.forEach((l, i) => {
       const lv = l.lvl || 'A1';
       if (i === 0 || lv !== (L[i - 1].lvl || 'A1')) main.append(h('div', { class: 'section-title' }, lv === 'A1' ? 'Уровень A1 — основа' : 'Уровень A2 — следующий шаг'));
@@ -807,16 +808,26 @@
     const l = L.find(x => x.id === id); if (!l) return go('grammar');
     const main = screen({ title: l.title, back: 'grammar' });
     const p = progress[id];
-    l.theory.forEach(t => {
+    theoryCards(l).forEach(c => main.append(c));
+    main.append(h('div', { class: 'savebar' }, h('button', { class: 'btn primary big block', onclick: () => practice(l, false) }, p && p.done ? 'Практика ещё раз' : 'Перейти к практике')));
+  };
+  // Карточки теории: правило, таблица, примеры с озвучкой + частые ошибки
+  function theoryCards(l) {
+    const out = l.theory.map(t => {
       const card = h('div', { class: 'card stack gram-theory' }, h('h2', null, t.h));
       if (t.p) card.append(h('p', null, t.p));
       if (t.table) card.append(h('div', { class: 'gram-table' }, t.table.map(r => h('div', { class: 'gram-tr' }, r.map((c, k) => h('span', { lang: k < 2 ? 'en' : null, class: k === 1 ? 'em' : '' }, c))))));
       if (t.ex) card.append(h('div', { class: 'stack', style: { gap: '6px' } }, t.ex.map(([en, ru]) => h('button', { class: 'gram-ex', onclick: () => sayP(en) },
         h('span', { lang: 'en' }, en), h('small', null, ru), h('span', { class: 'gram-sp', 'aria-hidden': 'true' }, '🔊')))));
-      main.append(card);
+      return card;
     });
-    main.append(h('div', { class: 'savebar' }, h('button', { class: 'btn primary big block', onclick: () => practice(l, false) }, p && p.done ? 'Практика ещё раз' : 'Перейти к практике')));
-  };
+    const mist = (window.GRAMMAR_MISTAKES || {})[l.id];
+    if (mist && mist.length) out.push(h('div', { class: 'card stack gram-theory gram-mist' }, h('h2', null, 'Частые ошибки'),
+      mist.map(([bad, good, why]) => h('div', { class: 'mist' },
+        h('div', { class: 'mist-bad', lang: 'en' }, '✗ ' + bad), h('button', { class: 'mist-good', lang: 'en', onclick: () => sayP(good.replace(/\s*\(.*\)\s*/, '')) }, '✓ ' + good + ' 🔊'), h('div', { class: 'small muted' }, why)))));
+    return out;
+  }
+  function theorySheet(l) { sheet('Правило: ' + l.title, h('div', { class: 'stack' }, theoryCards(l))); }
 
   // ---------- Практика ----------
   function buildQueue(l, review) {
@@ -842,7 +853,9 @@
       const it = queue[i];
       const main = screen({ title: review ? 'Повторение: ' + l.title : l.title, back: 'gram-' + l.id, nav: false });
       const done = Math.min(i, total);
-      main.append(h('div', { class: 'meter' }, h('i', { style: { width: Math.round(done / total * 100) + '%' } })));
+      main.append(h('div', { class: 'row nowrap', style: { gap: '10px', alignItems: 'center' } },
+        h('div', { class: 'meter grow' }, h('i', { style: { width: Math.round(done / total * 100) + '%' } })),
+        h('button', { class: 'btn sm soft', id: 'rule-btn', onclick: () => theorySheet(l) }, '📖 Правило')));
       if (it.again) main.append(h('div', { class: 'pill due', style: { justifySelf: 'start' } }, 'ещё раз — была ошибка'));
       if (it.mine) main.append(h('div', { class: 'pill new', style: { justifySelf: 'start' } }, 'на ваших словах'));
       const fb = h('div'); const actions = h('div', { class: 'actions', style: sheetStyle });
@@ -850,7 +863,8 @@
       const result = (ok, shown) => {
         if (!it.again) { if (ok) right++; else { wrong.push(it); queue.push(Object.assign({}, it, { again: true })); } }
         fb.innerHTML = '';
-        fb.append(h('div', { class: 'feedback ' + (ok ? 'ok' : 'no') }, h('div', { class: 'title' }, ok ? 'Верно!' : 'Правильно: ' + shown), it.why ? h('div', { class: 'small' }, it.why) : null));
+        fb.append(h('div', { class: 'feedback ' + (ok ? 'ok' : 'no') }, h('div', { class: 'title' }, ok ? 'Верно!' : 'Правильно: ' + shown), it.why ? h('div', { class: 'small' }, it.why) : null,
+          ok ? null : h('button', { class: 'btn sm ghost', style: { justifySelf: 'start', padding: '4px 0' }, onclick: () => theorySheet(l) }, '📖 Открыть правило')));
         const full = it.t === 'build' ? it.a : it.s && it.t !== 'meaning' ? it.s.replace('___', Array.isArray(it.a) ? it.a[0] : it.a).replace(/\s*\([^)]*\)\s*$/, '') : it.s;
         if (full && /[a-z]/i.test(full)) sayP(full.replace(/^—\s*/, '').replace(/ — /g, '. '));
         actions.innerHTML = ''; const b = h('button', { class: 'btn primary big block', onclick: next }, 'Дальше'); actions.append(b); setTimeout(() => b.focus(), 30);
@@ -935,7 +949,38 @@
     }
     step();
   }
-  routes.gramrev = async function (id) { await loadProgress(); const l = L.find(x => x.id === id); if (!l) return go('grammar'); practice(l, true); };
+  routes.gramrev = async function (id) {
+    await loadProgress(); const l = L.find(x => x.id === id); if (!l) return go('grammar');
+    const main = screen({ title: 'Повторение: ' + l.title, back: 'grammar' });
+    main.append(h('div', { class: 'card stack' }, h('div', { style: { fontSize: '36px' } }, l.icon), h('h2', null, 'Сначала вспомним правило'),
+      h('p', { class: 'muted', style: { margin: 0 } }, 'Пробегите глазами правило и частые ошибки — 1 минута. Потом 6 заданий.')));
+    theoryCards(l).forEach(c => main.append(c));
+    main.append(h('div', { class: 'savebar' }, h('button', { class: 'btn primary big block', id: 'rev-start', onclick: () => practice(l, true) }, 'Начать повторение')));
+  };
+
+  // ---------- Справочник правил: вся теория без заданий ----------
+  routes.rules = async function () {
+    await loadProgress();
+    const main = screen({ title: 'Справочник правил', back: 'grammar' });
+    const q = h('input', { class: 'input', type: 'search', id: 'rules-q', placeholder: 'Поиск: was, can, если, сравнение…', autocomplete: 'off', spellcheck: 'false' });
+    const list = h('div', { class: 'stack' });
+    const draw = () => {
+      const s = C.norm(q.value); list.innerHTML = '';
+      let lv = null;
+      L.filter(l => !s || C.norm([l.title, l.sub].concat(l.theory.map(t => [t.h, t.p].join(' '))).join(' ')).includes(s)).forEach(l => {
+        const cur = l.lvl || 'A1';
+        if (cur !== lv) { lv = cur; list.append(h('div', { class: 'section-title' }, cur === 'A1' ? 'Уровень A1' : 'Уровень A2')); }
+        const body = h('div', { class: 'stack', style: { marginTop: '10px' } });
+        const det = h('details', { class: 'card rule-item' }, h('summary', null, h('span', { style: { marginRight: '8px' } }, l.icon), h('b', null, l.title), h('div', { class: 'small muted' }, l.sub)), body);
+        det.addEventListener('toggle', () => { if (det.open && !body.childNodes.length) { theoryCards(l).forEach(c => { c.classList.remove('card'); body.append(c); }); body.append(h('button', { class: 'btn soft block', onclick: () => practice(l, false) }, 'Потренировать эту тему')); } });
+        list.append(det);
+      });
+      if (!list.childNodes.length) list.append(h('p', { class: 'muted' }, 'Ничего не нашлось.'));
+    };
+    q.addEventListener('input', draw);
+    main.append(h('p', { class: 'muted small' }, 'Все правила в одном месте: объяснение по-русски, таблицы, примеры с озвучкой и частые ошибки. Можно читать без заданий.'), q, list);
+    draw();
+  };
 
   window.Grammar = { LESSONS: L, loadProgress, dueLessons, merge, s3, ing, past, stateOf, get progress() { return progress; } };
   loadProgress();

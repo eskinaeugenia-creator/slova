@@ -2,6 +2,7 @@
 const fs = require('fs');
 global.window = { App: { S: { ui: {}, settings: {} }, h(){}, icon(){}, toast(){}, go(){}, routes: {}, screen(){}, wordsArr: () => [], kvSet: async () => {}, kvGet: async () => ({}) } };
 window.Core = require('/home/claude/slova/js/core.js');
+eval(fs.readFileSync('/home/claude/slova/js/grammar-mistakes.js', 'utf8'));
 eval(fs.readFileSync('/home/claude/slova/js/grammar.js', 'utf8'));
 const G = window.Grammar; let n = 0, bad = [];
 G.LESSONS.forEach(l => l.items.forEach(it => {
@@ -14,6 +15,7 @@ G.LESSONS.forEach(l => l.items.forEach(it => {
   if (it.t === 'build' && it.a.replace(/[.?!]$/, '').split(' ').length > 9) bad.push(l.id + ': слишком длинная фраза: ' + it.a);
   if (!it.why && it.t !== 'build') bad.push(l.id + ': нет объяснения: ' + it.s);
 }));
+G.LESSONS.forEach(l => { const m = (window.GRAMMAR_MISTAKES || {})[l.id]; if (!m || m.length < 2) bad.push(l.id + ': нет частых ошибок'); });
 const s3 = G.s3; const cases = { work: 'works', watch: 'watches', go: 'goes', study: 'studies', play: 'plays', have: 'has', fix: 'fixes', wash: 'washes', swim: 'swims', pay: 'pays' };
 Object.keys(cases).forEach(v => { if (s3(v) !== cases[v]) bad.push('s3(' + v + ') = ' + s3(v)); });
 console.log('Уроков:', G.LESSONS.length, '· заданий:', n);

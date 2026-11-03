@@ -334,3 +334,12 @@ a.btn { text-decoration: none; }
 /* Плашки слов в «Собрать фразу» — не путать с плитками меню */
 .tiles .tile, .answer-line .tile { min-height: 46px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid var(--line); font-size: 18px; font-weight: 600; display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 0; text-align: center; }
 a.chip { text-decoration: none; color: var(--ink); }
+
+/* Частые ошибки и справочник правил */
+.mist { display: grid; gap: 4px; padding: 10px 0; border-top: 1px solid var(--line); }
+.mist:first-of-type { border-top: 0; }
+.mist-bad { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 1px; font-size: 16px; }
+.mist-good { color: var(--good); font-weight: 650; font-size: 16.5px; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font-family: inherit; }
+.rule-item summary { cursor: pointer; list-style: none; }
+.rule-item summary::-webkit-details-marker { display: none; }
+.rule-item .gram-theory { padding: 0; background: none; border: 0; }

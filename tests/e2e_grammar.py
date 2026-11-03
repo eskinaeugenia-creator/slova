@@ -87,7 +87,7 @@ with sync_playwright() as p:
     pg.evaluate("(async () => { const g = await App.kvGet('grammar'); g.be.card.due -= 864e5*30; g.be.card.last -= 864e5*30; await App.kvSet('grammar', g); })()")
     pg.goto(BASE+'#today'); pg.wait_for_timeout(500)
     ok('на «Сегодня» предложено повторить тему', pg.locator('text=Грамматика: пора повторить «am / is / are»').count()==1)
-    pg.click('.banner button:has-text("Повторить")'); pg.wait_for_selector('.task')
+    pg.click('.banner button:has-text("Повторить")'); pg.wait_for_selector('#rev-start'); pg.click('#rev-start'); pg.wait_for_selector('.task')
     k=0
     while pg.locator('.task').count() and k<10: answer(pg, True); k+=1
     ok('повторение — 6–7 коротких заданий', k in (6,7), k)

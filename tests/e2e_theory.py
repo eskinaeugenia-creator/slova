@@ -1,0 +1,32 @@
+# Теория в грамматике: частые ошибки, «Правило» в заданиях, повторение начинается с правила, справочник
+exec(open('tests/e2e_extra.py', encoding='utf-8').read().split('with sync_playwright()')[0])
+SH='/tmp/claude-0/-home-claude/de85335f-0f5d-5bd4-b2db-7618e4b0e2be/scratchpad/'
+with sync_playwright() as p:
+    b=p.chromium.launch(); ctx=b.new_context(viewport={'width':390,'height':800}, is_mobile=True, has_touch=True, device_scale_factor=2); ctx.add_init_script(FAKE_TTS)
+    pg=ctx.new_page(); errs=[]; pg.on('pageerror', lambda e: errs.append(str(e)))
+    pg.goto(BASE+'#gram-was'); pg.wait_for_selector('.gram-theory')
+    ok('в теории темы есть «Частые ошибки»', pg.locator('.gram-mist .mist').count()==3)
+    pg.locator('.gram-mist').scroll_into_view_if_needed(); pg.screenshot(path=SH+'mist.png')
+    pg.click('text=Перейти к практике'); pg.wait_for_selector('#rule-btn')
+    pg.click('#rule-btn'); pg.wait_for_selector('.sheet .gram-theory')
+    ok('кнопка «📖 Правило» в задании открывает теорию', pg.locator('.sheet .mist').count()==3)
+    pg.locator('.sheet .icon-btn').click()
+    pg.locator('.opt').last.click(); pg.wait_for_selector('.feedback')
+    if pg.locator('.feedback.no').count():
+        ok('после ошибки — «Открыть правило»', pg.locator('.feedback >> text=Открыть правило').count()==1)
+    else:
+        pg.click('text=Дальше'); pg.wait_for_selector('.opt'); pg.locator('.opt').first.click(); pg.wait_for_selector('.feedback')
+        ok('после ошибки — «Открыть правило»', pg.locator('.feedback.no').count()==0 or pg.locator('.feedback >> text=Открыть правило').count()==1)
+    pg.goto(BASE+'#gramrev-be'); pg.wait_for_selector('#rev-start')
+    ok('повторение начинается с правила', pg.locator('text=Сначала вспомним правило').count()==1 and pg.locator('.gram-theory').count()>=2)
+    pg.click('#rev-start'); pg.wait_for_selector('#rule-btn')
+    ok('потом задания', pg.locator('.task').count()==1)
+    pg.goto(BASE+'#grammar'); pg.wait_for_selector('#rules-link'); pg.click('#rules-link'); pg.wait_for_selector('.rule-item')
+    ok('справочник: все 30 тем', pg.locator('.rule-item').count()==30)
+    pg.fill('#rules-q','was'); pg.wait_for_timeout(200)
+    n=pg.locator('.rule-item').count(); ok('поиск по справочнику', 0<n<30, n)
+    pg.locator('.rule-item summary').first.click(); pg.wait_for_timeout(200)
+    ok('тема раскрывается с теорией и ошибками', pg.locator('.rule-item[open] .mist').count()>=2)
+    pg.screenshot(path=SH+'rules.png')
+    ok('нет ошибок на странице', not errs, errs)
+    print(f'Итог: {sum(res)} из {len(res)}')
