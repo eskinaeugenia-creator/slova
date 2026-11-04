@@ -70,7 +70,7 @@
       R.known.push(k); R.idx++;
       if (R.idx >= R.cards.length) finish(); else routes.level();
     };
-    const sayBtn = Speech.supported && S.settings.sound
+    const sayBtn = Speech.supported && App.soundOn()
       ? h('button', { class: 'icon-btn', 'aria-label': 'Произнести', onclick: () => Speech.say(c.en) }, icon('speaker')) : null;
     root.append(h('div', { class: 'session' },
       h('div', { class: 'sbar' },

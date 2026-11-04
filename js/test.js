@@ -10,7 +10,7 @@
     ['write', 'Письменные', 'перевод → написать по-английски'],
     ['listen', 'На слух', 'услышать → выбрать перевод'],
   ];
-  const soundOn = () => S.settings.sound && Speech.supported;
+  const soundOn = () => App.soundOn() && Speech.supported;
   const learned = () => wordsArr().filter(w => !w.archived && w.ru && w.srs && w.srs.recog && w.srs.recog.reps > 0);
   let T = null; // текущий тест
 
@@ -49,7 +49,7 @@
       const nSel = h('div', { class: 'seg' }, [10, 20, 30, 9999].map(n => h('button', { 'aria-pressed': String(o.n === n), onclick: () => { o.n = n; draw(); } }, n === 9999 ? 'Все (' + pool.length + ')' : String(n))));
       const kinds = h('div', { class: 'stack', style: { gap: '2px' } }, KINDS.map(([id, label, sub]) => {
         const off = id === 'listen' && !soundOn();
-        return h('label', { class: 'switch' }, h('span', { class: 'stack', style: { gap: 0 } }, h('span', { class: off ? 'muted' : '' }, label), h('span', { class: 'tiny muted' }, off ? 'звук выключен в настройках' : sub)),
+        return h('label', { class: 'switch' }, h('span', { class: 'stack', style: { gap: 0 } }, h('span', { class: off ? 'muted' : '' }, label), h('span', { class: 'tiny muted' }, off ? (App.quiet() ? 'тихий режим — без звука' : 'звук выключен в настройках') : sub)),
           h('input', { type: 'checkbox', disabled: off, checked: o.kinds.includes(id) && !off, onchange: e => { o.kinds = e.target.checked ? o.kinds.concat(id) : o.kinds.filter(x => x !== id); } }));
       }));
       const timerSw = h('label', { class: 'switch' }, h('span', null, 'Показывать время'), h('input', { type: 'checkbox', checked: o.timer, onchange: e => { o.timer = e.target.checked; } }));

@@ -25,7 +25,7 @@
   function stop() { token++; try { speechSynthesis.cancel(); } catch (e) { /* нет озвучки */ } }
   function sayAs(text, g, slow) {
     return new Promise(resolve => {
-      if (!text || !Speech.supported || !S.settings.sound) { setTimeout(() => resolve(true), 500); return; }
+      if (!text || !Speech.supported || !App.soundOn()) { setTimeout(() => resolve(true), 500); return; }
       const my = ++token;
       try {
         const u = new SpeechSynthesisUtterance(String(text));

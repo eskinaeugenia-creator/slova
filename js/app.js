@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.13.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.14.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -103,6 +103,31 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
   function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) : '—'; }
 
+  // ---------- Тихий режим: без звука на время (кафе, транспорт), выключается сам ----------
+  const QUIET_MIN = 60;
+  const quiet = () => (S.settings.quietUntil || 0) > Date.now();
+  const soundOn = () => !!S.settings.sound && !quiet();
+  const quietLeft = () => Math.max(1, Math.ceil(((S.settings.quietUntil || 0) - Date.now()) / 60000));
+  async function setQuiet(min) {
+    S.settings.quietUntil = min ? Date.now() + min * 60000 : 0;
+    if (min) { try { speechSynthesis.cancel(); } catch (e) { /* нет озвучки */ } }
+    await saveSettings();
+    toast(min ? '🔇 Тихий режим на ' + (min === 60 ? 'час' : min + ' мин') + '. Звук вернётся сам' : '🔊 Звук включён');
+  }
+  // Плашка на «Сегодня»: выключено — маленькая кнопка, включено — сколько осталось и «Включить звук»
+  function quietCard(onChange) {
+    if (!S.settings.sound) return null; // звук и так выключен в настройках
+    const redraw = () => (onChange || (() => {}))();
+    if (!quiet()) return h('button', { class: 'btn sm ghost', id: 'quiet-on', style: { alignSelf: 'flex-start' }, onclick: async () => { await setQuiet(QUIET_MIN); redraw(); } },
+      '🔇 Тихий режим — без звука на час');
+    return h('div', { class: 'banner', id: 'quiet-banner' }, h('div', { class: 'grow' },
+      h('b', null, '🔇 Тихий режим · ещё ' + quietLeft() + ' мин'),
+      h('span', null, 'Без звука и упражнений на слух — только письменные и выбор ответа. Потом звук включится сам.'),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn sm primary', id: 'quiet-off', onclick: async () => { await setQuiet(0); redraw(); } }, '🔊 Включить звук'),
+        h('button', { class: 'btn sm ghost', id: 'quiet-more', onclick: async () => { S.settings.quietUntil = (S.settings.quietUntil || Date.now()) + 30 * 60000; await saveSettings(); toast('Ещё 30 минут без звука'); redraw(); } }, '+30 мин'))));
+  }
+
   // ---------- Озвучка (голоса устройства) ----------
   const Speech = {
     voices: [], ready: false,
@@ -121,6 +146,7 @@
       if (!text) return;
       if (!this.supported) { toast('На этом устройстве нет встроенной озвучки'); return; }
       if (!S.settings.sound) { toast('Звук выключен в настройках'); return; }
+      if (quiet()) { toast('🔇 Тихий режим — звук выключен'); return; }
       try {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(String(text).replace(/\s*\/\s*/g, ', '));
@@ -326,7 +352,11 @@
       h('div', { class: 'stack', style: { gap: '6px' } },
         h('div', { class: 'row small', style: { justifyContent: 'space-between' } }, h('span', null, 'Сегодня занимались'), h('span', { class: 'num' }, minutesToday + ' из ' + goal + ' мин')),
         h('div', { class: 'meter' }, h('i', { style: { width: Math.min(100, minutesToday / goal * 100) + '%' } }))));
+    // Тихий режим: включён — плашка над планом, выключен — маленькая кнопка под ним
+    const qc = quietCard(() => routes.today());
+    if (qc && quiet()) main.append(qc);
     main.append(hero);
+    if (qc && !quiet()) main.append(qc);
     main.append(totalsCard(await studyTotals()));
     if (window.Grammar) {
       await Grammar.loadProgress();
@@ -466,7 +496,7 @@
       thumb(w),
       h('div', { class: 't' }, h('div', { class: 'en' }, w.en), h('div', { class: 'ru' }, w.ru || 'перевода пока нет')),
       h('div', { class: 'side' }, h('div', { class: 'row', style: { gap: '4px', justifyContent: 'flex-end' } }, statusPills(w, now)),
-        S.settings.sound && Speech.supported ? h('button', { class: 'icon-btn', style: { width: '40px', height: '40px' }, 'aria-label': 'Произнести ' + w.en, onclick: e => { e.stopPropagation(); Speech.say(w.en); } }, icon('speaker')) : null));
+        soundOn() && Speech.supported ? h('button', { class: 'icon-btn', style: { width: '40px', height: '40px' }, 'aria-label': 'Произнести ' + w.en, onclick: e => { e.stopPropagation(); Speech.say(w.en); } }, icon('speaker')) : null));
     el.addEventListener('keydown', e => { if (e.key === 'Enter') el.click(); });
     return el;
   }
@@ -725,6 +755,7 @@
 
   window.App = { ACCENTS, applyAccent, S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
     kvSet, kvGet, newWord, mergeInto, wordsArr, activeWords, setName, ensureSet, logAnswer, wordItem, thumb, creditText, fmtDate,
-    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals, studyPerDay, dayKey, isStudyingNow, loadTracked };
+    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals, studyPerDay, dayKey, isStudyingNow, loadTracked,
+    quiet, soundOn, setQuiet, quietCard, QUIET_MIN };
   document.addEventListener('DOMContentLoaded', boot);
 })();

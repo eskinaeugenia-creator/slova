@@ -15,7 +15,7 @@
   function sayP(text, opts) {
     opts = opts || {};
     return new Promise(resolve => {
-      if (!text || !Speech.supported || !S.settings.sound) { setTimeout(resolve, opts.silentMs || 600); return; }
+      if (!text || !Speech.supported || !App.soundOn()) { setTimeout(resolve, opts.silentMs || 600); return; }
       const my = ++speakToken;
       try {
         const u = new SpeechSynthesisUtterance(String(text));

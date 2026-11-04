@@ -16,7 +16,7 @@
   };
   let cur = null; // текущее занятие
 
-  const soundOn = () => S.settings.sound && Speech.supported;
+  const soundOn = () => App.soundOn() && Speech.supported;
   const trainable = () => wordsArr().filter(w => !w.archived && w.ru);
   function distractorsFor(w, n) {
     const kr = C.keyRu(w.ru), ke = C.keyEn(w.en);
@@ -222,6 +222,11 @@
     if (cur.idx >= cur.queue.length) return finish();
     persist();
     const step = cur.queue[cur.idx];
+    // Тихий режим включили, а в очереди задание на слух — заменяем на такое же без звука
+    if (TYPES[step.type] && TYPES[step.type].sound && !soundOn()) {
+      const w0 = step.wordId && S.words.get(step.wordId);
+      step.type = step.type === 'listenWrite' ? 'ruEn' : (w0 && canChoice(w0) ? 'enRu' : 'flash');
+    }
     const pct = Math.round(cur.idx / cur.queue.length * 100);
     const wrap = h('div', { class: 'session' });
     wrap.append(h('div', { class: 'sbar' },
@@ -229,7 +234,14 @@
         const ok = cur.answered ? await dialog({ title: 'Закончить занятие?', text: 'Все ответы уже сохранены. Остаток можно пройти позже.', ok: 'Закончить', cancel: 'Продолжить' }) : true;
         if (ok) abort(); } }, icon('close')),
       h('div', { class: 'meter', role: 'progressbar', 'aria-valuenow': pct, 'aria-valuemin': 0, 'aria-valuemax': 100 }, h('i', { style: { width: pct + '%' } })),
-      h('span', { class: 'small muted num' }, (cur.idx + 1) + '/' + cur.queue.length)));
+      h('span', { class: 'small muted num' }, (cur.idx + 1) + '/' + cur.queue.length),
+      S.settings.sound && Speech.supported ? h('button', { class: 'icon-btn', id: 'quiet-toggle', style: { fontSize: '20px' }, 'aria-label': App.quiet() ? 'Включить звук' : 'Тихий режим: без звука',
+        onclick: async () => {
+          const s0 = cur && cur.queue[cur.idx];
+          await App.setQuiet(App.quiet() ? 0 : App.QUIET_MIN);
+          // задание ещё без ответа — перерисовать (на слух → без звука); с ответом — только значок
+          if (s0 && !s0.done) render(); else { const b = $('#quiet-toggle'); if (b) b.textContent = App.quiet() ? '🔇' : '🔊'; }
+        } }, App.quiet() ? '🔇' : '🔊') : null));
     const body = h('div', { class: 'sbody' });
     wrap.append(body); root.append(wrap);
     const w = step.wordId ? S.words.get(step.wordId) : null;
@@ -242,6 +254,7 @@
   // Записать ответ: расписание FSRS, статистика слова, журнал
   async function record(step, grade, info) {
     info = info || {};
+    step.done = true;
     const w = step.wordId && S.words.get(step.wordId);
     if (!cur) return;
     const retry = !!step.retry;
