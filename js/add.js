@@ -334,34 +334,67 @@
   }
 
   // --- Из текста ---
+  // Целые фразы из текста/домашки: убираем нумерацию (1, 2., 3) •), склеиваем перенос строки внутри предложения
+  // («I wake up early» + «in the morning.»), режем по . ! ?
+  function phrasesOf(text) {
+    const lines = String(text || '').replace(/\r/g, '').split('\n')
+      .map(l => l.replace(/^\s*(?:\(?\d{1,3}[.)]?|[•·▪●*–—-])\s+/, '').replace(/^\s*\d{1,3}\s*$/, '').trim()).filter(Boolean);
+    const chunks = [];
+    lines.forEach(l => {
+      const prev = chunks[chunks.length - 1];
+      if (prev && !/[.!?…]["»”']?$/.test(prev) && /^[A-Z]/.test(prev) && /^[a-z]/.test(l)) chunks[chunks.length - 1] = prev + ' ' + l;
+      else chunks.push(l);
+    });
+    const out = [];
+    chunks.forEach(c => { (c.match(/[^.!?…]+[.!?…]*/g) || []).forEach(x => { x = x.trim(); if (/[A-Za-z]/.test(x) && !/^[A-Z0-9 '&:-]+$/.test(x)) out.push(x); }); }); // заголовки КАПСОМ пропускаем
+    return out;
+  }
+  const phraseEn = x => x.replace(/\s+/g, ' ').replace(/[.…]+$/, '').trim();
   function textMode(body) {
     const ta = h('textarea', { class: 'input', id: 'text-src', rows: 8, placeholder: 'Вставьте текст, переписку или объявление об аренде на английском', spellcheck: 'false' }, S.ui.textSrc || '');
     ta.addEventListener('input', () => { S.ui.textSrc = ta.value; kvSet('textSrc', ta.value); });
     kvGet('textSrc').then(v => { if (v && !ta.value) ta.value = S.ui.textSrc = v; });
     const out = h('div', { class: 'stack' });
     body.append(h('div', { class: 'card stack' },
-      h('p', { class: 'small muted' }, 'Вставьте текст → отметьте незнакомые слова или целые фразы. Предложение сохранится как контекст. Текст никуда не отправляется.'),
-      ta, h('button', { class: 'btn primary block', onclick: () => pick() }, 'Выбрать слова')), out);
+      h('p', { class: 'small muted' }, 'Вставьте текст или фразы из домашнего задания → выберите целые фразы, отдельные слова или выражения. Нумерацию и переносы строк приложение уберёт само. Текст никуда не отправляется.'),
+      ta, h('button', { class: 'btn primary block', id: 'pick-btn', onclick: () => pick() }, 'Выбрать фразы и слова')), out);
     function pick() {
       const sents = C.sentencesOf(ta.value);
       if (!sents.length) return toast('Вставьте текст');
       const known = new Set(wordsArr().map(w => C.keyEn(w.en)));
       const sel = []; // {si, a, b}
       let phraseMode = false, start = null;
+      const phr = phrasesOf(ta.value), selP = new Set();
+      // Похоже на список коротких фраз (домашка, карточки) — сразу предлагаем выбирать их целиком
+      let sentMode = phr.length >= 3 && phr.reduce((a, x) => a + x.split(/\s+/).length, 0) / phr.length <= 9;
       out.innerHTML = '';
       const modeSeg = h('div', { class: 'seg' });
       const reader = h('div', { class: 'card reader', lang: 'en' });
       const chosen = h('div', { class: 'stack' });
-      out.append(modeSeg, h('p', { class: 'tiny muted' }, 'Подчёркнутые — уже в словаре. Нажмите слово, чтобы выбрать. Для фразы включите «Фраза» и нажмите первое и последнее слово.'), reader, chosen);
+      const hint = h('p', { class: 'tiny muted', id: 'pick-hint' });
+      out.append(modeSeg, hint, reader, chosen);
       const toks = sents.map(s => C.tokenize(s));
       function drawMode() {
         modeSeg.innerHTML = '';
-        [['word', 'Слово'], ['phrase', 'Фраза (начало → конец)']].forEach(([id, l]) => modeSeg.append(h('button', { 'aria-pressed': String((id === 'phrase') === phraseMode), onclick: () => { phraseMode = id === 'phrase'; start = null; drawMode(); drawReader(); } }, l)));
+        const cur = sentMode ? 'sent' : phraseMode ? 'phrase' : 'word';
+        [['sent', 'Целые фразы'], ['word', 'Слова'], ['phrase', 'Часть фразы']].forEach(([id, l]) => modeSeg.append(h('button', { 'data-mode': id, 'aria-pressed': String(cur === id), onclick: () => { sentMode = id === 'sent'; phraseMode = id === 'phrase'; start = null; drawMode(); drawReader(); } }, l)));
+        hint.textContent = sentMode ? 'Нажмите фразу, чтобы выбрать её целиком. Каждая выбранная фраза станет одной карточкой.'
+          : phraseMode ? 'Нажмите первое и последнее слово выражения (например, get out of). Подчёркнутые — уже в словаре.'
+          : 'Нажмите незнакомое слово. Подчёркнутые — уже в словаре.';
       }
       function inSel(si, i) { return sel.find(x => x.si === si && i >= x.a && i <= x.b); }
       function drawReader() {
         reader.innerHTML = '';
-        toks.forEach((ts, si) => {
+        reader.classList.toggle('phr-list', sentMode);
+        if (sentMode) {
+          const allOn = phr.length && phr.every((_, k) => selP.has(k));
+          reader.append(h('button', { class: 'btn sm block', id: 'phr-all', onclick: () => { if (allOn) selP.clear(); else phr.forEach((_, k) => selP.add(k)); drawReader(); } }, allOn ? 'Снять все' : 'Выбрать все фразы (' + phr.length + ')'));
+          phr.forEach((x, k) => {
+            const isKnown = known.has(C.keyEn(phraseEn(x)));
+            reader.append(h('button', { class: 'phr' + (selP.has(k) ? ' sel' : '') + (isKnown ? ' known' : ''), 'aria-pressed': String(selP.has(k)), onclick: () => { selP.has(k) ? selP.delete(k) : selP.add(k); drawReader(); } },
+              h('span', { class: 'phr-box' }, selP.has(k) ? '✓' : ''), h('span', { class: 'grow' }, x), isKnown ? h('span', { class: 'tiny muted' }, 'уже есть') : null));
+          });
+        } else toks.forEach((ts, si) => {
           ts.forEach((t, i) => {
             if (/^[.,!?;:]$/.test(t)) { reader.append(t + ' '); return; }
             const isKnown = known.has(C.keyEn(t));
@@ -372,15 +405,18 @@
           reader.append(h('br'));
         });
         chosen.innerHTML = '';
-        if (sel.length) {
-          chosen.append(h('h3', null, 'Выбрано: ' + sel.length),
-            h('div', { class: 'row', style: { gap: '6px' } }, sel.map((x, k) => h('button', { class: 'chip', 'aria-pressed': 'true', onclick: () => { sel.splice(k, 1); drawReader(); } }, phrase(x), ' ×'))),
-            h('button', { class: 'btn primary big block', onclick: () => {
-              const rows = sel.map((x, k) => {
+        const nSel = sel.length + selP.size;
+        if (nSel) {
+          chosen.append(h('h3', null, 'Выбрано: ' + nSel),
+            h('div', { class: 'row', style: { gap: '6px' } }, sel.map((x, k) => h('button', { class: 'chip', 'aria-pressed': 'true', onclick: () => { sel.splice(k, 1); drawReader(); } }, phrase(x), ' ×')),
+              [...selP].sort((a, b) => a - b).map(k => h('button', { class: 'chip', 'aria-pressed': 'true', onclick: () => { selP.delete(k); drawReader(); } }, phraseEn(phr[k]), ' ×'))),
+            h('button', { class: 'btn primary big block', id: 'pick-next', onclick: () => {
+              const rows = [...selP].sort((a, b) => a - b).map(k => ({ en: phraseEn(phr[k]), ru: '', source: phr[k], example: '' }));
+              sel.forEach(x => {
                 const sentence = sents[x.si];
-                const ph = phrase(x);
-                return { line: k + 1, en: ph, ru: '', source: sentence, example: sentence.split(' ').length <= 12 ? sentence : '' };
+                rows.push({ en: phrase(x), ru: '', source: sentence, example: sentence.split(' ').length <= 12 ? sentence : '' });
               });
+              rows.forEach((r, k) => { r.line = k + 1; });
               showPreview(rows, { from: 'text' });
             } }, 'Дальше: перевод и сохранение'));
         }

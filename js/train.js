@@ -29,7 +29,12 @@
   }
   const canChoice = (w) => distractorsFor(w, 2).length >= 2;
   const hasGap = (w) => !!(w.example && C.findInSentence(w.example, w.en));
-  const canBuild = (w) => { const t = C.tokenize(w.example).filter(x => !/^[.,!?;:]$/.test(x)); return w.example && t.length >= 3 && t.length <= 9; };
+  // Карточка-предложение (фраза из домашки, 4+ слов): собираем её саму из плиток, а не пример
+  const wordsOf = (t) => C.tokenize(t).filter(x => !/^[.,!?;:]$/.test(x));
+  const isSentence = (w) => wordsOf(w.en).length >= 4;
+  const buildText = (w) => isSentence(w) ? w.en : w.example;
+  const buildRu = (w) => isSentence(w) ? w.ru : w.exampleRu;
+  const canBuild = (w) => { const t = wordsOf(buildText(w)); return !!buildText(w) && t.length >= 3 && t.length <= (isSentence(w) ? 14 : 9); };
   function applicable(type, w) {
     if (TYPES[type].sound && !soundOn()) return false;
     if ((type === 'enRu' || type === 'listenChoice') && !canChoice(w)) return false;
@@ -44,6 +49,7 @@
     const reps = card ? card.reps : 0;
     let pref;
     if (dir === 'recog') pref = reps < 2 ? ['enRu', 'listenChoice', 'flash'] : C.shuffle(['flash', 'listenChoice', 'enRu']);
+    else if (isSentence(w)) pref = reps < 2 ? ['build', 'ruEn', 'listenWrite'] : C.shuffle(['build', 'ruEn', 'listenWrite']);
     else pref = reps === 0 ? ['gap', 'ruEn', 'listenWrite'] : C.shuffle(['ruEn', 'listenWrite', 'gap', 'ruEn']);
     const t = pref.find(ok);
     if (t) return t;
@@ -58,7 +64,7 @@
     const k = kinds(); const out = [];
     if (k.cards) out.push('flash');
     if (k.choice) out.push('enRu');
-    if (k.write) out.push('ruEn', 'gap');
+    if (k.write) out.push('ruEn', 'gap', 'build');
     if (k.listen) { if (k.choice || !k.write) out.push('listenChoice'); if (k.write || !k.choice) out.push('listenWrite'); }
     return out.length ? out : null;
   }
@@ -497,7 +503,7 @@
 
   // 7) Собрать предложение (тренирует применение; на расписание не влияет)
   EX.build = function (body, w, step) {
-    const target = C.tokenize(w.example).filter(x => !/^[.,!?;:]$/.test(x));
+    const text = buildText(w), target = wordsOf(text);
     let tiles = C.shuffle(target.map((t, i) => ({ t, i })));
     if (tiles.map(x => x.t).join(' ') === target.join(' ')) tiles = tiles.reverse();
     const chosen = [];
@@ -505,7 +511,7 @@
     const pool = h('div', { class: 'tiles' });
     const fb = h('div'), actions = h('div', { class: 'actions' });
     body.append(task('Соберите предложение из слов'),
-      h('div', { class: 'prompt' }, h('div', { class: 'mid' }, w.exampleRu || ('Предложение со словом «' + w.en + '»'))),
+      h('div', { class: 'prompt' }, h('div', { class: 'mid' }, buildRu(w) || ('Предложение со словом «' + w.en + '»'))),
       line, pool, fb, actions);
     function draw() {
       line.innerHTML = ''; pool.innerHTML = '';
@@ -520,15 +526,16 @@
       tries++;
       fb.innerHTML = '';
       if (ok) {
-        await record(step, tries === 1 ? 3 : 2, { noSchedule: true });
-        fb.append(h('div', { class: 'feedback ok' }, h('div', { class: 'title' }, 'Верно!'), h('div', { lang: 'en' }, w.example)));
-        actions.innerHTML = ''; actions.append(nextBtn()); if (soundOn()) Speech.say(w.example);
+        // ошибка первой попытки уже записана — второй раз в расписание не пишем
+        if (!step.dir || tries === 1) await record(step, tries === 1 ? 3 : 2, { noSchedule: !step.dir });
+        fb.append(h('div', { class: 'feedback ok' }, h('div', { class: 'title' }, 'Верно!'), h('div', { lang: 'en' }, text)));
+        actions.innerHTML = ''; actions.append(nextBtn()); if (soundOn()) Speech.say(text);
       } else {
-        if (tries === 1) await record(step, 1, { noSchedule: true });
-        fb.append(h('div', { class: 'feedback no' }, h('div', { class: 'title' }, 'Порядок другой'), h('div', null, 'Правильно: ', h('b', { lang: 'en' }, w.example)), h('div', { class: 'tiny muted' }, 'Нажмите на слова сверху, чтобы вернуть их, и соберите ещё раз.')));
+        if (tries === 1) await record(step, 1, { noSchedule: !step.dir });
+        fb.append(h('div', { class: 'feedback no' }, h('div', { class: 'title' }, 'Порядок другой'), h('div', null, 'Правильно: ', h('b', { lang: 'en' }, text)), h('div', { class: 'tiny muted' }, 'Нажмите на слова сверху, чтобы вернуть их, и соберите ещё раз.')));
         if (tries >= 2) { actions.innerHTML = ''; actions.append(nextBtn()); }
       }
-    } }, 'Проверить'), helperRow(soundOn() ? h('button', { class: 'btn sm', onclick: () => Speech.say(w.example, true) }, icon('slow'), 'Прослушать') : null, h('button', { class: 'btn sm', onclick: next }, 'Пропустить')));
+    } }, 'Проверить'), helperRow(soundOn() ? h('button', { class: 'btn sm', onclick: () => Speech.say(text, true) }, icon('slow'), 'Прослушать') : null, h('button', { class: 'btn sm', onclick: next }, 'Пропустить')));
   };
 
   // 8) Подобрать пары (разминка; на расписание не влияет)

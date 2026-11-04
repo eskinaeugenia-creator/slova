@@ -366,3 +366,11 @@ a.chip { text-decoration: none; color: var(--ink); }
 .set-meter i.learn { background: var(--accent); }
 .set-meter i.have { background: color-mix(in srgb, var(--accent) 35%, var(--surface-2)); }
 #sets-done-title { color: var(--accent); }
+
+/* «Из текста»: целые фразы */
+.reader.phr-list { display: flex; flex-direction: column; gap: 8px; }
+.phr { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); font: inherit; font-size: 16px; cursor: pointer; }
+.phr.sel { border-color: var(--accent); background: var(--accent-soft); }
+.phr-box { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--accent-ink); }
+.phr.sel .phr-box { background: var(--accent); border-color: var(--accent); }
+.phr.known { opacity: .7; }
