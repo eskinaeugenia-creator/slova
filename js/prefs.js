@@ -235,6 +235,7 @@
     drawSw();
     main.append(h('div', { class: 'card stack' }, h('h2', null, 'Основной цвет'), h('p', { class: 'small muted' }, 'Кнопки, переключатели и полоски прогресса. Фон остаётся чёрным.'), swatches));
 
+    if (window.Level) main.append(Level.prefsCard());
     main.append(h('div', { class: 'card stack' }, h('h2', null, 'Занятия'),
       h('label', { class: 'field', for: 'p-name' }, 'Как к вам обращаться', name),
       h('label', { class: 'field', for: 'p-min' }, 'Время в день', sel('p-min', st.minutes, [[10, '10 минут'], [15, '15 минут'], [20, '20 минут'], [30, '30 минут']], v => { st.minutes = +v; save(); })),

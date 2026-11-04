@@ -146,7 +146,7 @@
     } finally { pushing = false; if (dirty.size || removed.size) schedulePush(); }
   }
   let setsDirty = false, cfgDirty = false, gramDirty = false;
-  const CFG = ['name', 'minutes', 'newPerDay', 'sound', 'autoplay', 'rate', 'slowRate', 'timer', 'timerSec', 'autoImages', 'online', 'retention'];
+  const CFG = ['name', 'minutes', 'newPerDay', 'sound', 'autoplay', 'rate', 'slowRate', 'timer', 'timerSec', 'autoImages', 'online', 'retention', 'level', 'levelAt'];
   const cfgSubset = () => { const o = {}; CFG.forEach(k => { o[k] = App.S.settings[k]; }); return o; };
   // Список удалённых слов, чтобы другое устройство не вернуло их обратно
   async function deletedList() { try { const v = await cGetItems(['deleted']); return JSON.parse(v.deleted || '[]'); } catch (e) { return []; } }

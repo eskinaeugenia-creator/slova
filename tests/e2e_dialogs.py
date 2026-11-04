@@ -1,3 +1,4 @@
+import re
 # Диалоги: список, фильтр по темам, два голоса, слово, фразы в словарь, вопросы, ролевая игра
 exec(open('tests/e2e_extra.py', encoding='utf-8').read().split('with sync_playwright()')[0])
 SH='/tmp/claude-0/-home-claude/de85335f-0f5d-5bd4-b2db-7618e4b0e2be/scratchpad/'
@@ -42,7 +43,7 @@ with sync_playwright() as p:
             ru=pg.locator('.prompt .mid').inner_text()
             en=pg.evaluate(f"window.DIALOGS.find(d=>d.id==='meet1').lines.find(l=>l[2]==={ru!r})[1]")
             for wd in en.rstrip('.?!').split(' '):
-                pg.locator('.tiles .tile:not(.used)', has_text=wd).first.click()
+                pg.locator('.tiles .tile:not(.used)').filter(has_text=re.compile('^'+re.escape(wd)+'$')).first.click()  # точное совпадение: «a» не должно ловить «and»
             pass
             pg.click('#role-check'); me_right+=1
         pg.wait_for_selector('#role-next'); pg.click('#role-next'); pg.wait_for_timeout(100)

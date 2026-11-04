@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.12.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.13.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -278,7 +278,10 @@
       main.append(h('form', { class: 'card stack', onsubmit: async e => { e.preventDefault(); const v = C.clean(nm.value); if (!v) return nm.focus(); S.settings.name = v; await saveSettings(); routes.today(); } },
         h('h3', null, 'Как к вам обращаться?'), h('div', { class: 'row nowrap' }, h('div', { class: 'grow' }, nm), h('button', { class: 'btn primary', type: 'submit' }, 'Готово'))));
     }
+    // Проверка уровня при первом запуске (можно пропустить)
+    const lvCard = window.Level ? Level.todayCard() : null;
     main.append(h('p', { class: 'muted' }, (S.settings.name ? 'Привет, ' + S.settings.name + '! ' : '') + new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })));
+    if (lvCard) main.append(lvCard);
 
     if (!words.length) {
       main.append(h('div', { class: 'card empty' },
