@@ -298,6 +298,15 @@
   // ---------- Общие элементы упражнений ----------
   function task(text) { return h('div', { class: 'task' }, text); }
   function picEl(w) { return w.image ? h('div', { class: 'pic' }, h('img', { src: w.image, alt: '' })) : w.emoji ? h('div', { class: 'pic' }, w.emoji) : null; }
+  // Картинка как подсказка: скрыта до ответа (по умолчанию), открывается кнопкой «Картинка» или сама после ответа
+  function picFirst() { return S.settings.picFirst === true; }
+  function hiddenPic(w) {
+    const el = picEl(w); if (!el) return { el: null, btn: null, show() {} };
+    const now = picFirst(); if (!now) el.hidden = true;
+    const box = { el, btn: null, show() { el.hidden = false; if (box.btn) box.btn.remove(); } };
+    if (!now) box.btn = h('button', { class: 'btn sm', type: 'button', 'data-pic-hint': '1', onclick: () => box.show() }, 'Подсказка: картинка');
+    return box;
+  }
   function speakBig(text, autoplay) {
     const b = h('button', { class: 'speak-big', 'aria-label': 'Прослушать', onclick: () => Speech.say(text) }, icon('speaker'));
     if (autoplay && S.settings.autoplay) setTimeout(() => Speech.say(text), 250);
@@ -344,18 +353,19 @@
 
   // 1) Карточка с самооценкой
   EX.flash = function (body, w, step) {
-    const back = h('div', { class: 'stack', hidden: true, style: { justifyItems: 'center' } }, picEl(w), h('div', { class: 'mid' }, w.ru), w.alt ? h('div', { class: 'small muted' }, 'Ещё: ' + w.alt) : null,
+    const pic = hiddenPic(w);
+    const back = h('div', { class: 'stack', hidden: true, style: { justifyItems: 'center' } }, h('div', { class: 'mid' }, w.ru), w.alt ? h('div', { class: 'small muted' }, 'Ещё: ' + w.alt) : null,
       w.example ? h('div', { class: 'small', lang: 'en' }, w.example) : null, w.exampleRu ? h('div', { class: 'small muted' }, w.exampleRu) : null);
     const actions = h('div', { class: 'actions' });
     body.append(task('Вспомните перевод, потом переверните карточку'),
-      h('div', { class: 'prompt' }, h('div', { class: 'big', lang: 'en' }, w.en), soundOn() ? speakBig(w.en, true) : null, back), actions);
+      h('div', { class: 'prompt' }, pic.el, h('div', { class: 'big', lang: 'en' }, w.en), soundOn() ? speakBig(w.en, true) : null, back), actions);
     const show = h('button', { class: 'btn primary big block', onclick: () => {
-      back.hidden = false; actions.innerHTML = '';
+      back.hidden = false; pic.show(); actions.innerHTML = '';
       const r = (g, label, sub, cls) => h('button', { class: 'btn ' + (cls || ''), onclick: async () => { await record(step, g); next(); } }, label, h('small', null, sub));
       actions.append(h('p', { class: 'small muted', style: { textAlign: 'center' } }, 'Насколько легко вспомнили?'),
         h('div', { class: 'rate' }, r(1, 'Не вспомнила', 'повторим скоро'), r(2, 'С трудом', ''), r(3, 'Вспомнила', '', 'primary'), r(4, 'Легко', 'реже')));
     } }, 'Показать ответ');
-    actions.append(show);
+    actions.append(show); if (pic.btn) actions.append(helperRow(pic.btn));
     setTimeout(() => show.focus(), 30);
   };
 
@@ -412,7 +422,8 @@
       const fb = h('div');
       const actions = h('div', { class: 'actions' });
       let prompt;
-      if (kind === 'ruEn') prompt = h('div', { class: 'prompt' }, picEl(w), h('div', { class: 'mid' }, w.ru),
+      const pic = kind === 'ruEn' ? hiddenPic(w) : { el: null, btn: null, show() {} };
+      if (kind === 'ruEn') prompt = h('div', { class: 'prompt' }, pic.el, h('div', { class: 'mid' }, w.ru),
         sameRu && w.example ? h('div', { class: 'small muted' }, 'Контекст: ', h('span', { lang: 'en' }, blank(w.example, w.en))) : sameRu && w.comment ? h('div', { class: 'small muted' }, w.comment) : null);
       else if (kind === 'listenWrite') prompt = h('div', { class: 'prompt' }, speakBig(w.en, true));
       else prompt = h('div', { class: 'prompt' }, h('div', { class: 'gap-sentence', lang: 'en' }, ...gapParts(w.example, gap)), w.exampleRu ? h('div', { class: 'small muted' }, w.exampleRu) : null,
@@ -425,6 +436,7 @@
         actions.innerHTML = '';
         actions.append(h('button', { class: 'btn primary big block', type: 'submit' }, retrying ? 'Проверить ещё раз' : 'Проверить'),
           helperRow(!retrying ? h('button', { class: 'btn sm', type: 'button', onclick: hint }, 'Подсказка') : null,
+            !retrying && pic.btn && pic.el.hidden ? pic.btn : null,
             kind === 'listenWrite' || soundOn() && kind !== 'ruEn' ? h('button', { class: 'btn sm', type: 'button', onclick: () => Speech.say(kind === 'gap' ? w.example : w.en, true) }, icon('slow'), 'Прослушать ещё раз') : null,
             !retrying ? h('button', { class: 'btn sm', type: 'button', onclick: () => giveUp() }, 'Не знаю') : h('button', { class: 'btn sm', type: 'button', onclick: next }, 'Пропустить')));
       }
@@ -459,6 +471,7 @@
           return;
         }
         if (done) return; done = true;
+        pic.show();
         const hinted = hintLevel > 0;
         if (r.result === 'correct') {
           await record(step, hinted ? 2 : 3, { hinted });
@@ -478,6 +491,7 @@
         }
       }
       function showWrong(val, r) {
+        pic.show();
         fb.innerHTML = '';
         fb.append(val ? diffBox(val, r) : h('div', { class: 'feedback no' }, h('div', { class: 'title' }, 'Правильный ответ'), h('div', { class: 'diff', lang: 'en' }, expected)));
         fb.append(h('div', { class: 'small', style: { marginTop: '8px' } }, cardSummary(w)));

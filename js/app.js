@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.15.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.16.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -10,7 +10,7 @@
     online: navigator.onLine !== false, ui: { dictFilter: 'all', dictSet: 'all', dictQuery: '', select: false, selected: new Set(), shown: 150 },
   };
   const DEFAULTS = {
-    name: '', autoImages: true, minutes: 15, newPerDay: 7, sound: true, autoplay: true, voiceURI: '', rate: 0.95, slowRate: 0.6,
+    name: '', autoImages: true, picFirst: false, minutes: 15, newPerDay: 7, sound: true, autoplay: true, voiceURI: '', rate: 0.95, slowRate: 0.6,
     timer: false, timerSec: 12, reminderTime: '20:00', tz: 'device', retention: 0.9, online: true,
     lastBackup: 0, changesSinceBackup: 0, backupEveryDays: 7,
   };
