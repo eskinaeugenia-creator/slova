@@ -1,4 +1,4 @@
-const C = require('/home/claude/app/js/core.js');
+const C = require(require('path').join(__dirname, '..', 'js', 'core.js'));
 const assert = require('assert'); let n = 0; const t = (name, f) => { f(); n++; console.log('✓', name); };
 
 // 50 строк: разные разделители, дубли, фразовые глаголы, без перевода, нумерация
@@ -98,7 +98,7 @@ t('CSV с кавычками и запятыми внутри', () => {
 });
 t('неправильные глаголы', () => { assert.strictEqual(C.irregular('to go').v2, 'went'); assert.strictEqual(C.irregular('rent'), null); });
 console.log('\nВсе тесты логики пройдены:', n);
-const C2 = require('/home/claude/app/js/core.js');
+const C2 = require(require('path').join(__dirname, '..', 'js', 'core.js'));
 const mixed = C2.parseList('word0\tслово0\n1. term - термин\nphrase — фраза\nx = икс\nbeach\nпляж — beach\nтолько русский');
 const errs = mixed.rows.filter(r => r.error).map(r => r.raw);
 require('assert').deepStrictEqual(errs, ['только русский']);
