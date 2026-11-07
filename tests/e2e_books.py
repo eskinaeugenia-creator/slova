@@ -11,7 +11,7 @@ with sync_playwright() as p:
     pg.goto(BASE+'#train'); pg.wait_for_selector('.tile')
     ok('плитка «Книжная полка»', pg.locator('.tile:has-text("Книжная полка")').count()==1)
     pg.click('.tile:has-text("Книжная полка")'); pg.wait_for_selector('.tile.wide')
-    ok('8 книг на 5 уровнях', pg.locator('.tile.wide').count()==8 and pg.locator('.section-title').count()==6, pg.locator('.section-title').all_inner_texts())
+    ok('13 книг на 5 уровнях', pg.locator('.tile.wide').count()==13 and pg.locator('.section-title').count()==6, pg.locator('.section-title').all_inner_texts())
     pg.screenshot(path=SH+'shelf.png', full_page=False)
     pg.click('.tile.wide:has-text("The Little Red Hen")'); pg.wait_for_selector('.rw')
     ok('одна глава — сразу чтение', 'read-hen-0' in pg.url)

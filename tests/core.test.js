@@ -105,3 +105,26 @@ require('assert').deepStrictEqual(errs, ['только русский']);
 const cb = C2.classifyBatch(mixed.rows, []);
 require('assert').strictEqual(cb[4].status, 'dupList'); require('assert').strictEqual(cb[5].status, 'new');
 console.log('✓ смешанные разделители в одном списке; черновик + перевод того же слова в списке → одна карточка');
+// Книжная полка: у каждого слова встроенных книг есть перевод в словарике, у абзацев пересказов — свой перевод, вопросы корректны
+(() => {
+  const A = require('assert'); global.window = global.window || {};
+  require(require('path').join(__dirname, '..', 'js', 'books-data.js'));
+  const B = global.window.BOOKS, G = global.window.BOOK_GLOSS.G, F = global.window.BOOK_GLOSS.F;
+  const ids = new Set(), miss = new Set();
+  for (const b of B) {
+    A.ok(!ids.has(b.id), 'повтор id книги ' + b.id); ids.add(b.id);
+    A.ok(b.lvl >= 1 && b.lvl <= 5 && b.title && b.ru && b.icon && b.src, 'поля книги ' + b.id);
+    A.strictEqual(b.words, b.chapters.reduce((n, c) => n + c.p.reduce((m, p) => m + p[0].split(/\s+/).length, 0), 0), 'число слов ' + b.id);
+    for (const c of b.chapters) {
+      for (const p of c.p) {
+        if (!/Gutenberg/.test(b.src)) A.ok(p[1], 'нет перевода абзаца в ' + b.id);
+        for (const w of p[0].toLowerCase().replace(/’/g, "'").match(/[a-z']+/g) || []) {
+          const k = w.replace(/^'+|'+$/g, '').replace(/'s$/, ''); if (k && !G[F[k] || k]) miss.add(b.id + ':' + k);
+        }
+      }
+      for (const [q, opts, a] of c.q || []) A.ok(q && opts.length >= 2 && opts[a] !== undefined, 'вопрос в ' + b.id);
+    }
+  }
+  A.deepStrictEqual([...miss], [], 'слова без перевода в словарике книг');
+  console.log('✓ книги: ' + B.length + ', у всех слов есть перевод в словарике');
+})();
