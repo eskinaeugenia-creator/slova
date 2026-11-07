@@ -9,7 +9,7 @@
 2. Прочитать нужные файлы перед правкой. Стиль кода — как в соседних файлах; комментарии по-русски.
 3. Новые файлы `js/*.js` добавить в `index.html` (с `?v=`) и в `SHELL` в `sw.js`.
 4. Тесты: запустить `python3 -m http.server 8765` из корня репозитория в фоне, затем
-   `node tests/core.test.js`, `node tests/grammar.check.js` и все `python3 tests/e2e*.py` (Playwright и Chromium уже установлены).
+   `node tests/core.test.js`, `node tests/grammar.check.js`, `node tests/stats-script.check.js` и все `python3 tests/e2e*.py` (Playwright и Chromium уже установлены).
    Для новой функции — дописать свой `tests/e2e_<имя>.py` по образцу соседних.
    **Если хоть один тест падает и починить не получается — ничего не публиковать**, описать проблему в отчёте.
 5. Версия: `python3 tools/bump.py X.Y.Z` (новая функция — +0.1.0, исправление — +0.0.1). Обновить `README.md` (таблица возможностей) и `BACKLOG.md` (перенести задачу в «Сделано» с датой и версией).

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.18.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.19.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -308,6 +308,7 @@
     const lvCard = window.Level ? Level.todayCard() : null;
     main.append(h('p', { class: 'muted' }, (S.settings.name ? 'Привет, ' + S.settings.name + '! ' : '') + new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })));
     if (lvCard) main.append(lvCard);
+    else if (window.Stats) { const sc = Stats.todayCard(); if (sc) main.append(sc); }
 
     if (!words.length) {
       main.append(h('div', { class: 'card empty' },
@@ -744,6 +745,7 @@
     setTimeout(checkUpdate, 3000);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkUpdate(); });
     if (window.TG && TG.inTG) TG.start();
+    if (window.Stats) Stats.start();
     route();
     if (window.Pics) Pics.resume();
     if ('serviceWorker' in navigator && window.isSecureContext && !window.__ARTIFACT__) {
