@@ -83,6 +83,11 @@
     const mine = await myBooks();
     main.append(h('p', { class: 'muted small' }, 'Сказки, басни и классика по уровням. Нажмите на любое слово — перевод, озвучка и «в словарь». Можно слушать текст целиком.'));
     const books = window.BOOKS || [];
+    const last = window.AudioBook ? await AudioBook.lastListened() : null;
+    const lastB = last && await getBook(last.id);
+    if (lastB) main.append(h('button', { class: 'tile wide', id: 'ab-last', onclick: () => go('audio-' + lastB.id) },
+      h('span', { class: 'tile-ic' }, '🎧'), h('span', { class: 'tile-t grow' }, h('b', null, 'Продолжить слушать'),
+        h('small', null, h('span', { lang: 'en' }, lastB.title), lastB.chapters.length > 1 ? ' · глава ' + (last.ch + 1) : ''))));
     Object.keys(LEVELS).forEach(lv => {
       const list = books.filter(b => String(b.lvl) === lv);
       if (!list.length) return;
@@ -121,7 +126,8 @@
     if (b.chapters.length === 1) { location.replace('#read-' + id + '-0'); return; }
     const main = screen({ title: b.title, back: 'books' });
     const p = (await progress())[id] || { done: [] };
-    main.append(h('div', { class: 'card stack' }, h('div', { style: { fontSize: '44px' } }, b.icon), h('h2', { lang: 'en' }, b.title), h('p', { class: 'muted' }, b.ru), h('p', { class: 'tiny muted' }, b.author)));
+    main.append(h('div', { class: 'card stack' }, h('div', { style: { fontSize: '44px' } }, b.icon), h('h2', { lang: 'en' }, b.title), h('p', { class: 'muted' }, b.ru), h('p', { class: 'tiny muted' }, b.author),
+      window.AudioBook ? await AudioBook.button(b, { cls: 'primary' }) : null));
     b.chapters.forEach((ch, i) => main.append(h('button', { class: 'tile wide', onclick: () => go('read-' + id + '-' + i) },
       h('span', { class: 'tile-ic' }, String(i + 1)), h('span', { class: 'tile-t grow' }, h('b', { lang: 'en' }, ch.title), h('small', null, ch.p.reduce((n, x) => n + x[0].split(' ').length, 0) + ' слов')),
       p.done.includes(i) ? h('span', { class: 'pill solid' }, '✓') : null)));
@@ -185,6 +191,7 @@
     main.append(h('div', { class: 'card stack' },
       h('div', { class: 'row', style: { justifyContent: 'space-between', alignItems: 'baseline' } }, h('h2', { lang: 'en' }, ch.title), b.lvl ? h('span', { class: 'pill' }, 'уровень ' + b.lvl) : null),
       h('div', { class: 'row', style: { flexWrap: 'wrap', gap: '8px' } }, playBtn, slowSw, trSw),
+      window.AudioBook ? await AudioBook.button(b, { chapter: ci, cls: 'ghost' }) : null,
       h('p', { class: 'tiny muted' }, 'Нажмите на слово — перевод и «в словарь». Подчёркнутые слова уже есть в вашем словаре.')),
       h('div', { class: 'card' }, text));
 
@@ -266,5 +273,5 @@
     draw();
   }
 
-  window.Books = { lookup, stems, wordSheet, onlineTranslate, sayP, stopSpeech };
+  window.Books = { lookup, stems, wordSheet, onlineTranslate, sayP, stopSpeech, getBook, markChapter: setProgress };
 })();

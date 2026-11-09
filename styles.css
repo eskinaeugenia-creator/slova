@@ -374,3 +374,7 @@ a.chip { text-decoration: none; color: var(--ink); }
 .phr-box { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 14px; font-weight: 800; color: var(--accent-ink); }
 .phr.sel .phr-box { background: var(--accent); border-color: var(--accent); }
 .phr.known { opacity: .7; }
+/* Аудиокнига */
+.ab-text { font-size: 19px; line-height: 1.6; }
+.ab-s { border-radius: 6px; transition: background .2s; }
+.ab-s.on { background: var(--accent-soft); box-shadow: 0 0 0 3px var(--accent-soft); }

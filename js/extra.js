@@ -20,7 +20,7 @@
       try {
         const u = new SpeechSynthesisUtterance(String(text));
         if (opts.lang === 'ru') { ruVoice = ruVoice || pickRu(); if (ruVoice) u.voice = ruVoice; u.lang = 'ru-RU'; u.rate = 1; }
-        else { const v = Speech.voice(); if (v) u.voice = v; u.lang = v ? v.lang : 'en-US'; u.rate = opts.slow ? S.settings.slowRate : S.settings.rate; }
+        else { const v = Speech.voice(); if (v) u.voice = v; u.lang = v ? v.lang : 'en-US'; u.rate = opts.rate || (opts.slow ? S.settings.slowRate : S.settings.rate); }
         let done = false; const fin = () => { if (done) return; done = true; resolve(my === speakToken); };
         u.onend = fin; u.onerror = fin;
         // страховка: некоторые браузеры не присылают onend
