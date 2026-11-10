@@ -63,7 +63,7 @@ with sync_playwright() as p:
     pg.goto(BASE+'#train'); pg.wait_for_selector('.tiles-grid')
     ok('плитка «Грамматика» активна', pg.locator('.tile:has-text("Грамматика"):not(.soon)').count()==1)
     pg.click('.tile:has-text("Грамматика")'); pg.wait_for_selector('.tile.wide')
-    ok('30 тем грамматики (A1 + A2)', pg.locator('.tile.wide:not(.soon)').count()==30)
+    ok('38 тем грамматики (A1 + A2 + B1)', pg.locator('.tile.wide:not(.soon)').count()==38)
     pg.screenshot(path='/home/claude/tests/shots/24-grammar-list.png', full_page=True)
     pg.click('.tile.wide:has-text("am / is / are")'); pg.wait_for_selector('.gram-theory')
     ok('теория: правило, таблица, примеры с озвучкой', pg.locator('.gram-table').count()>=1 and pg.locator('.gram-ex').count()>=5)

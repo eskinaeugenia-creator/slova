@@ -415,7 +415,7 @@
     let mist = [];
     try { mist = await Train.mistakesWordIds(7); } catch (e) { /* пусто */ }
     let gramInfo = 'A1: am/is/are, Present Simple…';
-    if (window.Grammar) { await Grammar.loadProgress(); const n = Grammar.LESSONS.filter(l => ['done', 'due'].includes(Grammar.stateOf(l.id, Date.now()))).length; const d = Grammar.dueLessons().length; gramInfo = d ? 'пора повторить: ' + d : n ? 'пройдено ' + n + ' из ' + Grammar.LESSONS.length : Grammar.LESSONS.length + ' тем A1–A2'; }
+    if (window.Grammar) { await Grammar.loadProgress(); const n = Grammar.LESSONS.filter(l => ['done', 'due'].includes(Grammar.stateOf(l.id, Date.now()))).length; const d = Grammar.dueLessons().length; gramInfo = d ? 'пора повторить: ' + d : n ? 'пройдено ' + n + ' из ' + Grammar.LESSONS.length : Grammar.LESSONS.length + ' тем A1–B1'; }
     const tile = (ic, title, sub, onclick, disabled) => h('button', { class: 'tile', disabled: !!disabled, onclick }, h('span', { class: 'tile-ic' }, ic), h('span', { class: 'tile-t' }, h('b', null, title), h('small', null, sub)));
     const grid = h('div', { class: 'tiles-grid' },
       tile('🎯', 'Подготовка к уроку', 'набор, слова, упражнения', () => go('prep'), !words.length),

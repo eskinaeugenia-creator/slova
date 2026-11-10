@@ -1,4 +1,4 @@
-/* Мои слова — грамматика A1.
+/* Мои слова — грамматика A1–B1.
    Схема урока (по исследованиям обучения грамматике):
    1) короткое явное правило по-русски + сравнение с русским (explicit instruction — Norris & Ortega, 2000);
    2) сначала задания на понимание: смысл зависит от формы (structured input — VanPatten);
@@ -724,9 +724,193 @@
       { t: 'build', ru: 'Если ты устала, возьмём такси.', a: "If you're tired, we'll take a taxi.", extra: 'will' },
     ] });
 
-  // Порядок изучения (A1 → A2)
+  add({ id: 'haveg', lvl: 'A2', title: "have got / has got", sub: 'У меня есть: I’ve got, she’s got', icon: '🎒',
+    theory: [
+      { h: 'Что значит', p: "have got = have: «у меня есть». Очень часто в разговоре, особенно в британском английском. I've got = I have got, she's got = she has got (не she is!).",
+        table: [['I / you / we / they', "I've got a car.", "I haven't got a car. Have you got a car?"], ['he / she / it', "She's got a cat.", "She hasn't got a cat. Has she got a cat?"]] },
+      { h: 'Ловушки', p: 'В вопросе и отрицании do не нужен: Have you got…? I haven’t got… В прошлом have got не говорят — просто had.',
+        ex: [["I've got two children.", 'У меня двое детей.'], ["We haven't got much time.", 'У нас мало времени.'], ['Have you got a pen?', 'У тебя есть ручка?'], ["He's got a new phone.", 'У него новый телефон.']] },
+    ],
+    items: [
+      { t: 'meaning', s: "She's got two children.", ask: "Что здесь значит 's?", o: ['has — у неё есть', 'is — она есть'], a: 0, why: "'s got = has got." },
+      { t: 'meaning', s: "I haven't got a towel.", ask: 'Есть полотенце?', o: ['нет', 'да'], a: 0, why: "haven't got — у меня нет." },
+      { t: 'choose', s: 'I ___ got a new phone.', ru: 'У меня новый телефон.', o: ['have', 'has', 'am'], a: 'have', why: 'I → have got.' },
+      { t: 'choose', s: 'She ___ got a car.', ru: 'У неё есть машина.', o: ['has', 'have', 'is'], a: 'has', why: 'She → has got.' },
+      { t: 'choose', s: '___ you got a pen?', ru: 'У тебя есть ручка?', o: ['Have', 'Do', 'Are'], a: 'Have', why: 'Вопрос: Have you got…? — без do.' },
+      { t: 'choose', s: 'He ___ got any money.', ru: 'У него нет денег.', o: ["hasn't", "haven't", "doesn't"], a: "hasn't", why: "He → hasn't got." },
+      { t: 'choose', s: "We've ___ a big flat.", ru: 'У нас большая квартира.', o: ['got', 'get', 'have'], a: 'got', why: "We've got = we have got." },
+      { t: 'choose', s: '___', ru: 'У тебя есть дети?', o: ['Have you got children?', 'Do you got children?', 'Are you got children?'], a: 'Have you got children?', why: 'Have + you + got.' },
+      { t: 'type', s: 'They ___ got a dog.', ru: 'У них есть собака.', a: ['have'], why: 'They → have got.' },
+      { t: 'type', s: '___ she got a ticket?', ru: 'У неё есть билет?', a: ['Has'], why: 'She → Has she got…?' },
+      { t: 'build', ru: 'У меня есть машина.', a: "I've got a car.", extra: 'has' },
+      { t: 'build', ru: 'У неё нет времени.', a: "She hasn't got time.", extra: "haven't" },
+      { t: 'build', ru: 'У тебя есть ручка?', a: 'Have you got a pen?', extra: 'do' },
+    ] });
+
+  add({ id: 'wh', lvl: 'A2', title: 'what, which, whose, how long', sub: 'Что? Какой из? Чей? Как долго?', icon: '🔎',
+    theory: [
+      { h: 'Слова-вопросы', table: [['what', 'что? какой?', 'What is your name?'], ['which', 'какой из (выбор из немногих)', 'Which bag is yours?'], ['whose', 'чей?', 'Whose phone is this?'], ['how long', 'как долго? сколько времени?', 'How long is the flight?']] },
+      { h: 'what или which', p: 'what — вопрос вообще: What music do you like? which — выбор из нескольких известных вариантов: Which room — 5 or 6? После слова-вопроса — порядок как в вопросе: do / is / can перед подлежащим.',
+        ex: [['What time is it?', 'Который час?'], ['Which one do you want — red or blue?', 'Какой хочешь — красный или синий?'], ['Whose keys are these?', 'Чьи это ключи?'], ['How long does it take?', 'Сколько это занимает времени?']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'Whose bag is this?', ask: 'О чём спрашивают?', o: ['чья это сумка', 'где сумка'], a: 0, why: 'whose — чей.' },
+      { t: 'meaning', s: 'How long are you staying?', ask: 'Что спрашивают?', o: ['сколько времени ты здесь пробудешь', 'когда ты приехала'], a: 0, why: 'how long — как долго.' },
+      { t: 'choose', s: '___ is your name?', ru: 'Как тебя зовут?', o: ['What', 'Which', 'Whose'], a: 'What', why: 'Общий вопрос «что / как» → What.' },
+      { t: 'choose', s: '___ bus goes to the airport — 5 or 12?', ru: 'Какой автобус идёт в аэропорт — 5 или 12?', o: ['Which', 'Whose', 'How long'], a: 'Which', why: 'Выбор из нескольких → Which.' },
+      { t: 'choose', s: '___ phone is this?', ru: 'Чей это телефон?', o: ['Whose', 'Who', 'What'], a: 'Whose', why: 'Чей → Whose.' },
+      { t: 'choose', s: '___ is the flight?', ru: 'Сколько длится перелёт?', o: ['How long', 'How much', 'What'], a: 'How long', why: 'Длительность → How long.' },
+      { t: 'choose', s: '___ does it take to get there?', ru: 'Сколько времени туда добираться?', o: ['How long', 'How many', 'Whose'], a: 'How long', why: 'Сколько времени → How long.' },
+      { t: 'choose', s: '___ time does the shop open?', ru: 'Во сколько открывается магазин?', o: ['What', 'Whose', 'How long'], a: 'What', why: 'What time — во сколько.' },
+      { t: 'choose', s: '___', ru: 'Что ты делаешь в выходные?', o: ['What do you do at the weekend?', 'What you do at the weekend?', 'What does you do at the weekend?'], a: 'What do you do at the weekend?', why: 'После what — do + you + глагол.' },
+      { t: 'type', s: '___ keys are these?', ru: 'Чьи это ключи?', a: ['Whose'], why: 'Чьи → Whose.' },
+      { t: 'type', s: 'How ___ have you lived here?', ru: 'Как долго ты здесь живёшь?', a: ['long'], why: 'Как долго → How long.' },
+      { t: 'build', ru: 'Чей это телефон?', a: 'Whose phone is this?', extra: 'who' },
+      { t: 'build', ru: 'Какой автобус идёт в центр?', a: 'Which bus goes to the centre?', extra: 'does' },
+      { t: 'build', ru: 'Сколько длится перелёт?', a: 'How long is the flight?', extra: 'much' },
+    ] });
+
+  add({ id: 'mine', lvl: 'A2', title: 'mine, yours, hers, ours', sub: 'Это моё, это твоё — без существительного', icon: '🤝',
+    theory: [
+      { h: 'Мой и мой', p: 'my + предмет: my bag. mine — без предмета, вместо «моя (сумка)»: This bag is mine. По-русски одно слово «мой», в английском — два.',
+        table: [['my', 'mine', 'мой'], ['your', 'yours', 'твой / ваш'], ['his', 'his', 'его'], ['her', 'hers', 'её'], ['our', 'ours', 'наш'], ['their', 'theirs', 'их']] },
+      { h: 'Примеры', p: "Whose is it? — It's mine. После mine / yours существительное не ставим. Апострофа нет: yours, hers, ours.",
+        ex: [['This towel is mine.', 'Это полотенце моё.'], ['Is this yours?', 'Это твоё?'], ['The blue car is ours.', 'Синяя машина — наша.'], ['My room is small, hers is big.', 'Моя комната маленькая, её — большая.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'The red bag is hers.', ask: 'Чья красная сумка?', o: ['её', 'его'], a: 0, why: 'hers — её.' },
+      { t: 'meaning', s: 'This seat is ours.', ask: 'Чьё место?', o: ['наше', 'их'], a: 0, why: 'ours — наше.' },
+      { t: 'choose', s: 'This towel is ___.', ru: 'Это полотенце моё.', o: ['mine', 'my', 'me'], a: 'mine', why: 'После нет существительного → mine.' },
+      { t: 'choose', s: 'Is this phone ___?', ru: 'Это твой телефон?', o: ['yours', 'your', 'you'], a: 'yours', why: 'В конце, без предмета → yours.' },
+      { t: 'choose', s: 'This is ___ room.', ru: 'Это моя комната.', o: ['my', 'mine', 'me'], a: 'my', why: 'Перед существительным (room) → my.' },
+      { t: 'choose', s: 'The blue car is ___.', ru: 'Синяя машина — наша.', o: ['ours', 'our', 'us'], a: 'ours', why: 'Без предмета → ours.' },
+      { t: 'choose', s: "These aren't my keys. They're ___.", ru: 'Это не мои ключи. Они его.', o: ['his', 'him', 'he'], a: 'his', why: 'Его → his (форма одна).' },
+      { t: 'choose', s: '___', ru: 'Это не моё, это их.', o: ["It isn't mine, it's theirs.", "It isn't my, it's their.", "It isn't mine, it's their's."], a: "It isn't mine, it's theirs.", why: 'Без предмета → mine, theirs; без апострофа.' },
+      { t: 'type', s: "Whose is this? — It's ___. (её)", ru: 'Чьё это? — Её.', a: ['hers'], why: 'Её, без предмета → hers.' },
+      { t: 'type', s: 'My room is small, ___ is big. (твоя)', ru: 'Моя комната маленькая, твоя — большая.', a: ['yours'], why: 'Твоя (комната) → yours.' },
+      { t: 'build', ru: 'Это полотенце моё.', a: 'This towel is mine.', extra: 'my' },
+      { t: 'build', ru: 'Это твоё?', a: 'Is this yours?', extra: 'your' },
+      { t: 'build', ru: 'Синяя машина — наша.', a: 'The blue car is ours.', extra: 'our' },
+    ] });
+
+  add({ id: 'too', lvl: 'A2', title: 'too / enough', sub: 'Слишком и достаточно: too hot, big enough', icon: '🌡️',
+    theory: [
+      { h: 'Слишком и достаточно', table: [['too + прилагательное', 'слишком', 'too hot, too expensive'], ['прилагательное + enough', 'достаточно', 'big enough, warm enough'], ['not … enough', 'недостаточно', 'not big enough'], ['enough + существительное', 'достаточно чего-то', 'enough time, enough money']] },
+      { h: 'Порядок слов', p: 'too — перед словом: too cold. enough — после прилагательного (old enough), но перед существительным (enough money). too = «больше, чем надо», это минус; «очень» — very.',
+        ex: [["It's too hot to walk.", 'Слишком жарко, чтобы гулять.'], ["The room isn't big enough.", 'Комната недостаточно большая.'], ["We don't have enough time.", 'У нас недостаточно времени.'], ['Is the water warm enough?', 'Вода достаточно тёплая?']] },
+    ],
+    items: [
+      { t: 'meaning', s: "It's too expensive.", ask: 'Купит?', o: ['скорее нет: слишком дорого', 'да: цена нормальная'], a: 0, why: 'too — слишком, больше, чем надо.' },
+      { t: 'meaning', s: "The room isn't big enough.", ask: 'Какая комната?', o: ['маленькая для нас', 'очень большая'], a: 0, why: 'not big enough — недостаточно большая.' },
+      { t: 'choose', s: "It's ___ hot to walk.", ru: 'Слишком жарко, чтобы гулять.', o: ['too', 'enough', 'very much'], a: 'too', why: 'Слишком → too перед словом.' },
+      { t: 'choose', s: 'The water is warm ___.', ru: 'Вода достаточно тёплая.', o: ['enough', 'too', 'very'], a: 'enough', why: 'Достаточно → enough после прилагательного.' },
+      { t: 'choose', s: "We don't have ___ time.", ru: 'У нас недостаточно времени.', o: ['enough', 'too', 'very'], a: 'enough', why: 'Перед существительным → enough time.' },
+      { t: 'choose', s: "This bag is ___ heavy. I can't carry it.", ru: 'Сумка слишком тяжёлая. Не могу её нести.', o: ['too', 'enough', 'so much'], a: 'too', why: 'Слишком → too.' },
+      { t: 'choose', s: "I'm ___ tired to cook.", ru: 'Я слишком устала, чтобы готовить.', o: ['too', 'enough', 'very'], a: 'too', why: 'too + прилагательное + to.' },
+      { t: 'choose', s: '___', ru: 'Он недостаточно взрослый.', o: ["He isn't old enough.", "He isn't enough old.", "He isn't too old."], a: "He isn't old enough.", why: 'enough — после прилагательного.' },
+      { t: 'type', s: "The coffee is ___ hot. I can't drink it.", ru: 'Кофе слишком горячий, не могу пить.', a: ['too'], why: 'Слишком → too.' },
+      { t: 'type', s: 'Is the room big ___ for four people?', ru: 'Номер достаточно большой для четверых?', a: ['enough'], why: 'enough после big.' },
+      { t: 'build', ru: 'Слишком жарко.', a: "It's too hot.", extra: 'enough' },
+      { t: 'build', ru: 'У нас недостаточно денег.', a: "We don't have enough money.", extra: 'too' },
+      { t: 'build', ru: 'Комната недостаточно большая.', a: "The room isn't big enough.", extra: 'too' },
+    ] });
+
+  add({ id: 'used', lvl: 'A2', title: 'used to', sub: 'Раньше делала, а теперь нет', icon: '📼',
+    theory: [
+      { h: 'Раньше было, теперь нет', p: 'used to + глагол — «раньше (регулярно) делала, а теперь нет». По-русски это просто «раньше» + прошедшее время.',
+        table: [['+', 'I used to smoke.', 'Раньше я курила.'], ['−', "I didn't use to smoke.", 'Раньше я не курила.'], ['?', 'Did you use to smoke?', 'Ты раньше курила?']] },
+      { h: 'Ловушки', p: 'После used to — глагол без изменений: used to live. В отрицании и вопросе — use to без d (прошлое уже показывает did). Про «обычно» сейчас — usually, не used to.',
+        ex: [['I used to live in Moscow.', 'Раньше я жила в Москве.'], ["We didn't use to travel.", 'Раньше мы не путешествовали.'], ['Did you use to play sports?', 'Ты раньше занималась спортом?'], ['There used to be a market here.', 'Раньше здесь был рынок.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'I used to live in Moscow.', ask: 'Где живёт сейчас?', o: ['уже не в Москве', 'в Москве'], a: 0, why: 'used to — раньше, а теперь нет.' },
+      { t: 'meaning', s: 'She used to work at night.', ask: 'Работает ли она ночью сейчас?', o: ['скорее нет', 'да, каждую ночь'], a: 0, why: 'used to — так было раньше.' },
+      { t: 'choose', s: 'I ___ to play the piano.', ru: 'Раньше я играла на пианино.', o: ['used', 'use', 'was'], a: 'used', why: 'Утверждение → used to.' },
+      { t: 'choose', s: "We didn't ___ to travel.", ru: 'Раньше мы не путешествовали.', o: ['use', 'used', 'using'], a: 'use', why: "После didn't → use to (без d)." },
+      { t: 'choose', s: 'Did you ___ to smoke?', ru: 'Ты раньше курила?', o: ['use', 'used', 'uses'], a: 'use', why: 'После did → use to.' },
+      { t: 'choose', s: 'He used to ___ a lot.', ru: 'Раньше он много читал.', o: ['read', 'reads', 'reading'], a: 'read', why: 'После used to — глагол без изменений.' },
+      { t: 'choose', s: 'There ___ to be a market here.', ru: 'Раньше здесь был рынок.', o: ['used', 'use', 'was'], a: 'used', why: 'There used to be — раньше был.' },
+      { t: 'choose', s: '___', ru: 'Раньше я жила у моря.', o: ['I used to live by the sea.', 'I use to live by the sea.', 'I used to living by the sea.'], a: 'I used to live by the sea.', why: 'used to + live.' },
+      { t: 'type', s: 'I ___ to have long hair.', ru: 'Раньше у меня были длинные волосы.', a: ['used'], why: 'Утверждение → used to.' },
+      { t: 'type', s: "She didn't ___ to like coffee.", ru: 'Раньше она не любила кофе.', a: ['use'], why: "didn't use to — без d." },
+      { t: 'build', ru: 'Раньше я курила.', a: 'I used to smoke.', extra: 'use' },
+      { t: 'build', ru: 'Раньше мы не путешествовали.', a: "We didn't use to travel.", extra: 'used' },
+      { t: 'build', ru: 'Ты раньше занималась спортом?', a: 'Did you use to play sports?', extra: 'used' },
+    ] });
+
+  add({ id: 'rel', lvl: 'B1', title: 'who / which / that', sub: 'Который: the woman who…, the bag which…', icon: '🔗',
+    theory: [
+      { h: 'Который', p: 'Чтобы сказать «который / которая / которые»: who — про людей, which — про вещи и животных, that — и про тех, и про других (в разговоре чаще всего).',
+        table: [['who', 'люди', 'the woman who lives next door'], ['which', 'вещи, животные', 'the bag which I bought'], ['that', 'люди и вещи', 'the hotel that we booked']] },
+      { h: 'Примеры', p: 'Если «который» — не тот, кто действует, слово часто опускают: the hotel (that) we booked. Не повторяйте he / it: the man who lives here (не who he lives).',
+        ex: [['The woman who lives next door is a doctor.', 'Женщина, которая живёт по соседству, — врач.'], ['This is the bag which I bought in Bali.', 'Это сумка, которую я купила на Бали.'], ['The hotel that we booked was great.', 'Отель, который мы забронировали, был отличный.'], ['I have a friend who speaks Chinese.', 'У меня есть подруга, которая говорит по-китайски.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'The man who called you is my brother.', ask: 'Кто брат?', o: ['тот, кто тебе звонил', 'тот, кому ты звонила'], a: 0, why: 'who called you — который тебе звонил.' },
+      { t: 'meaning', s: 'I lost the book which you gave me.', ask: 'Что потеряли?', o: ['книгу, которую ты дал', 'книгу из библиотеки'], a: 0, why: 'which — которую (про вещь).' },
+      { t: 'choose', s: 'The woman ___ lives next door is a doctor.', ru: 'Женщина, которая живёт по соседству, — врач.', o: ['who', 'which', 'whose'], a: 'who', why: 'Про человека → who.' },
+      { t: 'choose', s: 'This is the bag ___ I bought in Bali.', ru: 'Это сумка, которую я купила на Бали.', o: ['which', 'who', 'what'], a: 'which', why: 'Про вещь → which.' },
+      { t: 'choose', s: 'I have a friend ___ speaks Chinese.', ru: 'У меня есть подруга, которая говорит по-китайски.', o: ['who', 'which', 'what'], a: 'who', why: 'Про человека → who (или that).' },
+      { t: 'choose', s: 'The bus ___ goes to the airport is number 5.', ru: 'Автобус, который идёт в аэропорт, — номер 5.', o: ['that', 'who', 'what'], a: 'that', why: 'Про вещь → that / which.' },
+      { t: 'choose', s: 'The phone ___ I bought is broken.', ru: 'Телефон, который я купила, сломался.', o: ['that', 'who', 'what'], a: 'that', why: 'Про вещь → that / which.' },
+      { t: 'choose', s: '___', ru: 'Мужчина, который здесь живёт, — повар.', o: ['The man who lives here is a cook.', 'The man who he lives here is a cook.', 'The man which lives here is a cook.'], a: 'The man who lives here is a cook.', why: 'Про человека — who, без he.' },
+      { t: 'type', s: 'The girl ___ helped me was very kind. (которая)', ru: 'Девушка, которая мне помогла, была очень добрая.', a: ['who', 'that'], why: 'Про человека → who / that.' },
+      { t: 'type', s: 'This is the hotel ___ we booked. (который)', ru: 'Это отель, который мы забронировали.', a: ['which', 'that'], why: 'Про вещь → which / that.' },
+      { t: 'build', ru: 'У меня есть подруга, которая говорит по-китайски.', a: 'I have a friend who speaks Chinese.', extra: 'which' },
+      { t: 'build', ru: 'Это сумка, которую я купила.', a: 'This is the bag that I bought.', extra: 'who' },
+      { t: 'build', ru: 'Женщина, которая звонила, — врач.', a: 'The woman who called is a doctor.', extra: 'which' },
+    ] });
+
+  add({ id: 'if2', lvl: 'B1', title: 'If I had…, I would…', sub: 'Если бы: мечты и нереальные условия', icon: '💭',
+    theory: [
+      { h: 'Если бы…', p: 'Для нереального или маловероятного «если бы»: If + прошедшее время, would + глагол. По-русски «бы» в обеих частях, в английском would — только во второй.',
+        table: [['If + прошедшее', 'If I had money,', 'If I lived by the sea,'], ['would + глагол', 'I would travel.', "I'd swim every day."]] },
+      { h: 'Важно', p: "Часто говорят If I were (а не was): If I were you… — «На твоём месте…». I'd = I would. Сравните: If it rains, I'll stay (реально) — If I won a million, I'd buy a house (мечта).",
+        ex: [['If I had more time, I would learn Spanish.', 'Если бы у меня было больше времени, я бы учила испанский.'], ["If I were you, I'd take a taxi.", 'На твоём месте я бы взяла такси.'], ['What would you do if you won the lottery?', 'Что бы ты сделала, если бы выиграла в лотерею?'], ["If we lived by the sea, we'd swim every day.", 'Если бы мы жили у моря, мы бы купались каждый день.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'If I had a car, I would drive to work.', ask: 'Есть ли у неё машина?', o: ['нет', 'да'], a: 0, why: 'If I had…, I would… — «если бы»: на самом деле машины нет.' },
+      { t: 'meaning', s: "If it rains, I'll stay at home.", ask: 'Это…', o: ['реальная возможность', 'мечта, которой не будет'], a: 0, why: 'If + настоящее, will — реальное условие.' },
+      { t: 'choose', s: 'If I ___ more time, I would learn Spanish.', ru: 'Если бы у меня было больше времени, я бы учила испанский.', o: ['had', 'have', 'would have'], a: 'had', why: 'После if — прошедшее (had), не would.' },
+      { t: 'choose', s: 'If I won the lottery, I ___ buy a house.', ru: 'Если бы я выиграла в лотерею, я бы купила дом.', o: ['would', 'will', 'did'], a: 'would', why: 'Вторая часть — would.' },
+      { t: 'choose', s: "If I ___ you, I'd take a taxi.", ru: 'На твоём месте я бы взяла такси.', o: ['were', 'am', 'will be'], a: 'were', why: 'If I were you — на твоём месте.' },
+      { t: 'choose', s: 'If we lived by the sea, we ___ every day.', ru: 'Если бы мы жили у моря, мы бы купались каждый день.', o: ["'d swim", 'swim', 'swam'], a: "'d swim", why: "Результат → would ('d) + глагол." },
+      { t: 'choose', s: 'What would you do if you ___ a million?', ru: 'Что бы ты сделала, если бы у тебя был миллион?', o: ['had', 'have', 'would have'], a: 'had', why: 'После if — had.' },
+      { t: 'choose', s: '___', ru: 'Если бы я знала, я бы тебе сказала.', o: ['If I knew, I would tell you.', 'If I would know, I would tell you.', 'If I know, I would tell you.'], a: 'If I knew, I would tell you.', why: 'If + knew, would + tell.' },
+      { t: 'type', s: 'If I ___ rich, I would travel. (be)', ru: 'Если бы я была богатой, я бы путешествовала.', a: ['were', 'was'], why: 'If I were (в разговоре можно и was).' },
+      { t: 'type', s: 'If she lived here, she ___ visit us more often.', ru: 'Если бы она жила здесь, она бы чаще к нам заходила.', a: ['would'], why: 'Результат → would.' },
+      { t: 'build', ru: 'На твоём месте я бы взяла такси.', a: "If I were you, I'd take a taxi.", extra: 'will' },
+      { t: 'build', ru: 'Если бы у меня была машина, я бы поехала.', a: 'If I had a car, I would go.', extra: 'have' },
+      { t: 'build', ru: 'Что бы ты сделала?', a: 'What would you do?', extra: 'will' },
+    ] });
+
+  add({ id: 'pass', lvl: 'B1', title: 'Пассив: is made, was built', sub: 'Сделано, построено, говорят', icon: '🏗️',
+    theory: [
+      { h: 'Что делают с предметом', p: 'Пассив — когда важно, что сделали, а не кто: «сделано, построено, здесь говорят». Схема: am / is / are или was / were + 3-я форма глагола.',
+        table: [['сейчас', 'is / are + 3-я форма', 'It is made in Italy.'], ['в прошлом', 'was / were + 3-я форма', 'It was built in 1900.'], ['кем?', '+ by', 'It was written by Tolstoy.']] },
+      { h: 'Примеры', p: '3-я форма: у правильных глаголов на -ed (cleaned, booked), у неправильных — третья колонка (made, built, written, sold). По-русски часто так: «делают», «сделано», «говорят».',
+        ex: [['This bag is made in Italy.', 'Эта сумка сделана в Италии.'], ['English is spoken here.', 'Здесь говорят по-английски.'], ['The bridge was built in 1900.', 'Мост построили в 1900 году.'], ['The room is cleaned every day.', 'Номер убирают каждый день.']] },
+    ],
+    items: [
+      { t: 'meaning', s: 'The room is cleaned every day.', ask: 'Кто убирает?', o: ['не сказано — важно, что убирают', 'сама гостья'], a: 0, why: 'Пассив: важно действие, а не кто его делает.' },
+      { t: 'meaning', s: 'The house was built by my grandfather.', ask: 'Кто построил?', o: ['дедушка', 'я'], a: 0, why: 'by — кем: by my grandfather.' },
+      { t: 'choose', s: 'This bag is ___ in Italy.', ru: 'Эта сумка сделана в Италии.', o: ['made', 'make', 'making'], a: 'made', why: 'is + 3-я форма: made.' },
+      { t: 'choose', s: 'The bridge ___ built in 1900.', ru: 'Мост построили в 1900 году.', o: ['was', 'is', 'were'], a: 'was', why: 'Прошлое, один мост → was built.' },
+      { t: 'choose', s: 'English ___ spoken here.', ru: 'Здесь говорят по-английски.', o: ['is', 'are', 'was'], a: 'is', why: 'Сейчас, English — одно → is spoken.' },
+      { t: 'choose', s: 'These phones ___ made in China.', ru: 'Эти телефоны делают в Китае.', o: ['are', 'is', 'was'], a: 'are', why: 'Много (phones), сейчас → are.' },
+      { t: 'choose', s: 'The book was written ___ Tolstoy.', ru: 'Книгу написал Толстой.', o: ['by', 'from', 'of'], a: 'by', why: 'Кем → by.' },
+      { t: 'choose', s: '___', ru: 'Номер убирают каждый день.', o: ['The room is cleaned every day.', 'The room cleans every day.', 'The room is clean every day.'], a: 'The room is cleaned every day.', why: 'is + cleaned (3-я форма).' },
+      { t: 'type', s: 'Breakfast is ___ from 7 to 10. (serve)', ru: 'Завтрак подают с 7 до 10.', a: ['served'], why: 'is + served.' },
+      { t: 'type', s: 'My phone was ___ yesterday. (steal)', ru: 'Мой телефон вчера украли.', a: ['stolen'], why: 'steal → stolen (3-я форма).' },
+      { t: 'build', ru: 'Эта сумка сделана в Италии.', a: 'This bag is made in Italy.', extra: 'make' },
+      { t: 'build', ru: 'Здесь говорят по-английски.', a: 'English is spoken here.', extra: 'speaks' },
+      { t: 'build', ru: 'Мост построили в 1900 году.', a: 'The bridge was built in 1900.', extra: 'builds' },
+    ] });
+
+  // Порядок изучения (A1 → A2 → B1)
   const ORDER = ['be', 'be2', 'a', 'pron', 'ps1', 'ps2', 'do', 'imp', 'there', 'prep', 'can', 'cont', 'was', 'past', 'did', 'some', 'going', 'comp',
-    'freq', 'obj', 'like', 'will', 'should', 'must', 'most', 'could', 'pcont', 'perf', 'perf2', 'if1'];
+    'freq', 'obj', 'like', 'will', 'should', 'must', 'most', 'could', 'pcont', 'perf', 'perf2', 'if1',
+    'haveg', 'wh', 'mine', 'too', 'used', 'rel', 'if2', 'pass'];
   L.sort((x, y) => ORDER.indexOf(x.id) - ORDER.indexOf(y.id));
   const SOON = [];
 
@@ -792,7 +976,7 @@
       h('a', { class: 'btn soft block', href: '#rules', id: 'rules-link' }, '📚 Справочник правил — вся теория')));
     L.forEach((l, i) => {
       const lv = l.lvl || 'A1';
-      if (i === 0 || lv !== (L[i - 1].lvl || 'A1')) main.append(h('div', { class: 'section-title' }, lv === 'A1' ? 'Уровень A1 — основа' : 'Уровень A2 — следующий шаг'));
+      if (i === 0 || lv !== (L[i - 1].lvl || 'A1')) main.append(h('div', { class: 'section-title' }, lv === 'A1' ? 'Уровень A1 — основа' : lv === 'A2' ? 'Уровень A2 — следующий шаг' : 'Уровень B1 — увереннее'));
       const st = stateOf(l.id, now); const p = progress[l.id] || {};
       const pill = st === 'done' ? h('span', { class: 'pill solid' }, '✓ ' + p.best + '%') : st === 'due' ? h('span', { class: 'pill due' }, 'повторить') : st === 'started' ? h('span', { class: 'pill learning' }, 'начато') : h('span', { class: 'pill new' }, 'новая');
       main.append(h('button', { class: 'tile wide', onclick: () => go('gram-' + l.id) },
@@ -969,7 +1153,7 @@
       let lv = null;
       L.filter(l => !s || C.norm([l.title, l.sub].concat(l.theory.map(t => [t.h, t.p].join(' '))).join(' ')).includes(s)).forEach(l => {
         const cur = l.lvl || 'A1';
-        if (cur !== lv) { lv = cur; list.append(h('div', { class: 'section-title' }, cur === 'A1' ? 'Уровень A1' : 'Уровень A2')); }
+        if (cur !== lv) { lv = cur; list.append(h('div', { class: 'section-title' }, 'Уровень ' + cur)); }
         const body = h('div', { class: 'stack', style: { marginTop: '10px' } });
         const det = h('details', { class: 'card rule-item' }, h('summary', null, h('span', { style: { marginRight: '8px' } }, l.icon), h('b', null, l.title), h('div', { class: 'small muted' }, l.sub)), body);
         det.addEventListener('toggle', () => { if (det.open && !body.childNodes.length) { theoryCards(l).forEach(c => { c.classList.remove('card'); body.append(c); }); body.append(h('button', { class: 'btn soft block', onclick: () => practice(l, false) }, 'Потренировать эту тему')); } });
