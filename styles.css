@@ -378,3 +378,15 @@ a.chip { text-decoration: none; color: var(--ink); }
 .ab-text { font-size: 19px; line-height: 1.6; }
 .ab-s { border-radius: 6px; transition: background .2s; }
 .ab-s.on { background: var(--accent-soft); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* Мои занятия */
+.my-lesson { display: block; width: 100%; text-align: left; color: var(--ink); font: inherit; cursor: pointer; }
+.my-lesson h3 { font-size: 18px; }
+.chip.sm { font-size: 12px; padding: 3px 9px; }
+.topic-chip { border: 1.5px solid var(--accent); background: var(--accent-soft); color: var(--ink); font-weight: 650; text-decoration: none; }
+.topic-chip.done { border-color: var(--good); background: var(--good-soft); }
+.topic-chip.due { border-color: var(--warn); background: var(--warn-soft); }
+.my-topics { border: 1.5px solid var(--accent); }
+.my-word { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.my-word.known { opacity: .65; }
+.my-entry { margin-bottom: 10px; border: 1.5px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }

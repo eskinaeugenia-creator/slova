@@ -80,6 +80,7 @@
 | Основной цвет | **Есть**: 7 цветов на чёрном фоне |
 | Общий счётчик | **Есть**: «🏆 Всего занимались» — минуты и дни занятий за всё время, не сбрасывается, следующая цель |
 | Фразы и предложения | **Есть**: «Из текста» → «Целые фразы» (домашка, карточки), вместе со словами; фразу вспоминаем, собирая её из плиток |
+| Мои занятия | **Есть**: разбор занятий с преподавателем — темы, правило, мои ошибки, тренировка, слова занятия отдельным набором; код в Настройках |
 | Грамматика A1 → A2 → B1 | **Есть, 38 тем, 500 заданий**. B1: who / which / that; второе условное (If I had…, I would…); пассив (is made, was built). A2: always/usually/never; me/him/them; like -ing / want to; will/won't; should; must / have to; the cheapest / the most; could; Past Continuous; Present Perfect; already/yet/just; If it rains, I'll…; have got; what / which / whose / how long; mine / yours; too / enough; used to. A1: am/is/are; isn't / вопросы; a/an и -s; my/your/'s; Present Simple (I work, she works); do/does; повелительное (Turn left, Don't); there is/are; in/on/at; can; Present Continuous; was/were; Past Simple (-ed и неправильные); did/didn't; some/any, how much/many; going to; сравнение (cheaper, more expensive) |
 | Резервная копия, восстановление, CSV, версия формата, напоминание о копии | **Есть** |
 | Автосинхронизация вне Telegram | Позже (Supabase). В браузере/PWA — ручной перенос копией |

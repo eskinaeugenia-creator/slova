@@ -1005,8 +1005,8 @@
         h('span', { lang: 'en' }, en), h('small', null, ru), h('span', { class: 'gram-sp', 'aria-hidden': 'true' }, '🔊')))));
       return card;
     });
-    const mist = (window.GRAMMAR_MISTAKES || {})[l.id];
-    if (mist && mist.length) out.push(h('div', { class: 'card stack gram-theory gram-mist' }, h('h2', null, 'Частые ошибки'),
+    const mist = l.mistakes || (window.GRAMMAR_MISTAKES || {})[l.id];
+    if (mist && mist.length) out.push(h('div', { class: 'card stack gram-theory gram-mist' }, h('h2', null, l.mistakes ? 'Мои ошибки' : 'Частые ошибки'),
       mist.map(([bad, good, why]) => h('div', { class: 'mist' },
         h('div', { class: 'mist-bad', lang: 'en' }, '✗ ' + bad), h('button', { class: 'mist-good', lang: 'en', onclick: () => sayP(good.replace(/\s*\(.*\)\s*/, '')) }, '✓ ' + good + ' 🔊'), h('div', { class: 'small muted' }, why)))));
     return out;
@@ -1019,6 +1019,7 @@
     const order = { meaning: 0, choose: 1, type: 2, build: 3 };
     let q;
     if (review) q = C.shuffle(items).slice(0, 6);
+    else if (l.custom) q = items;
     else {
       const byT = (t) => C.shuffle(items.filter(x => x.t === t));
       q = [].concat(byT('meaning').slice(0, 2), byT('choose').slice(0, 4), byT('type').slice(0, 2), byT('build').slice(0, 2));
@@ -1035,7 +1036,7 @@
     function step() {
       if (i >= queue.length) return finish();
       const it = queue[i];
-      const main = screen({ title: review ? 'Повторение: ' + l.title : l.title, back: 'gram-' + l.id, nav: false });
+      const main = screen({ title: review ? 'Повторение: ' + l.title : l.title, back: l.back || 'gram-' + l.id, nav: false });
       const done = Math.min(i, total);
       main.append(h('div', { class: 'row nowrap', style: { gap: '10px', alignItems: 'center' } },
         h('div', { class: 'meter grow' }, h('i', { style: { width: Math.round(done / total * 100) + '%' } })),
@@ -1120,16 +1121,16 @@
       }
       progress[l.id] = p; await saveProgress();
       try { await DB.put('sessions', { id: C.uid(), ts: started, mode: 'grammar', n: total, correct: right, durationSec: Math.round((now - started) / 1000) }); } catch (e) { /* не критично */ }
-      const main = screen({ title: l.title, back: 'grammar' });
-      const idx = L.indexOf(l); const nextL = L[idx + 1];
+      const main = screen({ title: l.title, back: l.back || 'grammar' });
+      const idx = L.indexOf(l); const nextL = idx >= 0 ? L[idx + 1] : null;
       main.append(h('div', { class: 'card stack' }, h('h1', null, pct >= 70 ? 'Тема пройдена' : 'Хорошее начало'),
         h('div', { class: 'report', style: { gridTemplateColumns: 'repeat(2, 1fr)' } }, h('div', null, h('b', null, pct + '%'), h('span', null, 'верно с первого раза')), h('div', null, h('b', null, total), h('span', null, 'заданий'))),
         h('p', { class: 'small' }, pct >= 70 ? 'Приложение предложит короткое повторение ' + C.inDays(p.card.due, now) + '.' : 'Чтобы тема засчиталась, нужно от 70%. Перечитайте правило и попробуйте ещё раз — это нормально.'),
         wrong.length ? h('details', null, h('summary', null, 'Ошибки (' + wrong.length + ')'), h('ul', { class: 'small', style: { margin: '8px 0 0', paddingLeft: '20px', display: 'grid', gap: '6px' } }, wrong.map(w => h('li', null, h('b', { lang: 'en' }, w.t === 'build' ? w.a : w.s.replace('___', Array.isArray(w.a) ? w.a[0] : (w.t === 'meaning' ? '' : w.a))), w.why ? ' — ' + w.why : '')))) : null,
-        pct < 70 ? h('button', { class: 'btn primary block', onclick: () => go('gram-' + l.id) }, 'Перечитать правило') : null,
+        pct < 70 ? h('button', { class: 'btn primary block', onclick: () => go(l.back || 'gram-' + l.id) }, 'Перечитать правило') : null,
         h('button', { class: 'btn ' + (pct < 70 ? '' : 'primary') + ' block', onclick: () => practice(l, false) }, 'Ещё раз'),
         nextL && pct >= 70 ? h('button', { class: 'btn soft block', onclick: () => go('gram-' + nextL.id) }, 'Следующая тема: ' + nextL.title) : null,
-        h('button', { class: 'btn ghost block', onclick: () => go('grammar') }, 'Ко всем темам')));
+        h('button', { class: 'btn ghost block', onclick: () => go(l.back || 'grammar') }, l.back ? 'К занятию' : 'Ко всем темам')));
     }
     step();
   }
@@ -1166,6 +1167,6 @@
     draw();
   };
 
-  window.Grammar = { LESSONS: L, loadProgress, dueLessons, merge, s3, ing, past, stateOf, get progress() { return progress; } };
+  window.Grammar = { LESSONS: L, practice, theoryCards, loadProgress, dueLessons, merge, s3, ing, past, stateOf, get progress() { return progress; } };
   loadProgress();
 })();
