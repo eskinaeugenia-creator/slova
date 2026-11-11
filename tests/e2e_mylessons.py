@@ -49,5 +49,7 @@ with sync_playwright() as p:
     ok('слова занятия добавлены в отдельный набор и пошло занятие', n==23, n)
     pg.goto(BASE+'#mylessons'); pg.wait_for_selector('.my-lesson')
     ok('после открытия занятие уже не «новое», видно % тренировки', pg.locator('.my-lesson[data-id="2026-11-05b"] .pill.due').count()==0 and 'тренировка' in pg.locator('.my-lesson[data-id="2026-11-05b"]').inner_text())
+    r=pg.evaluate("(async()=>{ const d=await App.kvGet('myLessons'); d.lessons=d.lessons.slice(1); await App.kvSet('myLessons', d); const ch=await MyLessons.refresh(); const d2=await App.kvGet('myLessons'); return [ch, d2.lessons.length, d2.lessons.filter(l=>l.seen).length]; })()")
+    ok('автообновление подтягивает новые занятия из пакета и не сбрасывает «просмотрено»', r[0] and r[1]==6 and r[2]>=1, r)
     ok('нет ошибок на странице', not errs, errs)
     print(f'Итог: {sum(res)} из {len(res)}')

@@ -177,5 +177,23 @@
     if (sp && /^myimport_[\w-]+$/.test(sp) && !sessionStorage.getItem('slova-sp')) { sessionStorage.setItem('slova-sp', '1'); setTimeout(() => go('myimport-' + sp.slice(9)), 300); }
   } catch (e) { /* не в Telegram */ }
 
-  window.MyLessons = { load, merge };
+  // Автообновление: если занятия уже подключены кодом, раз за запуск тихо подтягиваем свежую версию пакета —
+  // новые разборы появляются сами, без повторного ввода кода
+  async function refresh() {
+    const d = await load(); if (!d || !d.source || !navigator.onLine) return false;
+    try {
+      const r = await fetch('packs/' + d.source + '.json', { cache: 'no-cache' }); if (!r.ok) return false;
+      const pack = await r.json();
+      const sig = (x) => JSON.stringify((x.lessons || []).map(l => [l.id, (l.items || []).length, (l.words || []).length, (l.mistakes || []).length]).sort());
+      const nd = merge(d, pack); nd.source = d.source;
+      if (sig(nd) === sig(d)) return false;
+      await save(nd);
+      const h0 = (location.hash || '#today').slice(1).split('-')[0];
+      if (['today', 'train', 'mylessons', ''].includes(h0)) routes[h0 || 'today'] && routes[h0 || 'today']();
+      return true;
+    } catch (e) { return false; }
+  }
+  setTimeout(refresh, 2500);
+
+  window.MyLessons = { load, merge, refresh };
 })();
