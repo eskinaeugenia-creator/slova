@@ -45,9 +45,10 @@
   }
   function setTile(rs, opts) {
     const p = setProgress(rs); opts = opts || {};
-    const sub = p.state === 'none' ? p.total + ' ' + C.plural(p.total, 'слово', 'слова', 'слов')
+    const lv = rs.level ? rs.level + ' · ' : '';
+    const sub = lv + (p.state === 'none' ? p.total + ' ' + C.plural(p.total, 'слово', 'слова', 'слов')
       : p.state === 'part' ? 'добавлено ' + p.have + ' из ' + p.total
-      : (p.solid + p.learning ? 'изучаю ' + p.learning + ' · закреплено ' + p.solid + (p.fresh ? ' · новых ' + p.fresh : '') : 'все ' + p.total + ' слов — пора учить');
+      : (p.solid + p.learning ? 'изучаю ' + p.learning + ' · закреплено ' + p.solid + (p.fresh ? ' · новых ' + p.fresh : '') : 'все ' + p.total + ' слов — пора учить'));
     const badge = p.state === 'full' ? h('span', { class: 'set-badge full' }, p.solid === p.total ? '★ Выучено' : '✓ В словаре')
       : p.state === 'part' ? h('span', { class: 'set-badge part' }, p.have + '/' + p.total) : h('span', { class: 'set-badge none' }, '+ Добавить');
     return h('button', { class: 'tile wide set-tile ' + p.state, 'data-state': p.state, style: opts.style || null, onclick: () => { if (opts.onclick) opts.onclick(); go('set-' + rs.id); } },
@@ -58,7 +59,9 @@
   }
   // Список: сначала ещё не добавленные и начатые (по группам), а полностью добавленные — внизу отдельным блоком
   function setsList(container, opts) {
-    const all = window.ReadySets || [], groups = window.ReadyGroups || {};
+    opts = opts || {};
+    const groups = window.ReadyGroups || {};
+    const all = (window.ReadySets || []).filter(rs => !opts.level || opts.level === 'all' || rs.level === opts.level);
     const full = all.filter(rs => setProgress(rs).state === 'full'), rest = all.filter(rs => !full.includes(rs));
     let lastGroup = null;
     rest.forEach(rs => {
@@ -70,16 +73,34 @@
       full.forEach(rs => container.append(setTile(rs, opts)));
     }
   }
+  // Подписи уровней для фильтра
+  const LV_HINT = { A0: 'с нуля', A1: 'начальный', A2: 'базовый', B1: 'средний' };
   routes.sets = function () {
     const main = screen({ title: 'Готовые наборы', back: 'add' });
-    main.append(h('p', { class: 'muted small' }, (window.ReadySets || []).length + ' тем, слова уровня A0–A1 с переводом, простым примером и озвучкой. Картинки подберутся сами. Выберите тему, отметьте нужные слова — и они появятся в вашем словаре.'));
+    const all = window.ReadySets || [];
+    main.append(h('p', { class: 'muted small' }, all.length + ' ' + C.plural(all.length, 'тема', 'темы', 'тем') + ' с переводом, простым примером и озвучкой. Картинки подберутся сами. Выберите тему, отметьте нужные слова — и они появятся в вашем словаре.'));
+    // Фильтр по уровню: показываем только уровни, для которых есть наборы
+    const levels = (window.ReadyLevels || []).filter(l => all.some(rs => rs.level === l));
+    if (!levels.includes(S.ui.setsLevel)) S.ui.setsLevel = 'all';
+    const chips = h('div', { class: 'chips', id: 'sets-levels', role: 'group', 'aria-label': 'Уровень', style: { flexWrap: 'wrap' } });
     const grid = h('div', { class: 'tiles-grid one' });
-    setsList(grid); main.append(grid);
+    function draw() {
+      chips.innerHTML = '';
+      [['all', 'Все', all.length]].concat(levels.map(l => [l, l, all.filter(rs => rs.level === l).length])).forEach(([id, label, n]) => {
+        chips.append(h('button', { class: 'chip', 'data-level': id, 'aria-pressed': String(S.ui.setsLevel === id), title: LV_HINT[id] || '', onclick: () => { S.ui.setsLevel = id; draw(); } },
+          label, h('span', { class: 'count' }, n)));
+      });
+      grid.innerHTML = '';
+      if (S.ui.setsLevel !== 'all') grid.append(h('p', { class: 'muted small', style: { margin: '2px' } }, 'Уровень ' + S.ui.setsLevel + ' — ' + LV_HINT[S.ui.setsLevel] + '.'));
+      setsList(grid, { level: S.ui.setsLevel });
+    }
+    main.append(chips, grid); draw();
   };
   routes.set = function (id) {
     const rs = (window.ReadySets || []).find(s => s.id === id);
     if (!rs) { go('sets'); return; }
     const main = screen({ title: rs.name, back: 'sets' });
+    if (rs.level) main.append(h('p', { class: 'muted small', id: 'set-level' }, 'Уровень ' + rs.level + ' · ' + rs.words.length + ' ' + C.plural(rs.words.length, 'слово', 'слова', 'слов')));
     const picked = new Set(rs.words.filter(w => !inDict(w.en)).map(w => w.en));
     const list = h('div', { class: 'stack', style: { gap: '6px' } });
     const btn = h('button', { class: 'btn primary big block' });

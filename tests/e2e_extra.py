@@ -17,7 +17,7 @@ with sync_playwright() as p:
     pg.goto(BASE); pg.wait_for_selector('h1')
     ok('пустой экран предлагает готовый набор', pg.locator('text=Начать с готового набора').count()==1)
     pg.click('text=Начать с готового набора'); pg.wait_for_selector('.tile.wide')
-    n_sets=pg.locator('.tile.wide').count(); ok('17 готовых наборов в 3 группах', n_sets==17 and pg.locator('.section-title').count()>=3, n_sets)
+    n_sets=pg.locator('.tile.wide').count(); ok('все готовые наборы в группах', n_sets==pg.evaluate('ReadySets.length') and pg.locator('.section-title').count()>=3, n_sets)
     pg.screenshot(path='/home/claude/tests/shots/16-sets.png')
     pg.click('.tile.wide:has-text("Аренда жилья")'); pg.wait_for_selector('.witem')
     cnt=pg.locator('.witem').count(); btn=pg.locator('.savebar .btn').inner_text()

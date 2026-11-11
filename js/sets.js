@@ -1,4 +1,4 @@
-/* Мои слова — готовые наборы уровня A0–A1. Формат строки: en | ru | пример | перевод примера | эмодзи | запрос для фото | часть речи */
+/* Мои слова — готовые наборы с метками уровня A0 / A1 / A2 / B1. Формат строки: en | ru | пример | перевод примера | эмодзи | запрос для фото | часть речи */
 (function () {
   'use strict';
   const RAW = {
@@ -321,18 +321,197 @@ game | игра | It's a fun game. | Это весёлая игра. | 🎲 | bo
 party | вечеринка | There is a party tonight. | Сегодня вечеринка. | 🎉 | party | сущ.
 relax | отдыхать, расслабиться | I want to relax. | Я хочу отдохнуть. | 😌 | relax | глагол
 go out | выходить (развлечься) | Let's go out tonight. | Давай сегодня куда-нибудь сходим. | 🌃 | night out | фразовый глагол` },
+    verbs1: { name: 'Глаголы каждого дня — 1', icon: '🏃', group: 'basic', level: 'A0', rows: `
+be | быть | I am at home. | Я дома. | 🙂 | person at home | глагол
+have | иметь, «у меня есть» | I have a cat. | У меня есть кошка. | 🤲 | holding cat | глагол
+do | делать | What do you do? | Чем ты занимаешься? | ✅ | doing homework | глагол
+go | идти, ехать | I go to work by bus. | Я езжу на работу на автобусе. | 🚶 | walking street | глагол
+come | приходить | Come here, please. | Иди сюда, пожалуйста. | 👋 | waving come here | глагол
+want | хотеть | I want some water. | Я хочу воды. | 🙋 | glass of water | глагол
+like | нравиться, любить | I like coffee. | Я люблю кофе. | 👍 | cup of coffee | глагол
+need | нуждаться, «мне нужно» | I need help. | Мне нужна помощь. | 🆘 | asking for help | глагол
+know | знать | I know this word. | Я знаю это слово. | 💡 | light bulb | глагол
+think | думать | I think you are right. | Я думаю, ты прав. | 🤔 | thinking person | глагол
+see | видеть | I see the sea. | Я вижу море. | 👀 | sea view | глагол
+look | смотреть (на) | Look at this photo! | Посмотри на это фото! | 🔍 | looking at photo | глагол
+watch | смотреть (фильм, ТВ) | We watch TV in the evening. | Вечером мы смотрим телевизор. | 📺 | watching tv | глагол
+listen | слушать | Listen to me, please. | Послушай меня, пожалуйста. | 🎧 | listening headphones | глагол
+hear | слышать | I can't hear you. | Я тебя не слышу. | 👂 | ear listening | глагол
+say | сказать, говорить (что-то) | Say it again, please. | Скажи это ещё раз, пожалуйста. | 💬 | speech bubble | глагол
+speak | говорить (на языке) | Do you speak English? | Вы говорите по-английски? | 🗣️ | people speaking | глагол
+talk | разговаривать | We talk every day. | Мы разговариваем каждый день. | 💭 | friends talking | глагол
+ask | спрашивать, просить | Can I ask a question? | Можно задать вопрос? | ❓ | raising hand question | глагол
+answer | отвечать | Answer the phone, please. | Ответь на звонок, пожалуйста. | 📞 | answering phone | глагол
+eat | есть (кушать) | We eat at seven. | Мы едим в семь. | 🍽️ | family eating dinner | глагол
+drink | пить | I drink tea every morning. | Я пью чай каждое утро. | 🍵 | drinking tea | глагол
+sleep | спать | The baby is sleeping. | Малыш спит. | 😴 | sleeping baby | глагол
+live | жить | I live in Moscow. | Я живу в Москве. | 🏠 | house | глагол
+work | работать | She works in a bank. | Она работает в банке. | 💼 | working office | глагол` },
+    verbs2: { name: 'Глаголы каждого дня — 2', icon: '🙌', group: 'basic', level: 'A1', rows: `
+make | делать, готовить, создавать | I make breakfast. | Я готовлю завтрак. | 🥞 | making breakfast | глагол
+take | брать | Take an umbrella. | Возьми зонт. | ☂️ | umbrella | глагол
+give | давать | Give me the pen, please. | Дай мне ручку, пожалуйста. | 🤲 | giving pen | глагол
+get | получать | I get a lot of emails. | Я получаю много писем. | 📩 | email inbox | глагол
+put | класть, ставить | Put the bag here. | Поставь сумку сюда. | 👜 | bag on floor | глагол
+open | открывать | Open the door, please. | Открой дверь, пожалуйста. | 🚪 | opening door | глагол
+close | закрывать | Close the window. | Закрой окно. | 🪟 | closed window | глагол
+start | начинать(ся) | The film starts at eight. | Фильм начинается в восемь. | ▶️ | start button | глагол
+finish | заканчивать | I finish work at six. | Я заканчиваю работу в шесть. | 🏁 | finish line | глагол
+try | пробовать, стараться | Try this cake! | Попробуй этот торт! | 🍰 | piece of cake | глагол
+learn | учить, узнавать | I learn English every day. | Я учу английский каждый день. | 📚 | learning english | глагол
+study | учиться, заниматься | My son studies at school. | Мой сын учится в школе. | 🎒 | school student | глагол
+read | читать | I read before bed. | Я читаю перед сном. | 📖 | reading in bed | глагол
+write | писать | Write your name here. | Напишите здесь своё имя. | ✍️ | writing name | глагол
+buy | покупать | I buy bread every day. | Я покупаю хлеб каждый день. | 🛒 | buying bread | глагол
+pay | платить | Can I pay by card? | Можно оплатить картой? | 💳 | card payment | глагол
+call | звонить; звать | Call me tonight. | Позвони мне вечером. | 📱 | phone call | глагол
+wait | ждать | Wait for me! | Подожди меня! | ⏳ | waiting | глагол
+walk | ходить пешком, гулять | I walk to work. | Я хожу на работу пешком. | 🚶 | walking | глагол
+run | бегать | Children run in the park. | Дети бегают в парке. | 🏃 | children running park | глагол
+sit | сидеть | Sit down, please. | Садитесь, пожалуйста. | 🪑 | sitting on chair | глагол
+stand | стоять | Don't stand there! | Не стой там! | 🧍 | person standing | глагол
+play | играть | The kids play football. | Дети играют в футбол. | ⚽ | kids football | глагол
+love | любить | I love my family. | Я люблю свою семью. | ❤️ | family hug | глагол
+understand | понимать | I understand you. | Я тебя понимаю. | 💡 | understanding | глагол` },
+    opposites: { name: 'Наоборот: big — small', icon: '↔️', group: 'basic', level: 'A0', rows: `
+big | большой | It's a big house. | Это большой дом. | 🐘 | big elephant | прил.
+small | маленький | I have a small dog. | У меня маленькая собака. | 🐭 | small mouse | прил.
+hot | горячий, жаркий | The tea is hot. | Чай горячий. | 🔥 | hot tea steam | прил.
+cold | холодный | The water is cold. | Вода холодная. | 🧊 | ice cubes | прил.
+old | старый | This car is old. | Эта машина старая. | 🚙 | old car | прил.
+new | новый | I have a new phone. | У меня новый телефон. | ✨ | new phone | прил.
+young | молодой | My teacher is young. | Мой учитель молодой. | 🧑 | young man | прил.
+good | хороший | It's a good idea. | Это хорошая идея. | 👍 | thumbs up | прил.
+bad | плохой | The weather is bad today. | Сегодня плохая погода. | 👎 | bad weather | прил.
+long | длинный | Her hair is long. | У неё длинные волосы. | 📏 | long hair | прил.
+short | короткий; невысокий | This film is short. | Этот фильм короткий. | ✂️ | short haircut | прил.
+tall | высокий (о человеке, дереве) | My brother is tall. | Мой брат высокий. | 🦒 | giraffe | прил.
+fast | быстрый; быстро | This train is fast. | Этот поезд быстрый. | 🚄 | fast train | прил.
+slow | медленный | The bus is slow. | Автобус медленный. | 🐌 | snail | прил.
+easy | лёгкий, простой | This test is easy. | Этот тест лёгкий. | 😌 | easy test | прил.
+difficult | трудный | English is not difficult! | Английский не трудный! | 🧗 | climbing mountain | прил.
+full | полный | The bus is full. | Автобус полный. | 🥛 | full glass | прил.
+empty | пустой | The fridge is empty. | Холодильник пустой. | 🫙 | empty jar | прил.
+noisy | шумный | The street is noisy. | Улица шумная. | 📢 | noisy street | прил.
+quiet | тихий | The park is quiet. | В парке тихо. | 🤫 | quiet park | прил.` },
+    questions: { name: 'Вопросы: what, who, where', icon: '❓', group: 'basic', level: 'A0', rows: `
+what | что; какой | What is your name? | Как тебя зовут? | ❓ | question mark | вопр. слово
+who | кто | Who is that man? | Кто тот мужчина? | 🧑 | man portrait | вопр. слово
+where | где; куда | Where do you live? | Где ты живёшь? | 📍 | map pin | вопр. слово
+when | когда | When is your birthday? | Когда у тебя день рождения? | 📅 | calendar | вопр. слово
+why | почему, зачем | Why are you sad? | Почему ты грустишь? | 🤔 | thinking face | вопр. слово
+how | как | How do you say it in English? | Как это сказать по-английски? | 🙋 | person asking | вопр. слово
+which | который, какой (из) | Which bus goes to the beach? | Какой автобус идёт к пляжу? | 🚌 | bus stop | вопр. слово
+whose | чей | Whose phone is this? | Чей это телефон? | 📱 | phone on table | вопр. слово
+how much | сколько (стоит; о том, что не считают) | How much is this bag? | Сколько стоит эта сумка? | 💰 | price tag | выражение
+how many | сколько (штук) | How many children do you have? | Сколько у тебя детей? | 🔢 | counting | выражение
+how old | сколько лет | How old are you? | Сколько тебе лет? | 🎂 | birthday cake | выражение
+how long | как долго, сколько времени | How long is the flight? | Сколько длится полёт? | ⏳ | hourglass | выражение
+how often | как часто | How often do you go to the gym? | Как часто ты ходишь в спортзал? | 🔁 | calendar repeat | выражение
+how far | как далеко | How far is the station? | Далеко ли до вокзала? | 🗺️ | road distance | выражение
+what time | во сколько, который час | What time does the shop open? | Во сколько открывается магазин? | 🕐 | clock | выражение
+what kind of | какой (какого типа) | What kind of music do you like? | Какую музыку ты любишь? | 🎵 | music | выражение` },
+    food: { name: 'Продукты и кухня', icon: '🍞', group: 'basic', level: 'A0', rows: `
+bread | хлеб | I buy bread every morning. | Я покупаю хлеб каждое утро. | 🍞 | bread loaf | сущ.
+milk | молоко | Do you want some milk? | Хочешь молока? | 🥛 | glass of milk | сущ.
+egg | яйцо | I eat two eggs for breakfast. | На завтрак я ем два яйца. | 🥚 | eggs | сущ.
+cheese | сыр | I love cheese. | Я обожаю сыр. | 🧀 | cheese | сущ.
+butter | сливочное масло | Bread and butter, please. | Хлеб с маслом, пожалуйста. | 🧈 | butter | сущ.
+meat | мясо | I don't eat meat. | Я не ем мясо. | 🥩 | raw meat | сущ.
+chicken | курица | We have chicken for dinner. | На ужин у нас курица. | 🍗 | roast chicken | сущ.
+fish | рыба | The fish is fresh. | Рыба свежая. | 🐟 | fresh fish | сущ.
+rice | рис | Rice with vegetables, please. | Рис с овощами, пожалуйста. | 🍚 | bowl of rice | сущ.
+vegetables | овощи | Eat your vegetables! | Ешь овощи! | 🥕 | vegetables | сущ.
+apple | яблоко | This apple is sweet. | Это яблоко сладкое. | 🍎 | red apple | сущ.
+potato | картофель, картошка | I like fried potatoes. | Я люблю жареную картошку. | 🥔 | potatoes | сущ.
+sugar | сахар | No sugar, thank you. | Без сахара, спасибо. | 🍬 | sugar | сущ.
+salt | соль | Can you pass the salt? | Передай, пожалуйста, соль. | 🧂 | salt shaker | сущ.
+knife | нож | The knife is sharp. | Нож острый. | 🔪 | kitchen knife | сущ.
+fork | вилка | I need a fork. | Мне нужна вилка. | 🍴 | fork | сущ.
+spoon | ложка | Eat your soup with a spoon. | Ешь суп ложкой. | 🥄 | spoon | сущ.
+plate | тарелка | Put the plate on the table. | Поставь тарелку на стол. | 🍽️ | plate | сущ.
+cup | чашка | A cup of tea, please. | Чашку чая, пожалуйста. | ☕ | cup | сущ.
+pan | сковорода | The pan is hot. | Сковорода горячая. | 🍳 | frying pan | сущ.` },
+    animals: { name: 'Животные', icon: '🐾', group: 'basic', level: 'A0', rows: `
+dog | собака | My dog is very friendly. | Моя собака очень дружелюбная. | 🐕 | dog | сущ.
+cat | кошка, кот | The cat is sleeping. | Кошка спит. | 🐈 | cat sleeping | сущ.
+bird | птица | A bird is singing. | Поёт птица. | 🐦 | bird | сущ.
+horse | лошадь | She rides a horse. | Она катается на лошади. | 🐎 | horse | сущ.
+cow | корова | The cow gives milk. | Корова даёт молоко. | 🐄 | cow | сущ.
+pig | свинья | The pig is pink. | Свинья розовая. | 🐖 | pig | сущ.
+sheep | овца (много — тоже sheep) | There are many sheep on the farm. | На ферме много овец. | 🐑 | sheep | сущ.
+duck | утка | The ducks swim in the lake. | Утки плавают в озере. | 🦆 | duck | сущ.
+mouse | мышь (много — mice) | A little mouse lives here. | Здесь живёт маленькая мышка. | 🐭 | mouse animal | сущ.
+rabbit | кролик | The rabbit eats a carrot. | Кролик ест морковку. | 🐇 | rabbit | сущ.
+bear | медведь | There are bears in the forest. | В лесу есть медведи. | 🐻 | bear | сущ.
+wolf | волк | The wolf is hungry. | Волк голодный. | 🐺 | wolf | сущ.
+fox | лиса | The fox is red. | Лиса рыжая. | 🦊 | fox | сущ.
+monkey | обезьяна | Monkeys love bananas. | Обезьяны любят бананы. | 🐒 | monkey | сущ.
+elephant | слон | The elephant is very big. | Слон очень большой. | 🐘 | elephant | сущ.
+lion | лев | The lion is the king of animals. | Лев — царь зверей. | 🦁 | lion | сущ.
+snake | змея | Be careful, a snake! | Осторожно, змея! | 🐍 | snake | сущ.
+turtle | черепаха | The turtle is slow. | Черепаха медленная. | 🐢 | turtle | сущ.
+dolphin | дельфин | We saw dolphins in the sea. | Мы видели дельфинов в море. | 🐬 | dolphin | сущ.
+pet | домашний питомец | Do you have a pet? | У тебя есть питомец? | 🐾 | pet | сущ.` },
+    nature: { name: 'Погода и природа', icon: '🌦️', group: 'basic', level: 'A1', rows: `
+sun | солнце | The sun is very bright. | Солнце очень яркое. | ☀️ | sun sky | сущ.
+cloud | облако, туча | There are no clouds today. | Сегодня нет облаков. | ☁️ | clouds | сущ.
+cloudy | облачный, пасмурно | It's cloudy this morning. | Сегодня утром пасмурно. | 🌥️ | cloudy sky | прил.
+snow | снег; идёт снег | It often snows in winter. | Зимой часто идёт снег. | ❄️ | snow | сущ.
+windy | ветреный; ветрено | It's windy at the beach. | На пляже ветрено. | 🌬️ | windy day | прил.
+warm | тёплый; тепло | It's warm today. | Сегодня тепло. | 🌡️ | warm sunny day | прил.
+storm | гроза, шторм | There is a storm tonight. | Сегодня ночью гроза. | ⛈️ | storm | сущ.
+umbrella | зонт | Take an umbrella, it's raining. | Возьми зонт, идёт дождь. | ☂️ | umbrella rain | сущ.
+sky | небо | The sky is blue. | Небо голубое. | 🌌 | blue sky | сущ.
+tree | дерево | There is a big tree in our garden. | В нашем саду большое дерево. | 🌳 | tree | сущ.
+flower | цветок | These flowers are beautiful. | Эти цветы красивые. | 🌸 | flowers | сущ.
+forest | лес | We walk in the forest. | Мы гуляем в лесу. | 🌲 | forest | сущ.
+mountain | гора | The mountains are very high. | Горы очень высокие. | ⛰️ | mountains | сущ.
+river | река | The river is wide. | Река широкая. | 🏞️ | river | сущ.
+lake | озеро | We swim in the lake. | Мы купаемся в озере. | 💧 | lake | сущ.
+island | остров | Bali is an island. | Бали — это остров. | 🏝️ | tropical island | сущ.
+spring | весна | Spring is my favourite season. | Весна — моё любимое время года. | 🌷 | spring flowers | сущ.
+autumn | осень | The leaves are yellow in autumn. | Осенью листья жёлтые. | 🍂 | autumn leaves | сущ.
+season | время года, сезон | What season is it now? | Какое сейчас время года? | 🔄 | four seasons | сущ.
+temperature | температура | The temperature is 30 degrees. | Температура 30 градусов. | 🌡️ | thermometer | сущ.` },
+    places: { name: 'Предлоги места: in, on, under…', icon: '📦', group: 'basic', level: 'A0', rows: `
+in | в (внутри) | The keys are in my bag. | Ключи в моей сумке. | 👜 | keys in bag | предлог
+on | на (на поверхности) | The book is on the table. | Книга на столе. | 📖 | book on table | предлог
+under | под | The cat is under the bed. | Кошка под кроватью. | 🐈 | cat under bed | предлог
+next to | рядом с | The bank is next to the shop. | Банк рядом с магазином. | 🏦 | buildings side by side | предлог
+behind | за, позади | The garden is behind the house. | Сад за домом. | 🏡 | garden behind house | предлог
+in front of | перед | The taxi is in front of the hotel. | Такси перед отелем. | 🚕 | taxi hotel entrance | предлог
+between | между | The café is between the bank and the park. | Кафе между банком и парком. | ↔️ | between two | предлог
+above | над (выше) | There is a lamp above the table. | Над столом висит лампа. | 💡 | lamp above table | предлог
+opposite | напротив | The pharmacy is opposite the station. | Аптека напротив вокзала. | 🔄 | street opposite | предлог
+at | у, в (в каком-то месте) | I'm at home. | Я дома. | 🏠 | at home | предлог
+inside | внутри | It's warm inside. | Внутри тепло. | 🏠 | cozy room inside | наречие
+outside | снаружи, на улице | The children play outside. | Дети играют на улице. | 🌳 | children playing outside | наречие
+on the left | слева | The door is on the left. | Дверь слева. | ⬅️ | left arrow | выражение
+on the right | справа | The shop is on the right. | Магазин справа. | ➡️ | right arrow | выражение
+into | в (движение внутрь) | Put the milk into the fridge. | Поставь молоко в холодильник. | 📥 | putting into fridge | предлог
+out of | из (движение наружу) | Take the phone out of your bag. | Достань телефон из сумки. | 📤 | taking out of bag | предлог
+over | над, через | The bird flies over the house. | Птица летит над домом. | 🐦 | bird flying over house | предлог
+around | вокруг | We walk around the lake. | Мы гуляем вокруг озера. | 🔄 | walking around lake | предлог` },
   };
+  // Уровень старых наборов (у новых — поле level прямо в описании)
+  const LEVEL = { talk: 'A0', family: 'A0', clothes: 'A0', cafe: 'A0', time: 'A0', home: 'A1', body: 'A1', city: 'A1', feelings: 'A1', hobby: 'A1', work: 'A1',
+    shop: 'A1', travel: 'A1', beach: 'A1', sport: 'A1', irregular: 'A1', rent: 'A2' };
   const SETS = Object.keys(RAW).map(id => {
     const s = RAW[id];
     const words = s.rows.trim().split('\n').map(line => {
       const [en, ru, example, exampleRu, emoji, imageQuery, pos] = line.split('|').map(x => x.trim());
       return { en, ru, example, exampleRu, emoji, imageQuery, pos };
     });
-    return { id, name: s.name, icon: s.icon, group: s.group || (id === 'irregular' ? 'verbs' : 'travel'), words };
+    return { id, name: s.name, icon: s.icon, level: s.level || LEVEL[id] || 'A1', group: s.group || (id === 'irregular' ? 'verbs' : 'travel'), words };
   });
-  // Порядок: сначала общие темы для всех, потом путешествия, потом глаголы
-  const GORDER = { general: 0, travel: 1, verbs: 2 };
-  SETS.sort((a, b) => GORDER[a.group] - GORDER[b.group]);
+  // Порядок: сначала самые нужные слова, потом общие темы, путешествия, глаголы; внутри группы — по уровню
+  const GORDER = { basic: 0, general: 1, travel: 2, verbs: 3 };
+  const LORDER = { A0: 0, A1: 1, A2: 2, B1: 3 };
+  SETS.forEach((x, i) => { x._i = i; });
+  SETS.sort((a, b) => GORDER[a.group] - GORDER[b.group] || LORDER[a.level] - LORDER[b.level] || a._i - b._i);
+  SETS.forEach(x => { delete x._i; });
   window.ReadySets = SETS;
-  window.ReadyGroups = { general: 'Общие темы', travel: 'Путешествия и жизнь у моря', verbs: 'Глаголы' };
+  window.ReadyLevels = ['A0', 'A1', 'A2', 'B1'];
+  window.ReadyGroups = { basic: 'Основа: самые нужные слова', general: 'Общие темы', travel: 'Путешествия и жизнь у моря', verbs: 'Глаголы' };
 })();

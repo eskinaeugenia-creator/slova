@@ -43,7 +43,7 @@ with sync_playwright() as p:
     pg.goto(BASE); pg.wait_for_selector('h1'); pg.evaluate(HELP)
     # Исправление: окно «Наборы» в словаре
     pg.goto(BASE+'#dict'); pg.wait_for_selector('#dict-search'); pg.click('button:has-text("Наборы")'); pg.wait_for_selector('.sheet')
-    ok('окно «Наборы»: видны готовые темы', pg.locator('.sheet .tile.wide').count()==17)
+    ok('окно «Наборы»: видны готовые темы', pg.locator('.sheet .tile.wide').count()==pg.evaluate('ReadySets.length'))
     pg.screenshot(path='/home/claude/tests/shots/23-sets-sheet.png')
     pg.click('.sheet .tile.wide:has-text("Пляж")'); pg.wait_for_selector('.savebar .btn'); pg.click('.savebar .btn'); pg.wait_for_selector('#dict-search')
     pg.click('button:has-text("Наборы")'); pg.wait_for_selector('.sheet')
