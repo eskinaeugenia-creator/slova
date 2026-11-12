@@ -3,6 +3,8 @@ import re
 exec(open('tests/e2e_extra.py', encoding='utf-8').read().split('with sync_playwright()')[0])
 SH='/tmp/claude-0/-home-claude/de85335f-0f5d-5bd4-b2db-7618e4b0e2be/scratchpad/'
 PACK='jane-a1-25e376d9'
+import json as _j
+NL=len(_j.load(open('packs/'+PACK+'.json', encoding='utf-8'))['lessons'])
 with sync_playwright() as p:
     b=p.chromium.launch(); ctx=b.new_context(viewport={'width':390,'height':844}, is_mobile=True, has_touch=True, device_scale_factor=2)
     ctx.add_init_script(FAKE_TTS)
@@ -14,9 +16,9 @@ with sync_playwright() as p:
     # загрузка кодом из настроек
     pg.goto(BASE+'#prefs'); pg.wait_for_selector('#my-code'); pg.fill('#my-code', PACK); pg.locator('#my-prefs button[type=submit]').click()
     pg.wait_for_selector('.my-lesson')
-    ok('занятия загружены (6)', pg.locator('.my-lesson').count()==6, pg.locator('.my-lesson').count())
+    ok('занятия загружены ('+str(NL)+')', pg.locator('.my-lesson').count()==NL, pg.locator('.my-lesson').count())
     ok('сверху — темы, которые проходим', pg.locator('.topic-chips .topic-chip').count()>=6)
-    ok('новые занятия помечены', pg.locator('.my-lesson .pill.due').count()==6)
+    ok('новые занятия помечены', pg.locator('.my-lesson .pill.due').count()==NL)
     pg.screenshot(path=SH+'mylessons.png', full_page=True)
     pg.goto(BASE+'#today'); pg.wait_for_selector('#my-banner', timeout=8000)
     ok('на «Сегодня» баннер о разборе занятия', pg.locator('#my-banner').count()==1)
@@ -50,6 +52,6 @@ with sync_playwright() as p:
     pg.goto(BASE+'#mylessons'); pg.wait_for_selector('.my-lesson')
     ok('после открытия занятие уже не «новое», видно % тренировки', pg.locator('.my-lesson[data-id="2026-11-05b"] .pill.due').count()==0 and 'тренировка' in pg.locator('.my-lesson[data-id="2026-11-05b"]').inner_text())
     r=pg.evaluate("(async()=>{ const d=await App.kvGet('myLessons'); d.lessons=d.lessons.slice(1); await App.kvSet('myLessons', d); const ch=await MyLessons.refresh(); const d2=await App.kvGet('myLessons'); return [ch, d2.lessons.length, d2.lessons.filter(l=>l.seen).length]; })()")
-    ok('автообновление подтягивает новые занятия из пакета и не сбрасывает «просмотрено»', r[0] and r[1]==6 and r[2]>=1, r)
+    ok('автообновление подтягивает новые занятия из пакета и не сбрасывает «просмотрено»', r[0] and r[1]==NL and r[2]>=1, r)
     ok('нет ошибок на странице', not errs, errs)
     print(f'Итог: {sum(res)} из {len(res)}')

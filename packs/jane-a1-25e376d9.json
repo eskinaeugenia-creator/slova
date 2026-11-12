@@ -2,6 +2,61 @@
   "title": "Jane A1 — занятия",
   "lessons": [
     {
+      "id": "2026-11-12", "date": "2026-11-12", "kind": "занятие", "title": "His job, her job", "sub": "Угадай профессию: Do you…? Does she…? at night, better",
+      "topics": ["do", "ps2", "prep", "comp"],
+      "rules": [
+        {"h": "Угадай профессию: вопросы да/нет", "p": "Про «ты» спрашиваем Do you…?, про него / неё — Does he / she…? После does глагол без -s. Ответ «нет» про него / неё — doesn't + глагол без -s.", "ex": [["Do you work outside?", "Ты работаешь на улице?"], ["Does she speak foreign languages?", "Она говорит на иностранных языках?"], ["Does he wear a uniform?", "Он носит форму?"], ["Alex doesn't work in an office.", "Алекс не работает в офисе."]]},
+        {"h": "Когда работаешь: in / at / on", "table": [["in the morning / in the evening", "утром / вечером", "He sometimes works in the evening."], ["at night", "ночью", "Nurses often work at night."], ["on the weekend", "по выходным", "Do you work on the weekend?"], ["at + место работы", "в больнице, в школе", "My father works at a hospital."]]},
+        {"h": "Лучше и «похоже на»", "p": "good → better (не more good). «Похоже на…» — be like: This part is like Moscow.", "ex": [["The restaurants are better here.", "Здесь рестораны лучше."], ["But surfing is better there.", "Зато сёрфинг лучше там."], ["That part is like a small town.", "Та часть похожа на маленький город."]]},
+        {"h": "Звуки /ɜː/ и /ə/", "table": [["/ɜː/ — долгий, как в bird", "nurse, thirty, work, journalist", "ur, ir, er под ударением; or после w"], ["/ə/ — короткий, безударный", "doctor, actor, teacher, lawyer", "er, or без ударения"]]}
+      ],
+      "mistakes": [
+        ["I don't know who do I want to be.", "I don't know who I want to be.", "После I don't know вопрос прячется внутрь фразы — порядок обычный, без do."],
+        ["She works in night.", "She works at night.", "In the morning / in the evening, но at night."],
+        ["schedule — «счедьюл»", "schedule — [ˈskedʒuːl] или [ˈʃedjuːl]", "sch читается как [sk] (амер.) или [ʃ] (брит.), не «сч»."]
+      ],
+      "items": [
+        {"t": "choose", "s": "___ you work at night?", "ru": "Ты работаешь ночью?", "o": ["Do", "Does", "Are"], "a": "Do", "why": "You → Do."},
+        {"t": "choose", "s": "___ he wear a uniform?", "ru": "Он носит форму?", "o": ["Does", "Do", "Is"], "a": "Does", "why": "He → Does, wear без -s."},
+        {"t": "choose", "s": "Alex ___ work in an office.", "ru": "Алекс не работает в офисе.", "o": ["doesn't", "don't", "isn't"], "a": "doesn't", "why": "Alex = he → doesn't + work."},
+        {"t": "choose", "s": "He sometimes works ___ the evening.", "ru": "Он иногда работает вечером.", "o": ["in", "at", "on"], "a": "in", "why": "in the morning / in the evening."},
+        {"t": "choose", "s": "Nurses often work ___ night.", "ru": "Медсёстры часто работают ночью.", "o": ["at", "in", "on"], "a": "at", "why": "Ночью — at night."},
+        {"t": "choose", "s": "The restaurants are ___ here.", "ru": "Здесь рестораны лучше.", "o": ["better", "more good", "gooder"], "a": "better", "why": "good → better — особая форма."},
+        {"t": "choose", "s": "Actually, I don't know who ___ to be.", "ru": "Вообще-то я не знаю, кем хочу быть.", "o": ["I want", "do I want", "want I"], "a": "I want", "why": "После I don't know — обычный порядок: who I want."},
+        {"t": "type", "s": "Does she ___ a lot of money? (earn)", "ru": "Она много зарабатывает?", "a": ["earn"], "why": "После does — глагол без -s."},
+        {"t": "type", "s": "My father works ___ a hospital.", "ru": "Мой папа работает в больнице.", "a": ["at"], "why": "Место работы — at: at a hospital, at a school."},
+        {"t": "type", "s": "Surfing is ___ there. (good)", "ru": "Сёрфинг лучше там.", "a": ["better"], "why": "good → better."},
+        {"t": "meaning", "s": "I can relate to that.", "ask": "Что это значит?", "o": ["мне это знакомо, жизненно", "я с этим не согласна", "я этим занимаюсь"], "a": 0, "why": "relate to smth = I feel the same way, «жизненно»."},
+        {"t": "meaning", "s": "My dream job is unemployed.", "ask": "Что значит unemployed?", "o": ["без работы", "на удалёнке", "на пенсии"], "a": 0, "why": "unemployed — without a job, безработный."},
+        {"t": "build", "ru": "Ты работаешь по выходным?", "a": "Do you work on the weekend?", "extra": "Does"}
+      ],
+      "words": [
+        ["What do you do?", "Кем ты работаешь?"],
+        ["What do you do at work?", "Что ты делаешь на работе?"],
+        ["I can relate to that.", "Мне это знакомо, жизненно."],
+        ["my dream job", "работа мечты"],
+        ["build an empire", "строить империю"],
+        ["I don't know who I want to be.", "Я не знаю, кем хочу быть."],
+        ["a game show", "игровое шоу, телевикторина"],
+        ["work at night", "работать ночью"],
+        ["work in the evening", "работать вечером"],
+        ["work on the weekend", "работать по выходным"],
+        ["have special qualifications", "нужна особая квалификация"],
+        ["get vacation time", "получать отпуск"],
+        ["speak foreign languages", "говорить на иностранных языках"],
+        ["make things", "делать вещи (руками)"],
+        ["wear special clothes", "носить спецодежду"],
+        ["like your job", "любить свою работу"],
+        ["a doctor", "врач"],
+        ["a taxi driver", "таксист"],
+        ["a waiter", "официант"],
+        ["better", "лучше", "The restaurants are better here."],
+        ["This part is like Moscow.", "Эта часть похожа на Москву."],
+        ["near", "рядом с, недалеко от", "We live near Canggu."],
+        ["We just traveled there.", "Мы только что туда съездили."]
+      ]
+    },
+    {
       "id": "2026-11-10", "date": "2026-11-10", "kind": "занятие", "title": "A quiet life?", "sub": "Шум, соседи, he/she + -s",
       "topics": ["ps2", "freq"],
       "rules": [
