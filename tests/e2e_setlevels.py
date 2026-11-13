@@ -14,6 +14,11 @@ with sync_playwright() as p:
     ids={d['id'] for d in data}
     ok('новые наборы A0–A1 на месте', {'verbs1','verbs2','opposites','questions','food','animals','nature','places'} <= ids)
     ok('в новых наборах по 15–25 слов', all(15 <= d['n'] <= 25 for d in data if d['id'] in ('verbs1','verbs2','opposites','questions','food','animals','nature','places')))
+    NEW_A2={'transport','tech','online','doctor','tripproblems','bank','character2','phrasal1'}; NEW_B1={'phrasal2','makedo','linkers','opinion','career','eco'}
+    lv={d['id']:d['level'] for d in data}
+    ok('новые наборы A2 и B1 на месте', NEW_A2|NEW_B1 <= ids, (NEW_A2|NEW_B1)-ids)
+    ok('у новых наборов верный уровень', all(lv[i]=='A2' for i in NEW_A2) and all(lv[i]=='B1' for i in NEW_B1))
+    ok('в наборах A2–B1 по 15–20 слов', all(15 <= d['n'] <= 20 for d in data if d['id'] in NEW_A2|NEW_B1))
     dup=pg.evaluate("ReadySets.filter(s=>new Set(s.words.map(w=>Core.keyEn(w.en))).size!==s.words.length).map(s=>s.id)")
     ok('внутри набора слова не повторяются', not dup, dup)
     pg.goto(BASE+'#sets'); pg.wait_for_selector('.set-tile')
@@ -28,7 +33,15 @@ with sync_playwright() as p:
     ok('кнопка A0 нажата', pg.locator('#sets-levels [data-level=A0]').get_attribute('aria-pressed')=='true')
     pg.screenshot(path=SH+'sets-levels.png')
     pg.click('#sets-levels [data-level=A2]'); pg.wait_for_timeout(200)
-    ok('фильтр A2 показывает «Аренда жилья»', pg.locator('.set-tile').count()==sum(1 for d in data if d['level']=='A2') and 'Аренда' in pg.locator('.set-tile').first.inner_text())
+    tiles=pg.locator('.set-tile').all_inner_texts()
+    ok('фильтр A2 показывает «Аренда жилья» и новые наборы', len(tiles)==sum(1 for d in data if d['level']=='A2') and any('Аренда' in x for x in tiles) and any('Врач и аптека' in x for x in tiles), len(tiles))
+    ok('есть группа «Следующий шаг»', pg.locator('text=Следующий шаг: A2 и B1').count()==1)
+    ok('есть фильтр B1', pg.locator('#sets-levels [data-level=B1]').count()==1)
+    pg.click('#sets-levels [data-level=B1]'); pg.wait_for_timeout(200)
+    txt=pg.evaluate("[...document.querySelectorAll('.set-tile small')].map(x=>x.textContent)")
+    ok('фильтр B1 — 6 наборов, только B1', len(txt)==sum(1 for d in data if d['level']=='B1')==6 and all(t.startswith('B1') for t in txt), len(txt))
+    pg.screenshot(path=SH+'sets-b1.png')
+    pg.click('#sets-levels [data-level=A2]'); pg.wait_for_timeout(200)
     # фильтр запоминается при возврате
     pg.goto(BASE+'#set-animals'); pg.wait_for_selector('text=Добавить в словарь')
     ok('на экране набора указан уровень', 'Уровень A0' in pg.locator('#set-level').inner_text())

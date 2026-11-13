@@ -493,6 +493,265 @@ into | в (движение внутрь) | Put the milk into the fridge. | По
 out of | из (движение наружу) | Take the phone out of your bag. | Достань телефон из сумки. | 📤 | taking out of bag | предлог
 over | над, через | The bird flies over the house. | Птица летит над домом. | 🐦 | bird flying over house | предлог
 around | вокруг | We walk around the lake. | Мы гуляем вокруг озера. | 🔄 | walking around lake | предлог` },
+    // ===== Следующий шаг: A2 =====
+    transport: { name: 'Транспорт и дорога', icon: '🚌', group: 'next', level: 'A2', rows: `
+bus stop | автобусная остановка | The bus stop is near my house. | Остановка рядом с моим домом. | 🚏 | bus stop | выражение
+timetable | расписание | Check the bus timetable. | Посмотри расписание автобусов. | 🗒️ | bus timetable | сущ.
+platform | платформа | The train leaves from platform two. | Поезд отходит со второй платформы. | 🚉 | train platform | сущ.
+single ticket | билет в одну сторону | A single ticket to Oxford, please. | Билет в одну сторону до Оксфорда, пожалуйста. | 🎟️ | train ticket | выражение
+return ticket | билет туда и обратно | A return ticket is cheaper. | Билет туда и обратно дешевле. | 🔁 | return ticket | выражение
+get on | садиться (в автобус, поезд) | Get on the bus here. | Садись в автобус здесь. | 🚌 | getting on bus | фразовый глагол
+get off | выходить (из автобуса, поезда) | Get off at the next stop. | Выходи на следующей остановке. | 🚶 | getting off bus | фразовый глагол
+miss | опоздать на (автобус, поезд) | I missed the last train. | Я опоздала на последний поезд. | 🏃 | running for train | глагол
+traffic jam | пробка | We were in a traffic jam for an hour. | Мы стояли в пробке час. | 🚗 | traffic jam | выражение
+rush hour | час пик | Don't drive in rush hour. | Не езди в час пик. | ⏰ | rush hour traffic | выражение
+driving licence | водительские права | Do you have a driving licence? | У тебя есть права? | 🪪 | driving licence card | выражение
+petrol station | заправка | Stop at the petrol station. | Остановись на заправке. | ⛽ | petrol station | выражение
+crossroads | перекрёсток | Turn right at the crossroads. | На перекрёстке поверни направо. | ✖️ | crossroads | сущ.
+traffic lights | светофор | Stop at the traffic lights. | Остановись на светофоре. | 🚦 | traffic lights | выражение
+park | парковаться | Where can I park? | Где можно припарковаться? | 🅿️ | parking lot | глагол
+seat belt | ремень безопасности | Fasten your seat belt. | Пристегни ремень безопасности. | 💺 | seat belt | выражение
+helmet | шлем | Always wear a helmet on a bike. | На мотобайке всегда надевай шлем. | ⛑️ | motorbike helmet | сущ.
+journey | поездка, путь | The journey takes two hours. | Дорога занимает два часа. | 🛣️ | road trip | сущ.` },
+    tech: { name: 'Техника и телефон', icon: '📱', group: 'next', level: 'A2', rows: `
+charger | зарядка | I forgot my charger. | Я забыла зарядку. | 🔌 | phone charger | сущ.
+battery | батарея, аккумулятор | My battery is low. | У меня садится батарея. | 🔋 | low battery | сущ.
+charge | заряжать | Can I charge my phone here? | Можно здесь зарядить телефон? | ⚡ | charging phone | глагол
+screen | экран | The screen is broken. | Экран разбит. | 📱 | cracked phone screen | сущ.
+turn on | включать | Turn on the light, please. | Включи свет, пожалуйста. | 💡 | turning on switch | фразовый глагол
+turn off | выключать | Turn off your phone in the cinema. | Выключи телефон в кино. | 📴 | phone off | фразовый глагол
+download | скачать | Download the app. | Скачай приложение. | ⬇️ | download | глагол
+update | обновление; обновлять | My phone needs an update. | Телефону нужно обновление. | 🔄 | software update | сущ.
+password | пароль | I forgot my password. | Я забыла пароль. | 🔒 | password login | сущ.
+headphones | наушники | I listen to podcasts in headphones. | Я слушаю подкасты в наушниках. | 🎧 | headphones | сущ.
+laptop | ноутбук | I work on my laptop. | Я работаю на ноутбуке. | 💻 | laptop | сущ.
+keyboard | клавиатура | The keyboard is in English. | Клавиатура на английском. | ⌨️ | keyboard | сущ.
+signal | сигнал, связь | There is no signal here. | Здесь нет связи. | 📶 | phone signal | сущ.
+call back | перезвонить | I'll call you back later. | Я перезвоню тебе позже. | 📞 | phone call | фразовый глагол
+voice message | голосовое сообщение | She sent me a voice message. | Она прислала мне голосовое. | 🎙️ | voice message | выражение
+plug in | подключить, воткнуть в розетку | Plug in the kettle. | Включи чайник в розетку. | 🔌 | plugging in | фразовый глагол
+it doesn't work | не работает | My camera doesn't work. | У меня не работает камера. | 🛠️ | broken device | выражение` },
+    online: { name: 'Интернет и соцсети', icon: '🌐', group: 'next', level: 'A2', rows: `
+post | публикация, пост; публиковать | I liked your post. | Мне понравился твой пост. | 📝 | social media post | сущ.
+share | делиться, поделиться | Share the link with me. | Поделись со мной ссылкой. | 🔗 | sharing link | глагол
+link | ссылка | Send me the link. | Пришли мне ссылку. | 🔗 | hyperlink | сущ.
+follow | подписаться на | I follow her on Instagram. | Я подписана на неё в Инстаграме. | ➕ | follow button | глагол
+follower | подписчик | He has many followers. | У него много подписчиков. | 👥 | followers | сущ.
+comment | комментарий; комментировать | Leave a comment below. | Оставьте комментарий ниже. | 💬 | comment | сущ.
+search | искать (в интернете) | Search for it on Google. | Поищи это в Гугле. | 🔍 | search bar | глагол
+website | сайт | The website is in English. | Сайт на английском. | 🖥️ | website | сущ.
+account | аккаунт, учётная запись | Create a new account. | Создай новый аккаунт. | 👤 | user account | сущ.
+log in | войти (в аккаунт) | I can't log in. | Я не могу войти. | 🔑 | login screen | фразовый глагол
+log out | выйти (из аккаунта) | Don't forget to log out. | Не забудь выйти из аккаунта. | 🚪 | logout | фразовый глагол
+online | в сети, онлайн | Are you online now? | Ты сейчас в сети? | 🟢 | online status | наречие
+upload | загрузить (на сайт) | I uploaded the photos. | Я загрузила фотографии. | ⬆️ | uploading | глагол
+message | сообщение; писать сообщение | Message me when you are free. | Напиши мне, когда освободишься. | ✉️ | chat message | сущ.
+block | заблокировать | She blocked him. | Она его заблокировала. | 🚫 | block user | глагол
+fake | фальшивый, фейк | This news is fake. | Это фейковая новость. | 🎭 | fake news | прил.
+Wi-Fi password | пароль от Wi-Fi | What's the Wi-Fi password? | Какой пароль от Wi-Fi? | 📶 | wifi sign | выражение` },
+    doctor: { name: 'Врач и аптека', icon: '💊', group: 'next', level: 'A2', rows: `
+appointment | запись (к врачу), встреча | I have an appointment at ten. | Я записана на десять. | 📅 | doctor appointment | сущ.
+pharmacy | аптека | Is there a pharmacy near here? | Здесь есть аптека рядом? | ⚕️ | pharmacy | сущ.
+prescription | рецепт (врача) | You need a prescription. | Вам нужен рецепт. | 📝 | prescription | сущ.
+pill | таблетка | Take one pill after dinner. | Принимай одну таблетку после ужина. | 💊 | pills | сущ.
+symptom | симптом | What are your symptoms? | Какие у вас симптомы? | 🩺 | doctor | сущ.
+fever | температура, жар | She has a fever. | У неё температура. | 🌡️ | thermometer | сущ.
+cough | кашель; кашлять | I have a bad cough. | У меня сильный кашель. | 😷 | coughing | сущ.
+sore throat | больное горло | I've got a sore throat. | У меня болит горло. | 🗣️ | sore throat | выражение
+headache | головная боль | I have a headache. | У меня болит голова. | 🤕 | headache | сущ.
+allergic to | аллергия на | I'm allergic to nuts. | У меня аллергия на орехи. | 🥜 | allergy | выражение
+hurt | болеть, причинять боль | My back hurts. | У меня болит спина. | 🤕 | back pain | глагол
+injection | укол | The nurse gave me an injection. | Медсестра сделала мне укол. | 💉 | injection | сущ.
+insurance | страховка | Do you have travel insurance? | У вас есть страховка для путешествий? | 📄 | insurance | сущ.
+get better | выздоравливать | I hope you get better soon. | Надеюсь, ты скоро поправишься. | 🌱 | recovery | фразовый глагол
+twice a day | два раза в день | Take it twice a day. | Принимай это два раза в день. | 2️⃣ | medicine schedule | выражение
+How do you feel? | Как вы себя чувствуете? | How do you feel today? | Как ты себя чувствуешь сегодня? | 🙂 | doctor talking | выражение
+I feel sick | меня тошнит, мне плохо | I feel sick after the boat. | Мне плохо после лодки. | 🤢 | seasick | выражение` },
+    tripproblems: { name: 'Проблемы в поездке', icon: '🧳', group: 'next', level: 'A2', rows: `
+delayed | задержан (рейс) | Our flight is delayed. | Наш рейс задержали. | ⏳ | departure board delayed | прил.
+cancelled | отменён | The train is cancelled. | Поезд отменили. | ❌ | cancelled flight | прил.
+lost | потерянный; потерялся | I'm lost. | Я заблудилась. | 🧭 | lost tourist map | прил.
+lose | терять | I lost my wallet. | Я потеряла кошелёк. | 👛 | lost wallet | глагол
+stolen | украден | My bag was stolen. | У меня украли сумку. | 🦹 | stolen bag | прил.
+refund | возврат денег | Can I get a refund? | Можно вернуть деньги? | 💸 | refund | сущ.
+complain | жаловаться | I want to complain about the room. | Я хочу пожаловаться на номер. | 😠 | complaint | глагол
+connection | пересадка; связь | I missed my connection. | Я опоздала на пересадку. | 🔀 | connecting flight | сущ.
+lost luggage | потерянный багаж | Where is the lost luggage office? | Где офис потерянного багажа? | 🧳 | baggage claim | выражение
+embassy | посольство | Call the embassy. | Позвоните в посольство. | 🏛️ | embassy | сущ.
+police station | полицейский участок | Where is the police station? | Где полицейский участок? | 🚓 | police station | выражение
+emergency | экстренный случай | It's an emergency! | Это экстренный случай! | 🚨 | emergency | сущ.
+help | помощь; помогать | Can you help me, please? | Вы можете мне помочь, пожалуйста? | 🆘 | help | глагол
+wrong | неправильный, не тот | This is the wrong room. | Это не тот номер. | ❗ | wrong way | прил.
+overbooked | перебронирован | The hotel is overbooked. | В отеле нет мест — перебронирование. | 🏨 | hotel reception | прил.
+compensation | компенсация | We want compensation. | Мы хотим компенсацию. | 💰 | compensation money | сущ.
+What should I do? | Что мне делать? | I lost my passport. What should I do? | Я потеряла паспорт. Что мне делать? | 🤷 | confused traveler | выражение` },
+    bank: { name: 'Банк и деньги', icon: '🏦', group: 'next', level: 'A2', rows: `
+bank account | банковский счёт | I want to open a bank account. | Я хочу открыть счёт в банке. | 🏦 | bank | выражение
+card | карта (банковская) | Can I pay by card? | Можно оплатить картой? | 💳 | credit card | сущ.
+cash | наличные | I only have cash. | У меня только наличные. | 💵 | cash money | сущ.
+cash machine | банкомат | Is there a cash machine here? | Здесь есть банкомат? | 🏧 | atm machine | выражение
+withdraw | снять (деньги) | I need to withdraw some money. | Мне нужно снять деньги. | 🏧 | withdrawing cash | глагол
+exchange | обменять | Where can I exchange dollars? | Где можно обменять доллары? | 💱 | currency exchange | глагол
+exchange rate | курс валют | What is the exchange rate today? | Какой сегодня курс? | 📈 | exchange rate board | выражение
+fee | комиссия, плата | Is there a fee? | Есть комиссия? | 🧾 | bank fee | сущ.
+transfer | перевод; переводить | I'll make a transfer tomorrow. | Я сделаю перевод завтра. | 🔁 | bank transfer | сущ.
+save | копить, откладывать | I save money for a trip. | Я коплю на поездку. | 🐷 | piggy bank | глагол
+spend | тратить | We spend a lot on food. | Мы много тратим на еду. | 🛍️ | shopping bags | глагол
+borrow | брать в долг | Can I borrow ten dollars? | Можно занять у тебя десять долларов? | 🤲 | borrowing money | глагол
+lend | давать в долг | I can lend you some money. | Я могу дать тебе денег в долг. | 🤝 | lending money | глагол
+afford | позволить себе (по деньгам) | I can't afford a new car. | Я не могу позволить себе новую машину. | 🚗 | expensive car | глагол
+receipt | чек | Can I have a receipt, please? | Можно чек, пожалуйста? | 🧾 | receipt | сущ.
+change | сдача | Keep the change. | Сдачи не надо. | 🪙 | coins | сущ.
+PIN | пин-код | Enter your PIN. | Введите пин-код. | 🔢 | card pin pad | сущ.` },
+    character2: { name: 'Эмоции и характер — 2', icon: '🎭', group: 'next', level: 'A2', rows: `
+proud | гордый, горжусь | I'm proud of you. | Я горжусь тобой. | 🦁 | proud | прил.
+embarrassed | смущён, неловко | I was so embarrassed! | Мне было так неловко! | 😳 | embarrassed face | прил.
+jealous | ревнивый, завидующий | He is jealous of his brother. | Он завидует брату. | 😒 | jealous | прил.
+nervous | нервный, волнуюсь | I'm nervous before the exam. | Я волнуюсь перед экзаменом. | 😬 | nervous | прил.
+relaxed | расслабленный, спокойный | I feel relaxed on the beach. | На пляже я расслаблена. | 😌 | relaxing hammock | прил.
+disappointed | разочарован | I'm disappointed with the hotel. | Я разочарована отелем. | 😞 | disappointed | прил.
+surprised | удивлён | She was surprised to see me. | Она удивилась, увидев меня. | 😮 | surprised face | прил.
+confident | уверенный | Be confident when you speak. | Говори уверенно. | 😎 | confident woman | прил.
+shy | застенчивый | My son is a bit shy. | Мой сын немного застенчивый. | 🙈 | shy child | прил.
+patient | терпеливый | A good teacher is patient. | Хороший учитель терпеливый. | 🧘 | patient teacher | прил.
+honest | честный | Thank you for being honest. | Спасибо за честность. | 🤝 | handshake | прил.
+lazy | ленивый | I'm lazy on Sundays. | По воскресеньям я ленивая. | 🦥 | sloth | прил.
+hard-working | трудолюбивый | She is very hard-working. | Она очень трудолюбивая. | 💪 | hard working | прил.
+generous | щедрый | My grandma is generous. | Моя бабушка щедрая. | 🎁 | gift | прил.
+selfish | эгоистичный | Don't be selfish. | Не будь эгоистом. | 🙅 | selfish | прил.
+moody | с переменчивым настроением | He is moody in the morning. | По утрам у него скачет настроение. | 🌦️ | moody person | прил.
+easy-going | лёгкий в общении, спокойный | My husband is easy-going. | Мой муж спокойный и лёгкий человек. | 😊 | relaxed friends | прил.` },
+    phrasal1: { name: 'Фразовые глаголы — 1', icon: '🧩', group: 'next', level: 'A2', rows: `
+get up | вставать (с кровати) | I get up at seven. | Я встаю в семь. | ⏰ | alarm clock morning | фразовый глагол
+wake up | просыпаться | I wake up before the alarm. | Я просыпаюсь до будильника. | 🥱 | waking up | фразовый глагол
+look for | искать | I'm looking for my keys. | Я ищу ключи. | 🔍 | looking for keys | фразовый глагол
+look after | присматривать, заботиться | Can you look after my cat? | Можешь присмотреть за моей кошкой? | 🐈 | pet sitter | фразовый глагол
+put on | надевать | Put on your jacket. | Надень куртку. | 🧥 | putting on jacket | фразовый глагол
+take off | снимать (одежду); взлетать | Take off your shoes, please. | Сними обувь, пожалуйста. | 👟 | taking off shoes | фразовый глагол
+sit down | садиться | Please sit down. | Садитесь, пожалуйста. | 🪑 | sitting down | фразовый глагол
+stand up | вставать (на ноги) | Stand up, please. | Встаньте, пожалуйста. | 🧍 | standing up | фразовый глагол
+go out | выходить (из дома), гулять | We go out on Fridays. | По пятницам мы ходим куда-нибудь. | 🌃 | night out | фразовый глагол
+come back | возвращаться | When do you come back? | Когда ты вернёшься? | ↩️ | coming home | фразовый глагол
+give up | бросить (привычку), сдаться | Don't give up! | Не сдавайся! | 🏳️ | giving up | фразовый глагол
+find out | узнать, выяснить | I want to find out the price. | Я хочу узнать цену. | 💡 | finding out | фразовый глагол
+fill in | заполнить (анкету) | Fill in this form, please. | Заполните эту форму, пожалуйста. | 📝 | filling form | фразовый глагол
+pick up | забрать (кого-то); поднять | I pick up my son at three. | Я забираю сына в три. | 🚗 | picking up child | фразовый глагол
+throw away | выбросить | Throw away the old bread. | Выброси старый хлеб. | 🗑️ | trash bin | фразовый глагол
+try on | примерить | Can I try on this dress? | Можно примерить это платье? | 👗 | fitting room | фразовый глагол
+hurry up | поторопиться | Hurry up, we're late! | Поторопись, мы опаздываем! | 🏃 | hurry | фразовый глагол
+slow down | замедлиться | Slow down, please. | Помедленнее, пожалуйста. | 🐢 | slow down sign | фразовый глагол` },
+    // ===== Следующий шаг: B1 =====
+    phrasal2: { name: 'Фразовые глаголы — 2', icon: '🧠', group: 'next', level: 'B1', rows: `
+get on with | ладить с | I get on well with my boss. | Я хорошо лажу с начальником. | 🤝 | colleagues smiling | фразовый глагол
+look forward to | ждать с нетерпением | I'm looking forward to the trip. | Я с нетерпением жду поездки. | 🤩 | excited traveler | фразовый глагол
+run out of | закончиться (о запасах) | We've run out of milk. | У нас закончилось молоко. | 🥛 | empty milk carton | фразовый глагол
+put off | откладывать (на потом) | Don't put off your homework. | Не откладывай домашку. | 🐌 | procrastination | фразовый глагол
+carry on | продолжать | Carry on, I'm listening. | Продолжай, я слушаю. | ▶️ | continue | фразовый глагол
+set up | основать, настроить | She set up her own business. | Она открыла свой бизнес. | 🏗️ | startup office | фразовый глагол
+work out | тренироваться; разобраться | I work out three times a week. | Я тренируюсь три раза в неделю. | 🏋️ | gym workout | фразовый глагол
+turn down | отклонить; убавить | He turned down the job offer. | Он отказался от предложения о работе. | 👎 | declining offer | фразовый глагол
+bring up | воспитывать; поднимать тему | She brought up three children. | Она вырастила троих детей. | 👪 | family children | фразовый глагол
+come up with | придумать | We came up with a great idea. | Мы придумали отличную идею. | 💡 | idea lightbulb | фразовый глагол
+take up | начать заниматься (хобби) | I took up surfing last year. | В прошлом году я начала заниматься сёрфингом. | 🏄 | surfing beginner | фразовый глагол
+deal with | справляться, иметь дело с | I can deal with it. | Я могу с этим справиться. | 🛠️ | solving problem | фразовый глагол
+get over | пережить, прийти в себя | It took me a month to get over the flu. | Мне понадобился месяц, чтобы оправиться от гриппа. | 🌈 | recovery | фразовый глагол
+show off | хвастаться | Stop showing off! | Хватит хвастаться! | 🦚 | peacock | фразовый глагол
+end up | в итоге оказаться | We ended up in a small café. | В итоге мы оказались в маленьком кафе. | 📍 | small cafe | фразовый глагол
+figure out | разобраться, понять | I can't figure out this app. | Не могу разобраться в этом приложении. | 🧩 | puzzle | фразовый глагол
+let down | подвести | Don't let me down. | Не подведи меня. | 😔 | disappointed friend | фразовый глагол
+catch up | наверстать; догнать | Let's meet and catch up. | Давай встретимся и поболтаем обо всём. | ☕ | friends coffee | фразовый глагол` },
+    makedo: { name: 'make, do, take, have', icon: '🔧', group: 'next', level: 'B1', rows: `
+make a mistake | сделать ошибку | Everyone makes mistakes. | Все ошибаются. | ❌ | mistake | выражение
+make a decision | принять решение | I need to make a decision. | Мне нужно принять решение. | ⚖️ | decision | выражение
+make money | зарабатывать деньги | He makes money online. | Он зарабатывает в интернете. | 💰 | making money | выражение
+make friends | заводить друзей | It's easy to make friends here. | Здесь легко заводить друзей. | 🧑‍🤝‍🧑 | making friends | выражение
+make a plan | составить план | Let's make a plan for the weekend. | Давай составим план на выходные. | 🗺️ | planning | выражение
+do homework | делать домашку | I do my homework in the evening. | Я делаю домашку вечером. | 📚 | homework | выражение
+do the shopping | ходить за покупками | I do the shopping on Saturday. | Я хожу за покупками в субботу. | 🛒 | grocery shopping | выражение
+do exercise | делать упражнения, заниматься спортом | Do some exercise every day. | Занимайся спортом каждый день. | 🤸 | exercise | выражение
+do your best | постараться изо всех сил | Just do your best. | Просто постарайся как можешь. | 🌟 | best effort | выражение
+do a favour | сделать одолжение | Can you do me a favour? | Можешь сделать мне одолжение? | 🙏 | favor | выражение
+take a photo | сфотографировать | Can you take a photo of us? | Можете нас сфотографировать? | 📸 | taking photo | выражение
+take a break | сделать перерыв | Let's take a break. | Давай сделаем перерыв. | ☕ | coffee break | выражение
+take a risk | рискнуть | Sometimes you have to take a risk. | Иногда нужно рискнуть. | 🎲 | risk | выражение
+take part in | участвовать в | I took part in a surf contest. | Я участвовала в соревновании по сёрфингу. | 🏅 | competition | выражение
+have a look | взглянуть | Can I have a look? | Можно взглянуть? | 👀 | looking | выражение
+have fun | веселиться | Have fun at the party! | Повеселись на вечеринке! | 🎉 | party | выражение
+have a rest | отдохнуть | You need to have a rest. | Тебе нужно отдохнуть. | 🛋️ | resting sofa | выражение
+have a chat | поболтать | We had a chat after class. | Мы поболтали после урока. | 💬 | chatting friends | выражение` },
+    linkers: { name: 'Слова-связки', icon: '🔗', group: 'next', level: 'B1', rows: `
+however | однако | It was cold. However, we went swimming. | Было холодно. Однако мы пошли купаться. | ↔️ | contrast | наречие
+although | хотя | Although it rained, we had fun. | Хотя шёл дождь, нам было весело. | 🌧️ | rain fun | союз
+so that | чтобы | I study English so that I can travel. | Я учу английский, чтобы путешествовать. | 🎯 | goal | союз
+because of | из-за | We stayed home because of the rain. | Мы остались дома из-за дождя. | 🌧️ | rainy window | предлог
+in order to | для того чтобы | He works hard in order to save money. | Он много работает, чтобы копить деньги. | 🎯 | target | выражение
+as well | тоже, также | I like tea as well. | Я тоже люблю чай. | ➕ | plus | наречие
+instead of | вместо | Let's walk instead of taking a taxi. | Давай пройдёмся вместо такси. | 🔄 | walking street | предлог
+unless | если не | I'll come unless it rains. | Я приду, если не будет дождя. | ❔ | question | союз
+while | пока, в то время как | I listen to podcasts while I cook. | Я слушаю подкасты, пока готовлю. | ⏱️ | cooking | союз
+as soon as | как только | Call me as soon as you arrive. | Позвони, как только приедешь. | 📞 | phone call | союз
+in the end | в конце концов | In the end, we found the hotel. | В конце концов мы нашли отель. | 🏁 | finish | выражение
+anyway | в любом случае, ну ладно | Anyway, let's go. | Ну ладно, пойдём. | 🤷 | shrug | наречие
+actually | на самом деле | Actually, I'm from Moscow. | Вообще-то я из Москвы. | ☝️ | point | наречие
+for example | например | I like fruit, for example mango. | Я люблю фрукты, например манго. | 🥭 | mango | выражение
+on the other hand | с другой стороны | On the other hand, it's cheap. | С другой стороны, это дёшево. | 🤲 | two hands | выражение
+first of all | прежде всего | First of all, thank you. | Прежде всего — спасибо. | 1️⃣ | first | выражение
+finally | наконец, в итоге | Finally, we got home. | Наконец мы добрались домой. | 🏠 | home | наречие` },
+    opinion: { name: 'Мнение и спор', icon: '🗣️', group: 'next', level: 'B1', rows: `
+I think | я думаю | I think it's a good idea. | Я думаю, это хорошая идея. | 💭 | thinking | выражение
+In my opinion | по-моему | In my opinion, the film is too long. | По-моему, фильм слишком длинный. | 🧐 | opinion | выражение
+I agree | я согласна | I agree with you. | Я с тобой согласна. | 👍 | agree | выражение
+I disagree | я не согласна | Sorry, I disagree. | Извини, я не согласна. | 👎 | disagree | выражение
+I doubt it | сомневаюсь | Will he come? — I doubt it. | Он придёт? — Сомневаюсь. | 🤨 | doubt | выражение
+That's true | это правда | That's true, but it's expensive. | Это правда, но это дорого. | ✅ | true | выражение
+I'm not sure | я не уверена | I'm not sure about that. | Я не уверена насчёт этого. | 🤔 | unsure | выражение
+It depends | зависит от обстоятельств | Is it safe? — It depends. | Это безопасно? — Смотря как. | ⚖️ | balance scale | выражение
+point | довод, мысль | That's a good point. | Это хороший довод. | 📌 | point | сущ.
+argue | спорить | They always argue about money. | Они всегда спорят о деньгах. | 😤 | arguing couple | глагол
+convince | убедить | You convinced me. | Ты меня убедила. | 🤝 | handshake | глагол
+prefer | предпочитать | I prefer tea to coffee. | Я предпочитаю чай кофе. | ☕ | tea | глагол
+advantage | преимущество | One advantage is the price. | Одно преимущество — цена. | ➕ | plus sign | сущ.
+disadvantage | недостаток | The main disadvantage is the noise. | Главный недостаток — шум. | ➖ | minus sign | сущ.
+Exactly! | Точно! Именно! | Exactly! That's what I mean. | Именно! Это я и имею в виду. | 🎯 | target | выражение
+What do you mean? | Что ты имеешь в виду? | What do you mean by "soon"? | Что ты имеешь в виду под «скоро»? | ❓ | question | выражение
+To be honest | честно говоря | To be honest, I don't like it. | Честно говоря, мне не нравится. | 🙊 | confession | выражение` },
+    career: { name: 'Работа и карьера', icon: '📈', group: 'next', level: 'B1', rows: `
+job interview | собеседование | I have a job interview tomorrow. | Завтра у меня собеседование. | 🤝 | job interview | выражение
+salary | зарплата | The salary is good. | Зарплата хорошая. | 💵 | salary | сущ.
+deadline | срок сдачи, дедлайн | The deadline is Friday. | Срок — пятница. | ⏰ | deadline calendar | сущ.
+apply for | подать заявку на | I applied for a new job. | Я подала заявку на новую работу. | 📨 | job application | фразовый глагол
+CV | резюме | Send us your CV. | Пришлите нам резюме. | 📄 | resume cv | сущ.
+experience | опыт | Do you have any experience? | У вас есть опыт? | 🧳 | work experience | сущ.
+skills | навыки | What are your skills? | Какие у вас навыки? | 🛠️ | skills | сущ.
+colleague | коллега | My colleagues are friendly. | Мои коллеги дружелюбные. | 👥 | colleagues | сущ.
+manager | руководитель | Talk to your manager. | Поговори со своим руководителем. | 🧑‍💼 | manager | сущ.
+meeting | встреча, совещание | The meeting starts at nine. | Совещание начинается в девять. | 📊 | business meeting | сущ.
+promotion | повышение | She got a promotion. | Её повысили. | 🚀 | promotion | сущ.
+quit | уволиться, бросить | He quit his job last month. | Он уволился в прошлом месяце. | 🚪 | quitting job | глагол
+be fired | быть уволенным | He was fired for being late. | Его уволили за опоздания. | 🔥 | fired | выражение
+part-time | неполный день | I work part-time. | Я работаю неполный день. | 🕐 | part time | прил.
+full-time | полный день | It's a full-time job. | Это работа на полный день. | 🕘 | full time office | прил.
+freelance | фриланс, на себя | I work freelance from home. | Я работаю на фрилансе из дома. | 🏝️ | remote work laptop beach | прил.
+work from home | работать из дома | On Mondays I work from home. | По понедельникам я работаю из дома. | 🏠 | home office | выражение
+responsible for | отвечать за | I'm responsible for marketing. | Я отвечаю за маркетинг. | 📋 | checklist | выражение` },
+    eco: { name: 'Природа и экология', icon: '🌍', group: 'next', level: 'B1', rows: `
+environment | окружающая среда | We must protect the environment. | Мы должны защищать окружающую среду. | 🌍 | nature environment | сущ.
+pollution | загрязнение | Air pollution is a big problem. | Загрязнение воздуха — большая проблема. | 🏭 | air pollution | сущ.
+plastic | пластик | There is a lot of plastic on the beach. | На пляже много пластика. | 🥤 | plastic waste beach | сущ.
+recycle | перерабатывать | We recycle bottles and paper. | Мы сдаём бутылки и бумагу в переработку. | ♻️ | recycling | глагол
+waste | отходы; тратить впустую | Don't waste water. | Не трать воду зря. | 🗑️ | waste | сущ.
+rubbish | мусор | Take the rubbish out. | Вынеси мусор. | 🚮 | rubbish bin | сущ.
+climate change | изменение климата | Climate change affects everyone. | Изменение климата касается всех. | 🌡️ | climate change | выражение
+global warming | глобальное потепление | Global warming melts the ice. | Глобальное потепление растапливает лёд. | 🧊 | melting ice | выражение
+energy | энергия | Solar energy is clean. | Солнечная энергия чистая. | ⚡ | solar panels | сущ.
+save energy | экономить энергию | Turn off the light to save energy. | Выключай свет, чтобы экономить энергию. | 💡 | light bulb | выражение
+endangered | вымирающий, под угрозой | Sea turtles are endangered. | Морские черепахи под угрозой исчезновения. | 🐢 | sea turtle | прил.
+species | вид (животных, растений) | Many species live in the forest. | В лесу живёт много видов. | 🦋 | wildlife species | сущ.
+forest | лес | The forest is on fire. | Лес горит. | 🌲 | forest | сущ.
+ocean | океан | The ocean is full of life. | Океан полон жизни. | 🌊 | ocean | сущ.
+protect | защищать | Volunteers protect the beach. | Волонтёры защищают пляж. | 🛡️ | beach cleanup volunteers | глагол
+reusable | многоразовый | I use a reusable bottle. | Я пользуюсь многоразовой бутылкой. | 🍶 | reusable bottle | прил.
+natural disaster | стихийное бедствие | A flood is a natural disaster. | Наводнение — стихийное бедствие. | 🌪️ | natural disaster | выражение` },
   };
   // Уровень старых наборов (у новых — поле level прямо в описании)
   const LEVEL = { talk: 'A0', family: 'A0', clothes: 'A0', cafe: 'A0', time: 'A0', home: 'A1', body: 'A1', city: 'A1', feelings: 'A1', hobby: 'A1', work: 'A1',
@@ -505,13 +764,13 @@ around | вокруг | We walk around the lake. | Мы гуляем вокру�
     });
     return { id, name: s.name, icon: s.icon, level: s.level || LEVEL[id] || 'A1', group: s.group || (id === 'irregular' ? 'verbs' : 'travel'), words };
   });
-  // Порядок: сначала самые нужные слова, потом общие темы, путешествия, глаголы; внутри группы — по уровню
-  const GORDER = { basic: 0, general: 1, travel: 2, verbs: 3 };
+  // Порядок: сначала самые нужные слова, потом общие темы, путешествия, следующий шаг (A2–B1), глаголы; внутри группы — по уровню
+  const GORDER = { basic: 0, general: 1, travel: 2, next: 3, verbs: 4 };
   const LORDER = { A0: 0, A1: 1, A2: 2, B1: 3 };
   SETS.forEach((x, i) => { x._i = i; });
   SETS.sort((a, b) => GORDER[a.group] - GORDER[b.group] || LORDER[a.level] - LORDER[b.level] || a._i - b._i);
   SETS.forEach(x => { delete x._i; });
   window.ReadySets = SETS;
   window.ReadyLevels = ['A0', 'A1', 'A2', 'B1'];
-  window.ReadyGroups = { basic: 'Основа: самые нужные слова', general: 'Общие темы', travel: 'Путешествия и жизнь у моря', verbs: 'Глаголы' };
+  window.ReadyGroups = { basic: 'Основа: самые нужные слова', general: 'Общие темы', travel: 'Путешествия и жизнь у моря', next: 'Следующий шаг: A2 и B1', verbs: 'Глаголы' };
 })();
