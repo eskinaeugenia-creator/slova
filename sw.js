@@ -1,6 +1,6 @@
 /* Офлайн-режим: оболочка приложения хранится в кэше. Данные пользователя живут в IndexedDB и кэшем не затрагиваются. */
-const VERSION = 'slova-v1.25.0';
-const SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './js/core.js', './js/db.js', './js/app.js', './js/add.js', './js/pics.js', './js/tg.js', './js/train.js', './js/prefs.js', './js/sets.js', './js/extra.js', './js/grammar-mistakes.js', './js/grammar.js', './js/test.js', './js/books-data.js', './js/books.js', './js/dialogs.js', './js/audiobook.js', './js/level.js', './js/stats.js', './js/mylessons.js',
+const VERSION = 'slova-v1.26.0';
+const SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './js/core.js', './js/db.js', './js/app.js', './js/add.js', './js/pics.js', './js/tg.js', './js/train.js', './js/prefs.js', './js/sets.js', './js/extra.js', './js/grammar-mistakes.js', './js/grammar.js', './js/test.js', './js/books-data.js', './js/books.js', './js/dialogs.js', './js/audiobook.js', './js/level.js', './js/stats.js', './js/mylessons.js', './js/repeat.js',
   './lib/xlsx.mini.min.js', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   // cache: 'reload' — берём свежие файлы с сервера, а не из кэша браузера

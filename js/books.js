@@ -133,6 +133,13 @@
       p.done.includes(i) ? h('span', { class: 'pill solid' }, '✓') : null)));
   };
 
+  // Образец для «Повтори за мной»: абзац по предложениям
+  async function sayPara(text, slow) {
+    stopSpeech();
+    const sentences = String(text).match(/[^.!?]+[.!?'"’”]*\s*/g) || [text];
+    for (const s of sentences) { const ok = await sayP(s.trim(), { slow: !!slow }); if (ok === false) break; }
+  }
+
   // ---------- Чтение ----------
   routes.read = async function (arg) {
     stopSpeech();
@@ -163,7 +170,8 @@
         tr.hidden = !tr.textContent;
       } }, 'Перевод');
       const el = h('div', { class: 'rp', 'data-i': i }, body, tr, h('div', { class: 'rp-tools' },
-        h('button', { class: 'btn ghost sm', 'aria-label': 'Прослушать абзац', onclick: () => readFrom(i, true) }, icon('speaker')), trBtn));
+        h('button', { class: 'btn ghost sm', 'aria-label': 'Прослушать абзац', onclick: () => readFrom(i, true) }, icon('speaker')), trBtn,
+        window.Repeat ? Repeat.button(en, sayPara, { ru }) : null));
       el._en = en; return el;
     });
     paras.forEach(p => text.append(p));

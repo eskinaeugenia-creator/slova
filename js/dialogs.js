@@ -81,7 +81,8 @@
       h('div', { class: 'who' }, d.who[who][0]),
       body, tr,
       h('div', { class: 'rp-tools' }, h('button', { class: 'btn ghost sm', 'aria-label': 'Прослушать реплику', onclick: () => sayAs(en, d.who[who][1]) }, icon('speaker')),
-        h('button', { class: 'btn ghost sm', onclick: () => { tr.hidden = !tr.hidden; } }, 'Перевод')));
+        h('button', { class: 'btn ghost sm', onclick: () => { tr.hidden = !tr.hidden; } }, 'Перевод'),
+        window.Repeat ? Repeat.button(en, (t, slow) => sayAs(t, d.who[who][1], slow), { ru }) : null));
     el._en = en;
     return el;
   }
