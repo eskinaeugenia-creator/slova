@@ -350,6 +350,8 @@ a.chip { text-decoration: none; color: var(--ink); }
 .totals-row > div { background: var(--accent-soft); border-radius: 14px; padding: 10px 12px; }
 .totals-row b { display: block; font: 600 22px/1.15 var(--f-display); color: var(--accent); }
 .totals-row span { font-size: 13px; opacity: .75; }
+.streak { border-top: 1px solid var(--line, rgba(255,255,255,.08)); padding-top: 10px; }
+.streak b.num { color: var(--accent); }
 
 /* Готовые наборы: состояние */
 .set-tile .tile-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; }

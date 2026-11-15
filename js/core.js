@@ -467,7 +467,21 @@
     return 'больше чем через год';
   }
 
-  const Core = { DAY, script, clean, norm, variants, lev, diffChars, checkAnswer, DELIMS, parseList, detectDelimiter, parseCSV,
+  // Серия дней подряд. keys — дни с занятиями в виде «Г-М-Д» (как dayKey в app.js).
+  // Текущая серия жива, если занимались сегодня или вчера (сегодня ещё не вечер). Ничего не обнуляет — только считает.
+  function streaks(keys, now) {
+    const idx = k => { const p = String(k).split('-').map(Number); return Math.round(new Date(p[0], p[1] - 1, p[2]).getTime() / DAY); };
+    const days = [...new Set((keys || []).filter(k => /^\d{4}-\d{1,2}-\d{1,2}$/.test(k)).map(idx))].sort((a, b) => a - b);
+    let best = 0, run = 0, prev = null;
+    days.forEach(d => { run = prev !== null && d === prev + 1 ? run + 1 : 1; prev = d; if (run > best) best = run; });
+    const n = new Date(now == null ? Date.now() : now), t = Math.round(new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime() / DAY);
+    const set = new Set(days), today = set.has(t);
+    let cur = 0, d = today ? t : t - 1;
+    while (set.has(d)) { cur++; d--; }
+    return { current: cur, best, today };
+  }
+
+  const Core = { DAY, streaks, script, clean, norm, variants, lev, diffChars, checkAnswer, DELIMS, parseList, detectDelimiter, parseCSV,
     parseStructured, mapFields, keyEn, keyRu, classify, classifyBatch, review, retrievability, isDue, intervalDays, shouldSchedule, sameDay,
     startOfDay, endOfDay, emptyCard, wordStatus, wordDue, buildPlan, tokenize, findInSentence, sentencesOf, irregular, irregularAll,
     POS_RU, uid, shuffle, plural, inDays, CYR, LAT };

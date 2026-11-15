@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.26.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.27.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -454,8 +454,9 @@
   }
   // Всего за всё время: минуты и дни занятий (не сбрасывается; день засчитан, если занимались хотя бы минуту)
   async function studyTotals() {
-    const secs = Object.values(await studyPerDay());
-    return { min: Math.round(secs.reduce((a, x) => a + x, 0) / 60), days: secs.filter(x => x >= 60).length };
+    const per = await studyPerDay(), secs = Object.values(per);
+    const st = C.streaks(Object.keys(per).filter(k => per[k] >= 60), Date.now());
+    return { min: Math.round(secs.reduce((a, x) => a + x, 0) / 60), days: secs.filter(x => x >= 60).length, streak: st.current, best: st.best, today: st.today };
   }
   const MIN_GOALS = [30, 60, 180, 300, 600, 1200, 1800, 3000, 6000, 12000, 30000];
   const DAY_GOALS = [3, 7, 14, 30, 50, 100, 200, 365, 500, 1000];
@@ -470,7 +471,23 @@
       h('div', { class: 'totals-row' },
         h('div', null, h('b', { class: 'num', id: 'total-min' }, fmtMin(t.min)), h('span', null, 'на занятия')),
         h('div', null, h('b', { class: 'num', id: 'total-days' }, t.days), h('span', null, C.plural(t.days, 'день', 'дня', 'дней') + ' с занятиями'))),
-      next.length ? h('p', { class: 'small muted', style: { margin: 0 } }, 'Следующая цель: ' + next.join(' · ') + '.') : null);
+      next.length ? h('p', { class: 'small muted', style: { margin: 0 } }, 'Следующая цель: ' + next.join(' · ') + '.') : null,
+      streakRow(t));
+  }
+  // Серия дней подряд — без давления: перерыв ничего не отнимает, слова и прогресс остаются
+  function streakRow(t) {
+    if (t.streak == null) return null;
+    const dn = n => n + ' ' + C.plural(n, 'день', 'дня', 'дней');
+    let note;
+    if (!t.best) note = 'Серия начнётся с первого дня, когда позанимаетесь хотя бы минуту.';
+    else if (t.streak && t.today) note = t.streak >= t.best && t.streak > 1 ? 'Это ваша лучшая серия. Здорово!' : 'Сегодня уже засчитано.';
+    else if (t.streak) note = 'Сегодня тоже можно — хватит и одной минуты. А если не получится, ничего страшного.';
+    else note = 'Перерывы — это нормально. Новая серия начнётся с любого дня.';
+    return h('div', { class: 'streak', id: 'streak' },
+      h('div', { class: 'row', style: { justifyContent: 'space-between', alignItems: 'baseline', gap: '8px' } },
+        h('span', null, '🔥 ', h('b', { class: 'num', id: 'streak-cur' }, dn(t.streak)), ' подряд'),
+        h('span', { class: 'small muted' }, 'лучшая серия: ', h('b', { id: 'streak-best' }, dn(t.best)))),
+      h('p', { class: 'tiny muted', style: { margin: '4px 0 0' } }, note + ' Пропуск дня не трогает ваши слова и прогресс.'));
   }
 
   // ---------- Элемент списка слов ----------

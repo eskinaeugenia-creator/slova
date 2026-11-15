@@ -97,6 +97,18 @@ t('CSV с кавычками и запятыми внутри', () => {
   assert.strictEqual(r.rows[1][1], 'присматривать, заботиться');
 });
 t('неправильные глаголы', () => { assert.strictEqual(C.irregular('to go').v2, 'went'); assert.strictEqual(C.irregular('rent'), null); });
+t('серия дней подряд: текущая, лучшая, вчера ещё считается, перерыв', () => {
+  const key = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  const now = new Date(2026, 2, 31, 15).getTime(); // через переход на летнее время
+  const ago = i => key(new Date(2026, 2, 31 - i, 12));
+  let r = C.streaks([ago(0), ago(1), ago(2), ago(10), ago(11), ago(12), ago(13), ago(14)], now);
+  assert.deepStrictEqual(r, { current: 3, best: 5, today: true });
+  r = C.streaks([ago(1), ago(2)], now); assert.deepStrictEqual(r, { current: 2, best: 2, today: false });
+  r = C.streaks([ago(2), ago(3)], now); assert.deepStrictEqual(r, { current: 0, best: 2, today: false });
+  r = C.streaks([], now); assert.deepStrictEqual(r, { current: 0, best: 0, today: false });
+  r = C.streaks([ago(0), ago(0), 'мусор'], now); assert.deepStrictEqual(r, { current: 1, best: 1, today: true });
+  r = C.streaks(['2026-12-31', '2027-1-1'], new Date(2027, 0, 1, 9).getTime()); assert.strictEqual(r.current, 2);
+});
 console.log('\nВсе тесты логики пройдены:', n);
 const C2 = require(require('path').join(__dirname, '..', 'js', 'core.js'));
 const mixed = C2.parseList('word0\tслово0\n1. term - термин\nphrase — фраза\nx = икс\nbeach\nпляж — beach\nтолько русский');
