@@ -6,7 +6,8 @@
   const { S, h, icon, toast, dialog, sheet, go, routes, screen, Speech, saveWord, newWord, wordsArr, ensureSet, kvGet, kvSet } = window.App;
 
   const LEVELS = { 1: 'Совсем просто', 2: 'Легко', 3: 'Средне', 4: 'Сложнее', 5: 'Продвинутый' };
-  const G = (window.BOOK_GLOSS || {}).G || {}, F = (window.BOOK_GLOSS || {}).F || {};
+  // словарик книг приходит вместе с books-data.js (грузится только при открытии полки / диалогов)
+  const gloss = () => window.BOOK_GLOSS || {};
   let readySet = null; // en → ru из готовых наборов
   const sayP = (t, o) => window.Extra ? Extra.sayP(t, o) : Promise.resolve(true);
   const stopSpeech = () => { if (window.Extra && Extra.stopSpeech) Extra.stopSpeech(); else try { speechSynthesis.cancel(); } catch (e) { /* нет */ } };
@@ -48,6 +49,7 @@
   function userWord(lemma) { const k = C.keyEn(lemma); return wordsArr().find(w => !w.archived && C.keyEn(w.en) === k) || null; }
   function lookup(raw) {
     const f = raw.toLowerCase().replace(/[’]/g, "'").replace(/'s$/, '');
+    const G = gloss().G || {}, F = gloss().F || {};
     const base = F[f] || f;
     // 1) уже в словаре
     for (const s of [base].concat(stems(f))) { const w = userWord(s); if (w) return { lemma: w.en, ru: w.ru, word: w, form: raw }; }

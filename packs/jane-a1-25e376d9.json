@@ -2,6 +2,56 @@
   "title": "Jane A1 — занятия",
   "lessons": [
     {
+      "id": "2026-11-16", "date": "2026-11-16", "kind": "занятие", "title": "Secrets of long life", "sub": "Вопросы Does she…? Do they…?, связки then / after / until, как часто: once a week; «голубые зоны»",
+      "topics": ["do", "ps2", "freq", "like", "prep"],
+      "rules": [
+        {"h": "Переспросить и уточнить: Do / Does", "p": "Собеседник что-то сказал — задаём уточняющий вопрос. Про you / they — Do, про he / she — Does, глагол после does без -s. Если в ответе было doesn't / don't — в вопросе всё равно Do / Does.", "ex": [["She likes cooking. — Does she like baking?", "Она любит готовить. — А печь она любит?"], ["They travel a lot. — Do they go to the sea?", "Они много путешествуют. — Они ездят на море?"], ["He doesn't drive. — Does he ride a bike?", "Он не водит машину. — Он ездит на велосипеде?"], ["Do you know if the shop is open?", "Ты не знаешь, магазин открыт?"]]},
+        {"h": "Связки в рассказе про день", "table": [["then / after that", "потом, после этого", "I have breakfast. Then I go to work."], ["after + что-то", "после", "After lunch, I sleep for half an hour."], ["before + что-то", "перед, до", "I read before I go to bed."], ["during + что-то", "во время, в течение", "During the week, I get up early."], ["from … to / until", "с … до / пока не", "I work from 9 to 5. We talk until midnight."]]},
+        {"h": "Как часто: слова и выражения", "p": "Одно слово (always, usually, often, sometimes, never) — перед глаголом, но после am / is / are. Выражения из нескольких слов — в конце: once a week, twice a month, three times a year, every day.", "ex": [["I usually walk to work.", "Я обычно хожу на работу пешком."], ["She is never late.", "Она никогда не опаздывает."], ["We go swimming twice a week.", "Мы ходим плавать два раза в неделю."], ["They eat fish every day.", "Они едят рыбу каждый день."]]}
+      ],
+      "mistakes": [],
+      "items": [
+        {"t": "choose", "s": "He watches a lot of films. ___ he like comedies?", "ru": "Он смотрит много фильмов. Ему нравятся комедии?", "o": ["Does", "Do", "Is"], "a": "Does", "why": "He → Does, like без -s."},
+        {"t": "choose", "s": "They travel a lot. ___ they go to warm countries?", "ru": "Они много путешествуют. Они ездят в тёплые страны?", "o": ["Do", "Does", "Are"], "a": "Do", "why": "They → Do."},
+        {"t": "choose", "s": "My sister doesn't work in an office. Does she ___ from home?", "ru": "Моя сестра не работает в офисе. Она работает из дома?", "o": ["work", "works", "working"], "a": "work", "why": "После does — глагол без -s."},
+        {"t": "choose", "s": "___ you know if the café is open?", "ru": "Ты не знаешь, кафе открыто?", "o": ["Do", "Does", "Are"], "a": "Do", "why": "You → Do you know…?"},
+        {"t": "choose", "s": "___ lunch, I often sleep for half an hour.", "ru": "После обеда я часто сплю полчаса.", "o": ["After", "Then", "Until"], "a": "After", "why": "after + слово (lunch); then стоит отдельно: Then I sleep."},
+        {"t": "choose", "s": "She always takes a bath ___ she goes to bed.", "ru": "Она всегда принимает ванну перед сном.", "o": ["before", "during", "from"], "a": "before", "why": "before — перед, до того как."},
+        {"t": "choose", "s": "___ the week, I get up at seven.", "ru": "В течение недели (по будням) я встаю в семь.", "o": ["During", "Until", "Then"], "a": "During", "why": "during the week — в течение недели."},
+        {"t": "type", "s": "I work from 9:00 ___ 5:00.", "ru": "Я работаю с 9 до 5.", "a": ["to", "until", "till"], "why": "from … to — с … до."},
+        {"t": "type", "s": "We watch TV ___ it's time to go to bed.", "ru": "Мы смотрим телевизор, пока не пора спать.", "a": ["until", "till"], "why": "until — до тех пор, пока не."},
+        {"t": "choose", "s": "People in Ikaria ___ sleep after lunch.", "ru": "Люди на Икарии обычно спят после обеда.", "o": ["usually", "are usually", "usual"], "a": "usually", "why": "usually — перед обычным глаголом."},
+        {"t": "type", "s": "I go to the gym ___ a week. (два раза)", "ru": "Я хожу в спортзал два раза в неделю.", "a": ["twice", "two times"], "why": "Два раза — twice; один раз — once; три раза — three times."},
+        {"t": "meaning", "s": "The two places have something in common.", "ask": "Что значит have something in common?", "o": ["иметь что-то общее", "жить вместе", "иметь много денег"], "a": 0, "why": "have something in common — иметь что-то общее."},
+        {"t": "build", "ru": "Они ходят пешком каждый день.", "a": "They walk every day.", "extra": "always"}
+      ],
+      "words": [
+        ["secrets of long life", "секреты долгой жизни"],
+        ["live until they are 100", "жить до 100 лет"],
+        ["have something in common", "иметь что-то общее", "What do the two places have in common?"],
+        ["a Blue Zone", "«голубая зона» — место, где люди живут дольше всего"],
+        ["an island", "остров"],
+        ["a safe place", "безопасное место"],
+        ["have a good social life", "много общаться, иметь насыщенную жизнь с друзьями"],
+        ["sleep after lunch", "спать после обеда"],
+        ["once a week", "раз в неделю"],
+        ["twice a month", "два раза в месяц"],
+        ["three times a year", "три раза в год"],
+        ["every day", "каждый день"],
+        ["a teenager", "подросток"],
+        ["a questionnaire", "анкета, опросник"],
+        ["then / after that", "потом / после этого"],
+        ["before I go to bed", "перед сном"],
+        ["during the week", "в течение недели, по будням"],
+        ["from 9 to 5", "с 9 до 5"],
+        ["until it's time to go to bed", "пока не пора спать"],
+        ["my favorite day", "мой любимый день"],
+        ["take the dog for a walk", "выгуливать собаку"],
+        ["Do you know if…?", "Ты не знаешь, …?"],
+        ["Do they ever argue?", "Они когда-нибудь ссорятся?"]
+      ]
+    },
+    {
       "id": "2026-11-12", "date": "2026-11-12", "kind": "занятие", "title": "His job, her job", "sub": "Угадай профессию: Do you…? Does she…? at night, better",
       "topics": ["do", "ps2", "prep", "comp"],
       "rules": [

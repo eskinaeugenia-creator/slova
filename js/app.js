@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const C = window.Core;
-  const APP_VERSION = '1.27.0', DATA_FORMAT = 1;
+  const APP_VERSION = '1.28.0', DATA_FORMAT = 1;
 
   // ---------- Состояние ----------
   const S = {
@@ -244,7 +244,29 @@
     const fn = routes[name] || routes.today;
     if (window.Train && Train.active() && name !== 'session') Train.abort(true);
     window.scrollTo(0, 0);
+    // книги и диалоги — большой файл, грузим его только когда он нужен
+    if (BOOK_ROUTES.has(name) && !window.BOOKS) {
+      const main = screen({ title: 'Загрузка…', back: 'today' });
+      main.append(h('div', { class: 'card empty', id: 'lazy-wait' }, h('p', { class: 'muted' }, 'Открываю книги и диалоги…')));
+      loadBooksData().then(() => { if (location.hash.slice(1) === hash) fn(arg); })
+        .catch(() => { main.querySelector('#lazy-wait').replaceChildren(h('p', null, 'Не получилось загрузить книги. Проверьте интернет и попробуйте ещё раз.'), h('button', { class: 'btn primary', onclick: route }, 'Ещё раз')); });
+      return;
+    }
     fn(arg);
+  }
+  const BOOK_ROUTES = new Set(['books', 'book', 'read', 'dialogs', 'dialog', 'drole', 'audio', 'levelres']);
+  let booksDataP = null;
+  // Подгрузить книги, диалоги и словарик книг (js/books-data.js) один раз; без сети файл берётся из офлайн-кэша
+  function loadBooksData() {
+    if (window.BOOKS) return Promise.resolve();
+    if (!booksDataP) booksDataP = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'js/books-data.js?v=' + APP_VERSION;
+      s.onload = () => window.BOOKS ? resolve() : reject(new Error('нет данных'));
+      s.onerror = () => { s.remove(); booksDataP = null; reject(new Error('не загрузилось')); };
+      document.head.append(s);
+    });
+    return booksDataP;
   }
   // Есть ли новая версия на сервере — показываем кнопку «Обновить»
   async function checkUpdate() {
@@ -774,7 +796,7 @@
 
   window.App = { ACCENTS, applyAccent, S, h, $, icon, toast, dialog, sheet, esc, go, routes, screen, Speech, sayButtons, saveWord, saveWords, saveSet, saveSettings,
     kvSet, kvGet, newWord, mergeInto, wordsArr, activeWords, setName, ensureSet, logAnswer, wordItem, thumb, creditText, fmtDate,
-    APP_VERSION, DATA_FORMAT, DEFAULTS, todayStats, pickSet, minutesStudiedToday, studyTotals, studyPerDay, dayKey, isStudyingNow, loadTracked,
+    APP_VERSION, DATA_FORMAT, DEFAULTS, loadBooksData, todayStats, pickSet, minutesStudiedToday, studyTotals, studyPerDay, dayKey, isStudyingNow, loadTracked,
     quiet, soundOn, setQuiet, quietCard, QUIET_MIN };
   document.addEventListener('DOMContentLoaded', boot);
 })();
