@@ -45,8 +45,8 @@ with sync_playwright() as p:
     pg.goto(BASE+'#read-alice-0'); pg.wait_for_selector('.rw')
     pg.locator('.rw', has_text='went').first.click(); pg.wait_for_selector('.sheet')
     ok('went → go (идти)', 'идти' in pg.locator('.sheet').inner_text()); pg.locator('.sheet .icon-btn').click()
-    # глава 1 Alice — свой перевод (без сети); онлайн-перевод — у глав, где своего ещё нет
-    pg.goto(BASE+'#read-alice-3'); pg.wait_for_selector('.rw')
+    # главы 1–2 Alice — свой перевод (без сети); онлайн-перевод — у глав, где своего ещё нет (глава 3)
+    pg.goto(BASE+'#read-alice-6'); pg.wait_for_selector('.rw')
     pg.locator('.rp-tools button:has-text("Перевод")').first.click(); pg.wait_for_timeout(600)
     ok('перевод абзаца оригинала онлайн', 'ПЕРЕВОД' in pg.locator('.rp-tr').first.inner_text())
     # своя книга
