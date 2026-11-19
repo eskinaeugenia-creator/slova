@@ -2,6 +2,62 @@
   "title": "Jane A1 — занятия",
   "lessons": [
     {
+      "id": "2026-11-19", "date": "2026-11-19", "kind": "занятие", "title": "Secrets of long life (2)", "sub": "Повторение: hardly ever, every other day, it depends, be in a hurry; чтение про «голубые зоны», Икарию и Никою",
+      "topics": ["freq", "rel", "ps1"],
+      "rules": [
+        {"h": "Готовые фразы для разговора", "table": [["It depends (on the weather).", "Зависит (от погоды).", "Do you walk every day? — It depends on the weather."], ["It's hard to explain.", "Сложно объяснить.", "Sorry, it's hard to explain."], ["It's hard for me to wake up.", "Мне трудно проснуться.", "It's hard for me to wake up in the morning."], ["We have a lot in common.", "У нас много общего.", "We both love travelling. We have a lot in common!"], ["do the laundry", "стирать (бельё)", "I usually do the laundry on Sundays."]]},
+        {"h": "be in a hurry ≠ be late", "p": "be in a hurry — торопиться (ещё не опоздал). be late — опоздать, прийти позже.", "ex": [["I was in a hurry, so I forgot my phone.", "Я торопилась и забыла телефон."], ["Sorry, I'm late!", "Извините, я опоздала!"]]},
+        {"h": "that — «который»", "p": "Чтобы объяснить, что за места или люди, говорим that + глагол.", "ex": [["The Blue Zones are five places that have many very old people.", "«Голубые зоны» — пять мест, где много очень пожилых людей."], ["Ikaria is an island that is famous for its festivals.", "Икария — остров, который знаменит своими праздниками."]]},
+        {"h": "life и live", "p": "life [laɪf] — жизнь (существительное). live [lɪv] — жить (глагол). Долгая жизнь — a long life; жить долго — live long.", "ex": [["What are the secrets of a long life?", "В чём секреты долгой жизни?"], ["People there live until they are 100 and more.", "Люди там живут до 100 лет и дольше."]]}
+      ],
+      "mistakes": [
+        ["psychologist — «психолоджист»", "psychologist — «сайколоджист» [saɪˈkɒlədʒɪst]", "Буква p в начале не читается, ch = «к». Можно сказать проще: I speak with my therapist."],
+        ["hundred — без d («ханрид»)", "hundred — «ХАНдрид» [ˈhʌndrəd]", "Звук d в середине обязательно произносим."],
+        ["live — «жизнь»", "life — жизнь, live — жить", "Разные слова: a long life (долгая жизнь), live long (жить долго)."],
+        ["I was late this morning, so I forgot my phone.", "I was in a hurry this morning, so I forgot my phone.", "be in a hurry — торопиться; be late — опоздать."]
+      ],
+      "items": [
+        {"t": "choose", "s": "I ___ eat fast food because I prefer cooking at home.", "ru": "Я почти никогда не ем фастфуд, потому что люблю готовить дома.", "o": ["hardly ever", "every other day", "in a hurry"], "a": "hardly ever", "why": "hardly ever — почти никогда, стоит перед глаголом."},
+        {"t": "choose", "s": "I go swimming every ___ day to stay fit.", "ru": "Я плаваю через день, чтобы быть в форме.", "o": ["other", "second", "one"], "a": "other", "why": "every other day — через день."},
+        {"t": "choose", "s": "Do you walk to work? — It ___ on the weather.", "ru": "Ты ходишь на работу пешком? — Зависит от погоды.", "o": ["depends", "is depend", "depend"], "a": "depends", "why": "It depends on… — зависит от…; it → depends с -s."},
+        {"t": "choose", "s": "I was ___ this morning, so I forgot my keys.", "ru": "Утром я торопилась и забыла ключи.", "o": ["in a hurry", "late in a hurry", "hurry"], "a": "in a hurry", "why": "be in a hurry — торопиться."},
+        {"t": "choose", "s": "Sorry I'm ___! The bus didn't come.", "ru": "Простите, я опоздала! Автобус не пришёл.", "o": ["late", "in a hurry", "early"], "a": "late", "why": "be late — опоздать."},
+        {"t": "type", "s": "We both love surfing. We have a lot in ___.", "ru": "Мы обе любим сёрфинг. У нас много общего.", "a": ["common"], "why": "have a lot in common — иметь много общего."},
+        {"t": "type", "s": "I usually do the ___ on Sundays.", "ru": "Обычно я стираю по воскресеньям.", "a": ["laundry"], "why": "do the laundry — стирать бельё."},
+        {"t": "choose", "s": "It's hard ___ me to wake up early.", "ru": "Мне трудно рано просыпаться.", "o": ["for", "to", "with"], "a": "for", "why": "It's hard for me to… — мне трудно…"},
+        {"t": "choose", "s": "Ikaria is an island ___ is famous for its festivals.", "ru": "Икария — остров, который знаменит своими праздниками.", "o": ["that", "what", "where it"], "a": "that", "why": "that — «который» после слова, которое объясняем."},
+        {"t": "choose", "s": "What are the secrets of a long ___?", "ru": "В чём секреты долгой жизни?", "o": ["life", "live", "lives"], "a": "life", "why": "life — жизнь (существительное), live — жить."},
+        {"t": "meaning", "s": "Nicoya is a peninsula in Costa Rica.", "ask": "Что такое a peninsula?", "o": ["полуостров", "остров", "город у моря"], "a": 0, "why": "peninsula — «почти остров», полуостров."},
+        {"t": "meaning", "s": "Sorry, it's hard to explain.", "ask": "Что значит it's hard to explain?", "o": ["сложно объяснить", "трудно понять", "не хочу говорить"], "a": 0, "why": "hard to explain — сложно объяснить."},
+        {"t": "build", "ru": "Я разговариваю со своим психотерапевтом раз в неделю.", "a": "I speak with my therapist once a week.", "extra": "psychology"}
+      ],
+      "words": [
+        ["hardly ever", "почти никогда", "I hardly ever eat fast food."],
+        ["every other day", "через день", "I go to the gym every other day."],
+        ["once a week", "раз в неделю", "I see my therapist once a week."],
+        ["It depends on the weather.", "Зависит от погоды.", "Do you walk to work? — It depends on the weather."],
+        ["It's raining.", "Идёт дождь.", "Let's stay at home — it's raining."],
+        ["It's hard to explain.", "Сложно объяснить.", "Sorry, it's hard to explain."],
+        ["It's hard for me to wake up.", "Мне трудно проснуться.", "It's hard for me to wake up in the morning."],
+        ["be in a hurry", "торопиться", "I was in a hurry, so I forgot my phone."],
+        ["be late", "опоздать, опаздывать", "Sorry, I'm late!"],
+        ["invite us", "пригласить нас", "My friend invited us to surf at sunset."],
+        ["have a lot in common", "иметь много общего", "We both love travelling. We have a lot in common."],
+        ["do the laundry", "стирать бельё", "I usually do the laundry on Sundays."],
+        ["a psychologist", "психолог", "She is a psychologist."],
+        ["speak with my therapist", "говорить со своим психотерапевтом", "I speak with my therapist every week."],
+        ["a peninsula", "полуостров", "Nicoya is a peninsula in Costa Rica."],
+        ["half an island", "наполовину остров", "A peninsula is like half an island."],
+        ["life", "жизнь", "What are the secrets of a long life?"],
+        ["live until they are 100", "жить до 100 лет", "Many people there live until they are 100."],
+        ["a hundred", "сто", "She is a hundred years old."],
+        ["What places are they?", "Что это за места?", "The Blue Zones — what places are they?"],
+        ["places that…", "места, которые…", "The Blue Zones are places that have many old people."],
+        ["a builder", "строитель", "Alexis is a builder from Ikaria."],
+        ["go to the market", "ходить на рынок", "Maria goes to the market every day."]
+      ]
+    },
+    {
       "id": "2026-11-16", "date": "2026-11-16", "kind": "занятие", "title": "Secrets of long life", "sub": "Как часто: hardly ever, once a day, every other day; подростки и «голубые зоны»; рассказ о жизни на Бали",
       "topics": ["freq", "ps2", "do", "past", "prep"],
       "rules": [
