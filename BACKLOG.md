@@ -7,10 +7,11 @@
 
 ## В очереди
 
-- [ ] **Свой перевод абзацев Oz и Alice.** Сделаны главы 1 (v1.30.0) и 2 (v1.31.0) обеих книг. Осталось: глава 3 (Oz — How Dorothy Saved the Scarecrow, 4 части; Alice — A Caucus-Race and a Long Tale, 3 части), чтобы перевод всех глав работал без сети.
+Пока пусто — Евгения может дописать новые задачи.
 
 ## Сделано
 
+- [x] 2026-11-20 · v1.32.0 — свой перевод абзацев Oz и Alice (задача закрыта): третья глава «The Wonderful Wizard of Oz» (How Dorothy Saved the Scarecrow, 4 части, 56 абзацев) и «Alice's Adventures in Wonderland» (A Caucus-Race and a Long Tale, 3 части, 48 абзацев, с пояснением игры слов tale / tail и стихов «длинной истории» Мыши) — теперь все главы обеих книг переводятся по кнопке «Перевод» и в аудиокниге без интернета. Доска занятий проверена: новых занятий нет; в ДЗ «HW 5/11, 16/11» вписаны after lunch, then, during, after that — всё верно, правило уже есть в занятии 16 ноября. Тест tests/e2e_booktr.py дополнен.
 - [x] 2026-11-19 · v1.31.1 — «Мои занятия»: разобрано занятие 19 ноября «Secrets of long life (2)» по доске после урока — повторение (hardly ever, every other day, it depends, it's hard to…, be in a hurry ≠ be late, do the laundry), чтение про «голубые зоны» (peninsula, that — «который», life / live); 4 ошибки (psychologist, hundred, life/live, in a hurry/late), 13 заданий, 23 слова. Кадр «HW 5/11, 16/11» без её новых ответов.
 - [x] 2026-11-19 · v1.31.0 — свой перевод абзацев (часть задачи): вторая глава «The Wonderful Wizard of Oz» (The Council with the Munchkins, 4 части, 59 абзацев) и «Alice's Adventures in Wonderland» (The Pool of Tears, 3 части, 26 абзацев) — перевод по кнопке «Перевод» и в аудиокниге без интернета; глава 3 пока через интернет. Доска занятий проверена: кадр «Lesson 19/11» без изменений — её ответов пока нет, разбор после занятия. Тест tests/e2e_booktr.py дополнен.
 - [x] 2026-11-18 · v1.30.0 — свой перевод абзацев (часть задачи): первая глава «The Wonderful Wizard of Oz» (The Cyclone, 2 части, 20 абзацев) и «Alice's Adventures in Wonderland» (Down the Rabbit-Hole, 3 части, 24 абзаца) — перевод по кнопке «Перевод» и в аудиокниге теперь без интернета; главы 2–3 пока через интернет. Доска занятий проверена: кадр «Lesson 19/11» — продолжение «Secrets of long life» (чтение про Икарию и Никою), её ответов ещё нет, материал уже в пакете — разбор после занятия. Тест tests/e2e_booktr.py.

@@ -45,10 +45,10 @@ with sync_playwright() as p:
     pg.goto(BASE+'#read-alice-0'); pg.wait_for_selector('.rw')
     pg.locator('.rw', has_text='went').first.click(); pg.wait_for_selector('.sheet')
     ok('went → go (идти)', 'идти' in pg.locator('.sheet').inner_text()); pg.locator('.sheet .icon-btn').click()
-    # главы 1–2 Alice — свой перевод (без сети); онлайн-перевод — у глав, где своего ещё нет (глава 3)
+    # все главы Alice — свой перевод абзацев (без онлайн-сервиса)
     pg.goto(BASE+'#read-alice-6'); pg.wait_for_selector('.rw')
     pg.locator('.rp-tools button:has-text("Перевод")').first.click(); pg.wait_for_timeout(600)
-    ok('перевод абзаца оригинала онлайн', 'ПЕРЕВОД' in pg.locator('.rp-tr').first.inner_text())
+    ok('перевод абзаца оригинала — свой', 'компания' in pg.locator('.rp-tr').first.inner_text())
     # своя книга
     pg.goto(BASE+'#books'); pg.wait_for_selector('#mybook-add'); pg.click('#mybook-add')
     pg.fill('#mb-title','My note'); pg.fill('#mb-text','I love the ocean.\n\nThe surfboard is blue and the waves are xylophonic today.')
@@ -58,6 +58,9 @@ with sync_playwright() as p:
     pg.click('#w-online'); pg.wait_for_timeout(400)
     ok('онлайн-перевод подставился', 'ПЕРЕВОД' in pg.locator('.sheet').inner_text() and not pg.locator('#w-add').is_disabled())
     pg.locator('.sheet .icon-btn').click()
+    # в своей книге абзац переводится онлайн
+    pg.locator('.rp-tools button:has-text("Перевод")').first.click(); pg.wait_for_timeout(600)
+    ok('перевод абзаца своей книги онлайн', 'ПЕРЕВОД' in pg.locator('.rp-tr').first.inner_text())
     pg.goto(BASE+'#books'); pg.wait_for_selector('.tile.wide')
     ok('свой текст на полке', pg.locator('.tile.wide:has-text("My note")').count()==1)
     pg.goto(BASE+'#book-peter'); pg.wait_for_selector('.tile.wide')
