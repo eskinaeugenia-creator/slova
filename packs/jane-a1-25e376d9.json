@@ -2,6 +2,109 @@
   "title": "Jane A1 — занятия",
   "lessons": [
     {
+      "id": "2026-11-16hw", "date": "2026-11-16", "kind": "домашнее задание", "title": "9 to 5 и «Сколько ты хочешь прожить?» (ДЗ)", "sub": "Вопросы Does she…? Do they ever…?, звук [ɜː], связки after / then / during / until, текст про Икарию, план рассказа How long do you want to live?",
+      "topics": ["ps2", "do", "freq", "prep"],
+      "rules": [
+        {"h": "Вопрос: Do / Does + ever", "p": "ever — «когда-нибудь, вообще» — ставим в вопросе перед глаголом.", "ex": [["Do they ever argue?", "Они вообще ссорятся?"], ["Does he ever work from home?", "Он когда-нибудь работает из дома?"]]},
+        {"h": "Связки в рассказе про день", "table": [["after lunch / after that", "после обеда / после этого", "After lunch, I often sleep for half an hour."], ["then", "потом", "I take a bath, then I go to bed."], ["during the week", "в течение недели", "During the week, I get up early."], ["from … to", "с … до", "I work from about 9 to 5."], ["until", "до тех пор, пока", "We watch TV until it's time to go to bed."]]},
+        {"h": "Звук [ɜː]", "p": "ur, ir, er и wor обычно читаются одинаково — долгий звук [ɜː], похож на «ё» без «й».", "table": [["bird", "птица", "[bɜːd]"], ["nurse", "медсестра", "[nɜːs]"], ["thirty", "тридцать", "[ˈθɜːti]"], ["work", "работа", "[wɜːk]"], ["journalist", "журналист", "[ˈdʒɜːnəlɪst]"]]},
+        {"h": "Фразы для рассказа «Сколько ты хочешь прожить?»", "table": [["It's hard for me to say…", "Мне трудно сказать…", "It's hard for me to say how long."], ["It depends on…", "Зависит от…", "It depends on my health."], ["For example, my friend wants to…", "Например, моя подруга хочет…", "For example, my friend wants to live to 100."], ["I do extreme sports, so…", "Я занимаюсь экстремальным спортом, поэтому…", "I do extreme sports, so anything can happen."], ["Anything can happen.", "Всё может случиться.", "I do extreme sports, so anything can happen."]]}
+      ],
+      "mistakes": [],
+      "items": [
+        {"t": "choose", "s": "___ she watch a lot of TV series?", "ru": "Она смотрит много сериалов?", "o": ["Does", "Do", "Is"], "a": "Does", "why": "she → Does, глагол watch без -s."},
+        {"t": "choose", "s": "They have a very healthy relationship. Do they ___ argue?", "ru": "У них очень здоровые отношения. Они вообще ссорятся?", "o": ["ever", "never", "always"], "a": "ever", "why": "ever — «когда-нибудь, вообще» в вопросе."},
+        {"t": "choose", "s": "My boyfriend doesn't work in an office. ___ he work from home?", "ru": "Мой парень не работает в офисе. Он работает из дома?", "o": ["Does", "Do", "Is"], "a": "Does", "why": "he → Does + work."},
+        {"t": "choose", "s": "___ lunch, I often sleep for half an hour.", "ru": "После обеда я часто сплю полчаса.", "o": ["After", "Then", "During"], "a": "After", "why": "after + слово: after lunch."},
+        {"t": "choose", "s": "I take a bath, ___ I go to bed.", "ru": "Я принимаю ванну, потом ложусь спать.", "o": ["then", "after", "during"], "a": "then", "why": "then — потом, следующее действие."},
+        {"t": "choose", "s": "___ the week, I get up early.", "ru": "В течение недели я встаю рано.", "o": ["During", "Then", "Until"], "a": "During", "why": "during the week — в течение недели."},
+        {"t": "type", "s": "I work from about 9 ___ 5.", "ru": "Я работаю примерно с 9 до 5.", "a": ["to", "till", "until"], "why": "from … to — с … до."},
+        {"t": "type", "s": "We watch TV ___ it's time to go to bed.", "ru": "Мы смотрим телевизор, пока не придёт время ложиться спать.", "a": ["until", "till"], "why": "until — до тех пор, пока."},
+        {"t": "meaning", "s": "bird · nurse · thirty · work", "ask": "Какое слово читается с тем же звуком [ɜː]?", "o": ["journalist", "bed", "ear"], "a": 0, "why": "ur, ir, er, wor — звук [ɜː]: journalist [ˈdʒɜːnəlɪst]."},
+        {"t": "choose", "s": "In Ikaria people ___ ever eat red meat or sugar.", "ru": "На Икарии люди почти никогда не едят красное мясо и сахар.", "o": ["hardly", "never", "often"], "a": "hardly", "why": "hardly ever — почти никогда."},
+        {"t": "choose", "s": "How long do I want to live? It ___ on my health.", "ru": "Сколько я хочу прожить? Зависит от здоровья.", "o": ["depends", "depend", "is depend"], "a": "depends", "why": "It depends on… — it → depends."},
+        {"t": "meaning", "s": "I do extreme sports, so anything can happen.", "ask": "Что значит anything can happen?", "o": ["всё может случиться", "ничего не случится", "всё будет хорошо"], "a": 0, "why": "anything can happen — может случиться что угодно."},
+        {"t": "build", "ru": "Я хочу дожить до 90 лет.", "a": "I want to live to 90.", "extra": "until"}
+      ],
+      "words": [
+        ["Do they ever argue?", "Они вообще ссорятся?"],
+        ["a healthy relationship", "здоровые отношения", "They have a very healthy relationship."],
+        ["work from home", "работать из дома", "He works from home."],
+        ["flight tickets", "билеты на самолёт"],
+        ["warm countries", "тёплые страны", "They travel to warm countries."],
+        ["after lunch", "после обеда", "After lunch, I often sleep for half an hour."],
+        ["after that", "после этого"],
+        ["then", "потом", "I take a bath, then I go to bed."],
+        ["during the week", "в течение недели"],
+        ["from about 9 to 5", "примерно с 9 до 5"],
+        ["until it's time to go to bed", "пока не придёт время спать"],
+        ["How long do you want to live?", "Сколько ты хочешь прожить?"],
+        ["It depends on…", "Зависит от…", "It depends on my health."],
+        ["anything can happen", "всё может случиться"],
+        ["extreme sports", "экстремальный спорт"],
+        ["beans", "фасоль, бобы", "They eat a lot of beans."],
+        ["herbal tea", "травяной чай"],
+        ["red meat", "красное мясо"],
+        ["a siesta", "сиеста, дневной сон", "They have a siesta every afternoon."],
+        ["the island where people forget to die", "остров, где люди забывают умирать"],
+        ["a nurse", "медсестра"],
+        ["a journalist", "журналист"],
+        ["thirty", "тридцать"]
+      ]
+    },
+    {
+      "id": "2026-11-05hw", "date": "2026-11-05", "kind": "домашнее задание", "title": "9 to 5 (ДЗ)", "sub": "Present Simple: he works / doesn't work / Does he work?, вопросительные слова, What kind of…?, перевод вопросов голосом",
+      "topics": ["ps1", "ps2", "do", "freq", "wh"],
+      "rules": [
+        {"h": "Present Simple: три формы", "p": "Утверждение: he / she / it + -s. Отрицание: don't / doesn't + глагол без -s. Вопрос: Do / Does + глагол без -s.", "ex": [["She works at night.", "Она работает по ночам."], ["He doesn't work on weekends.", "Он не работает по выходным."], ["Does he have free weekends?", "У него есть свободные выходные?"]]},
+        {"h": "Вопросительные слова", "table": [["What kind of…?", "какой (тип, жанр)", "What kind of music do you like?"], ["How many…?", "сколько (штук)", "How many cousins do you have?"], ["When…?", "когда", "When do you have English classes?"], ["Where…?", "где", "Where do you work?"], ["Which…?", "который, какой из", "Which do you prefer, tea or coffee?"], ["Who…?", "кто", "Who's your favourite actor?"], ["Why…?", "почему", "Why do you like him?"]]},
+        {"h": "«Тоже» в вопросе", "p": "too — в конце вопроса.", "ex": [["Do your parents live in Bali too?", "Твои родители тоже живут на Бали?"]]}
+      ],
+      "mistakes": [
+        ["foreigner — по буквам, с «г»", "foreigner — «фОренер» [ˈfɒrənə]", "Буква g не читается."],
+        ["except — «эксцепт»", "except — «иксЕпт» [ɪkˈsept]", "Начало — короткое «ик», ударение на второй слог."],
+        ["awful — «авфул»", "awful — «Офул» [ˈɔːfəl]", "aw читается как долгое «о»."]
+      ],
+      "items": [
+        {"t": "choose", "s": "My husband is a police officer. He ___ at night.", "ru": "Мой муж полицейский. Он работает по ночам.", "o": ["works", "work", "is work"], "a": "works", "why": "he → глагол с -s."},
+        {"t": "choose", "s": "___ he have free weekends?", "ru": "У него есть свободные выходные?", "o": ["Does", "Do", "Is"], "a": "Does", "why": "he → Does, have без -s."},
+        {"t": "choose", "s": "No, he ___. He works on Saturdays.", "ru": "Нет. Он работает по субботам.", "o": ["doesn't", "don't", "isn't"], "a": "doesn't", "why": "Короткий ответ про he: No, he doesn't."},
+        {"t": "type", "s": "We ___ spend much time together.", "ru": "Мы проводим вместе мало времени.", "a": ["don't"], "why": "we → don't + глагол."},
+        {"t": "choose", "s": "We earn more money because he does a lot of ___.", "ru": "Мы зарабатываем больше, потому что он много работает сверхурочно.", "o": ["overtime", "overwork", "overday"], "a": "overtime", "why": "overtime — сверхурочная работа."},
+        {"t": "choose", "s": "___ kind of music do you like? — Pop and reggae.", "ru": "Какую музыку ты любишь? — Поп и регги.", "o": ["What", "Which", "How"], "a": "What", "why": "What kind of…? — какой тип, жанр."},
+        {"t": "choose", "s": "___ cousins do you have? — Three.", "ru": "Сколько у тебя двоюродных братьев и сестёр? — Трое.", "o": ["How many", "How much", "What"], "a": "How many", "why": "How many — сколько (то, что можно посчитать)."},
+        {"t": "choose", "s": "___ do you have English classes? — On Mondays and Thursdays.", "ru": "Когда у тебя английский? — По понедельникам и четвергам.", "o": ["When", "Where", "Who"], "a": "When", "why": "Ответ — дни недели, значит When."},
+        {"t": "meaning", "s": "We don't have dinner together. That's awful.", "ask": "Что значит That's awful?", "o": ["Это ужасно", "Это здорово", "Это странно"], "a": 0, "why": "awful — ужасный."},
+        {"t": "meaning", "s": "Do you have any suggestions?", "ask": "Что значит suggestions?", "o": ["предложения, идеи", "вопросы", "проблемы"], "a": 0, "why": "suggestion — предложение, совет."},
+        {"t": "build", "ru": "Ты много работаешь?", "a": "Do you work a lot?", "extra": "Does"},
+        {"t": "build", "ru": "Твоя собака обычно путешествует с тобой?", "a": "Does your dog usually travel with you?", "extra": "Do"},
+        {"t": "build", "ru": "Твои родители тоже живут на Бали?", "a": "Do your parents live in Bali too?", "extra": "Does"}
+      ],
+      "words": [
+        ["work long hours", "много работать, долгий рабочий день", "Do you work long hours?"],
+        ["free weekends", "свободные выходные"],
+        ["spend time together", "проводить время вместе", "Do you spend time together?"],
+        ["during the day", "в течение дня", "She works during the day."],
+        ["except when we're on vacation", "кроме времени, когда мы в отпуске"],
+        ["on vacation", "в отпуске"],
+        ["That's awful.", "Это ужасно."],
+        ["overtime", "сверхурочная работа", "He does a lot of overtime."],
+        ["earn more money", "зарабатывать больше денег"],
+        ["Do you have any suggestions?", "У вас есть какие-то предложения?"],
+        ["a foreigner", "иностранец"],
+        ["a police officer", "полицейский"],
+        ["an administrator", "администратор"],
+        ["What kind of music do you like?", "Какую музыку ты любишь?"],
+        ["rom-coms", "романтические комедии", "I like rom-coms."],
+        ["Do you work a lot?", "Ты много работаешь?"],
+        ["Do you like swimming in the ocean?", "Тебе нравится плавать в океане?"],
+        ["Do your friends have a villa?", "У твоих друзей есть вилла?"],
+        ["Does your family support your choice?", "Твоя семья поддерживает твой выбор?"],
+        ["Do you take your dog to the beach?", "Ты берёшь собаку на пляж?"],
+        ["Does the weather often change here in autumn?", "Погода здесь часто меняется осенью?"]
+      ]
+    },
+    {
       "id": "2026-11-19", "date": "2026-11-19", "kind": "занятие", "title": "Secrets of long life (2)", "sub": "Повторение: hardly ever, every other day, it depends, be in a hurry; чтение про «голубые зоны», Икарию и Никою",
       "topics": ["freq", "rel", "ps1"],
       "rules": [
