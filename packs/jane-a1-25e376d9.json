@@ -2,6 +2,55 @@
   "title": "Jane A1 — занятия",
   "lessons": [
     {
+      "id": "2026-11-23", "date": "2026-11-23", "kind": "занятие", "title": "Secrets of long life (3)", "sub": "Подготовка к занятию: «назови 3 вещи» + because, сравниваем Икарию и Никою (both, have in common), слова по темам",
+      "topics": ["ps1", "freq"],
+      "rules": [
+        {"h": "Назови и добавь причину: because", "p": "Разминка: назови вещи из категории и скажи одно предложение о них. Причину добавляем словом because — «потому что».", "ex": [["3 feelings: confused, excited, tired. I was tired yesterday because I moved to another villa.", "3 чувства: растерянная, взволнованная, уставшая. Вчера я устала, потому что переехала на другую виллу."], ["5 clothes: a dress, shorts, a T-shirt, a hat, sandals. I wear shorts every day because it's hot.", "5 вещей одежды: платье, шорты, футболка, шляпа, сандалии. Я каждый день ношу шорты, потому что жарко."]]},
+        {"h": "Как сравнить два места", "table": [["Both places are…", "Оба места…", "Both places are very quiet."], ["People in both places…", "Люди в обоих местах…", "People in both places eat a lot of vegetables."], ["They have … in common.", "У них общее …", "They have a lot in common."], ["In Ikaria…, but in Nicoya…", "В Икарии…, а в Никое…", "In Ikaria people grow vegetables, but in Nicoya they go to the market."]]},
+        {"h": "Слова по темам", "p": "Записывай новые слова группами — так легче вспомнить. food and drink: beans, potatoes, green vegetables, herbal tea, red wine. physical exercise: work outside, walk everywhere, work in the garden, go to the market."}
+      ],
+      "mistakes": [],
+      "items": [
+        {"t": "choose", "s": "I was tired yesterday ___ I moved to another villa.", "ru": "Вчера я устала, потому что переехала на другую виллу.", "o": ["because", "so", "but"], "a": "because", "why": "because — «потому что», дальше идёт причина."},
+        {"t": "choose", "s": "I love surfing, ___ I go to the beach every day.", "ru": "Я люблю сёрфинг, поэтому каждый день хожу на пляж.", "o": ["so", "because", "or"], "a": "so", "why": "so — «поэтому», дальше идёт результат."},
+        {"t": "meaning", "s": "3 feelings: confused, excited, tired.", "ask": "Что значит confused?", "o": ["растерянный, сбитый с толку", "взволнованный", "сердитый"], "a": 0, "why": "confused — растерянный; excited — взволнованный (радостно)."},
+        {"t": "meaning", "s": "Name 3 extreme sports.", "ask": "Что нужно назвать?", "o": ["3 экстремальных вида спорта", "3 спортивных клуба", "3 любимых упражнения"], "a": 0, "why": "extreme sports — экстремальные виды спорта: surfing, skydiving, diving."},
+        {"t": "choose", "s": "Name 5 ___: a teacher, a nurse, a builder, a doctor, a journalist.", "ru": "Назови 5 профессий: учитель, медсестра, строитель, врач, журналист.", "o": ["jobs", "clothes", "meals"], "a": "jobs", "why": "jobs — работы, профессии; clothes — одежда; meals — приёмы пищи."},
+        {"t": "choose", "s": "3 ___: breakfast, lunch and dinner.", "ru": "3 приёма пищи: завтрак, обед и ужин.", "o": ["meals", "sweets", "pets"], "a": "meals", "why": "a meal — приём пищи (breakfast, lunch, dinner)."},
+        {"t": "choose", "s": "___ places are very quiet.", "ru": "Оба места очень тихие.", "o": ["Both", "All", "Two both"], "a": "Both", "why": "both — оба, обе; говорим о двух."},
+        {"t": "type", "s": "What do the two places have in ___?", "ru": "Что общего у этих двух мест?", "a": ["common"], "why": "have in common — иметь общее."},
+        {"t": "choose", "s": "People in Ikaria eat a lot of ___ and potatoes.", "ru": "Люди на Икарии едят много фасоли и картофеля.", "o": ["beans", "beings", "bins"], "a": "beans", "why": "beans — фасоль, бобы."},
+        {"t": "choose", "s": "They ___ drink herbal tea.", "ru": "Они часто пьют травяной чай.", "o": ["often", "often do", "are often"], "a": "often", "why": "Слово «как часто» стоит перед обычным глаголом: They often drink…"},
+        {"t": "meaning", "s": "They don't go to a gym, but they work outside and walk everywhere.", "ask": "Как они двигаются?", "o": ["работают на улице и везде ходят пешком", "ходят в спортзал", "много плавают"], "a": 0, "why": "work outside — работать на улице, walk everywhere — везде ходить пешком."},
+        {"t": "build", "ru": "Оба места очень безопасные.", "a": "Both places are very safe.", "extra": "all"},
+        {"t": "build", "ru": "У них много общего.", "a": "They have a lot in common.", "extra": "has"}
+      ],
+      "words": [
+        ["confused", "растерянный, сбитый с толку", "I'm confused. Can you explain again?"],
+        ["excited", "взволнованный (радостно)", "I'm excited about my trip."],
+        ["tired", "уставший", "I was tired yesterday because I moved."],
+        ["move to another villa", "переехать на другую виллу", "I moved to another villa last week."],
+        ["because", "потому что", "I stay at home because it's raining."],
+        ["a meal", "приём пищи (завтрак, обед, ужин)", "Breakfast is my favourite meal."],
+        ["sweets", "сладости", "I hardly ever eat sweets."],
+        ["clothes", "одежда", "I don't buy many clothes."],
+        ["a pet", "домашнее животное", "Do you have any pets?"],
+        ["a job", "работа, профессия", "Name five jobs."],
+        ["extreme sports", "экстремальные виды спорта", "Surfing is an extreme sport."],
+        ["food and drink", "еда и напитки", "Write words about food and drink."],
+        ["physical exercise", "физическая нагрузка", "They get physical exercise every day."],
+        ["beans", "фасоль, бобы", "They eat a lot of beans."],
+        ["potatoes", "картофель", "They grow potatoes in the garden."],
+        ["green vegetables", "зелёные овощи", "Eat more green vegetables."],
+        ["herbal tea", "травяной чай", "They drink herbal tea every day."],
+        ["work outside", "работать на улице", "Alexis works outside — he is a builder."],
+        ["walk everywhere", "везде ходить пешком", "People there walk everywhere."],
+        ["both", "оба, обе", "Both places are quiet."],
+        ["have … in common", "иметь … общего", "What do the two places have in common?"],
+        ["describe", "описывать", "Listen to me describe life in Nicoya."]
+      ]
+    },
+    {
       "id": "2026-11-16hw", "date": "2026-11-16", "kind": "домашнее задание", "title": "9 to 5 и «Сколько ты хочешь прожить?» (ДЗ)", "sub": "Вопросы Does she…? Do they ever…?, звук [ɜː], связки after / then / during / until, текст про Икарию, план рассказа How long do you want to live?",
       "topics": ["ps2", "do", "freq", "prep"],
       "rules": [
